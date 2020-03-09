@@ -1,0 +1,33 @@
+#pragma once
+#include "SingletonBase.h"
+
+class GameNode;
+class SceneManager :  public SingletonBase<SceneManager>
+{
+private:
+
+	typedef map<string, GameNode*> mSceneList;
+	typedef map<string, GameNode*>::iterator miSceneList;
+
+private:
+	//ÇöÀç¾À
+	static GameNode* _currentScene;
+	//¸ñ·Ï
+	mSceneList _mSceneList;
+
+public:
+	SceneManager();
+	~SceneManager();
+
+	HRESULT Init();
+	void Release();
+	void Update();
+	void Render();
+	//¾ÀÃß°¡ÇÏ±â
+	GameNode* AddScene(string sceneName, GameNode* scene);
+
+	HRESULT ChangeScene(string sceneName);
+
+
+};
+
