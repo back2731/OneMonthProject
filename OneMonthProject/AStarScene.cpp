@@ -26,17 +26,7 @@ HRESULT aStarScene::Init()
 
 	Load(0);
 
-	for (int i = 0; i < TILEX; i++)
-	{
-		for (int j = 0; j < TILEY; j++)
-		{
-			if (_tileMap[i][j].tileKind[0] == TILEKIND_INVISIBLE_BLOCK)
-			{
-				tiles[i + j * TILEX].block = true;
-			}
-		}
-	}
-	//startTile = endTile = -1;
+
 
 	currentSelect = SELECT_START;
 

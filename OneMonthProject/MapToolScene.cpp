@@ -113,28 +113,6 @@ void MapToolScene::Render()
 	TextOut(GetMemDC(), WINSIZEX - 100, 0, str, strlen(str));
 
 	DrawTileMap();
-
-	for (int i = 0; i < TILE_COUNT_X; i++)
-	{
-		for (int j = 0; j < TILE_COUNT_Y; j++)
-		{
-			for (int z = 0; z < TILE_MAX; z++)
-			{
-				if (KEYMANAGER->IsToggleKey(VK_TAB))
-				{
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
-					{
-						Rectangle(GetMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-
-						HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
-						FillRect(GetMemDC(), &_tileMap[i][j].rect, brush);
-						DeleteObject(brush);
-					}
-				}
-			}
-		}
-	}
-
 }
 
 void MapToolScene::SetSubWindow()
@@ -162,22 +140,29 @@ void MapToolScene::DrawTileMap()
 			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
 
 
-			for (int z = 0; z <= _tileMap[i][j].index; z++)
-			{
-				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
-				{
-					switch (_tileMap[i][j].tileKind[z])
-					{
-					case TILEKIND_TERRAIN:
-						IMAGEMANAGER->FrameRender("mapTile", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos[z].x, _tileMap[i][j].tilePos[z].y);
-						break;
-					}
-				}
-			}
-
 			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 			{
+				//for (int z = 0; z <= _tileMap[i][j].index; z++)
+				//{
+					if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+					{
+						switch (_tileMap[i][j].tileKind)
+						{
+						case TILEKIND_TERRAIN:
+							IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							break;
+						case TILEKIND_TERRAIN2:
+							IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
+								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							break;						
+						case TILEKIND_TERRAIN3:
+							IMAGEMANAGER->FrameRender("MapTile3", GetMemDC(),
+								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							break;
+						}
+					}
+				//}
 
 				if (_isDebug)
 				{
@@ -231,8 +216,8 @@ void MapToolScene::SetMapTool()
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			_tileMap[i][j].index = -1;
-			_tileMap[i][j].height = 0;
+			_tileMap[i][j].tileKind = TILEKIND_TERRAIN;
+			_tileMap[i][j].tilePos = PointMake(1, 0);
 		}
 	}
 }
@@ -244,35 +229,10 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 
 	switch (SUBWIN->GetFrameIndex())
 	{
-	case TILEKIND_NONE:
-	case TILEKIND_TERRAIN:
-	case TILEKIND_OBJECT:
-	case TILEKIND_INVISIBLE_BLOCK:
-	case TILEKIND_OPEN_DOOR:
-	case TILEKIND_CLOSE_DOOR:
+	case CTRL_NUM1:
+	case CTRL_NUM2:
+	case CTRL_NUM3:
 
-	case TILEKIND_ITEMHEART:
-	case TILEKIND_ITEMGOLD:
-	case TILEKIND_ITEMBOMB:
-	case TILEKIND_ITEMATTACKBOMB:
-	case TILEKIND_ITEMKEY:
-	case TILEKIND_ITEMPILL:
-	case TILEKIND_ITEMCARD:
-	case TILEKIND_BLACKITEMBOXOPEN:
-	case TILEKIND_BLACKITEMBOXCLOSE:
-	case TILEKIND_GOLDITEMBOXOPEN:
-	case TILEKIND_GOLDITEMBOXCLOSE:
-	case TILEKIND_REDITEMBOXOPEN:
-	case TILEKIND_REDITEMBOXCLOSE:
-	case TILEKIND_CRACKEDITEMBOXOPEN:
-	case TILEKIND_CRACKEDITEMBOXCLOSE:
-	case TILEKIND_LOCKED_DOOR:
-	case TILEKIND_USEDKEY_DOOR:
-	case TILEKIND_POOP100:
-	case TILEKIND_POOP50:
-	case TILEKIND_POOP10:
-	case TILEKIND_FIREPLACE:
-	case TILEKIND_SHOP_HOST:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -283,53 +243,44 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 	case CTRL_DRAW:
 		if (isAdd)
 		{
-			//if (SelectKind(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
-			//	&& _tileMap[locationX][locationY].index == -1)
-			//	break;
-
-			_tileMap[locationX][locationY].index++;
+			/*_tileMap[locationX][locationY].index++;
 
 			if (_tileMap[locationX][locationY].index >= TILE_MAX)
 			{
 				_tileMap[locationX][locationY].index = 0;
-			}
-			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = SelectKind(imageFrame.x, imageFrame.y);
-			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
+			}*/
+			//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+			_tileMap[locationX][locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
+			_tileMap[locationX][locationY].tilePos = imageFrame;
 		}
 		else
 		{
-			//if (SelectKind(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)break;
+			//if (_tileMap[locationX][locationY].index == -1)
+			//{
+			//	_tileMap[locationX][locationY].index++;
 
-			if (_tileMap[locationX][locationY].index == -1)
-			{
-				_tileMap[locationX][locationY].index++;
-
-				if (_tileMap[locationX][locationY].index >= TILE_MAX)
-				{
-					_tileMap[locationX][locationY].index = TILE_MAX - 1;
-				}
-				_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-				_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = SelectKind(imageFrame.x, imageFrame.y);
-				_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
+			//	if (_tileMap[locationX][locationY].index >= TILE_MAX)
+			//	{
+			//		_tileMap[locationX][locationY].index = TILE_MAX - 1;
+			//	}
+				//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+			{	_tileMap[locationX][locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
+				_tileMap[locationX][locationY].tilePos = imageFrame;
 			}
 		}
 		break;
 	case CTRL_ERASER:
-		if (_tileMap[locationX][locationY].index > -1)
-		{
-			/*		_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-					_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = SelectKind(-20, -20);
-					_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;*/
-
-			for (int i = 0; i < TILE_MAX; i++)
+		//if (_tileMap[locationX][locationY].index > -1)
+		//{
+		//	for (int i = 0; i < TILE_MAX; i++)
+		//	{
+				//_tileMap[locationX][locationY].tileNum[i] = 0;
 			{
-				_tileMap[locationX][locationY].tileNum[i] = 0;
-				_tileMap[locationX][locationY].tileKind[i] = TILEKIND_NONE;
-				_tileMap[locationX][locationY].tilePos[i] = { 0 };
+				_tileMap[locationX][locationY].tileKind = TILEKIND_NONE;
+				_tileMap[locationX][locationY].tilePos = { 0 };
 			}
-			index = -1;
-		}
+		//	index = -1;
+		//}
 		break;
 	}
 }
@@ -348,120 +299,11 @@ TILEKIND MapToolScene::SelectKind(int frameX, int frameY)
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM2)
 	{
-		if (frameY == 0)
-		{
-			return TILEKIND_OBJECT;
-		}
-		if (frameY == 1)
-		{
-			return TILEKIND_ITEMHEART;
-		}
-		if (frameX <= 3 && frameY == 2)
-		{
-			return TILEKIND_ITEMGOLD;
-		}
-		if (frameX >= 4 && frameX <= 5 && frameY == 2)
-		{
-			return TILEKIND_ITEMBOMB;
-		}
-		if (frameX >= 6 && frameY == 2)
-		{
-			return TILEKIND_ITEMATTACKBOMB;
-		}
-		if (frameX <= 1 && frameY == 3)
-		{
-			return TILEKIND_ITEMKEY;
-		}
-		if (frameX >= 2 && frameX <= 4 && frameY == 3)
-		{
-			return TILEKIND_ITEMPILL;
-		}
-		if (frameX >= 5 && frameX <= 6 && frameY == 3)
-		{
-			return TILEKIND_ITEMCARD;
-		}
-		if (frameX == 7 && frameY == 3)
-		{
-			return TILEKIND_ITEMPOINT;
-		}
-		if (frameX == 0 && frameY == 4)
-		{
-			return TILEKIND_BLACKITEMBOXOPEN;
-		}
-		if (frameX == 1 && frameY == 4)
-		{
-			return TILEKIND_BLACKITEMBOXCLOSE;
-		}
-		if (frameX == 2 && frameY == 4)
-		{
-			return TILEKIND_GOLDITEMBOXOPEN;
-		}
-		if (frameX == 3 && frameY == 4)
-		{
-			return TILEKIND_GOLDITEMBOXCLOSE;
-		}
-		if (frameX == 4 && frameY == 4)
-		{
-			return TILEKIND_REDITEMBOXOPEN;
-		}
-		if (frameX == 5 && frameY == 4)
-		{
-			return TILEKIND_REDITEMBOXCLOSE;
-		}
-		if (frameX == 6 && frameY == 4)
-		{
-			return TILEKIND_CRACKEDITEMBOXOPEN;
-		}
-		if (frameX == 7 && frameY == 4)
-		{
-			return TILEKIND_CRACKEDITEMBOXCLOSE;
-		}
-		if (frameY == 5)
-		{
-			return TILEKIND_INVISIBLE_BLOCK;
-		}
-		if (frameY == 6 && frameX == 0)
-		{
-			return TILEKIND_POOP100;
-		}
-		if (frameY == 6 && frameX == 1)
-		{
-			return TILEKIND_POOP50;
-		}
-		if (frameY == 6 && frameX == 2)
-		{
-			return TILEKIND_POOP10;
-		}
-		if (frameY == 6 && frameX >= 3 && frameX <= 5)
-		{
-			return TILEKIND_FIREPLACE;
-		}
-		if (frameY == 6 && frameX >= 6)
-		{
-			return TILEKIND_SHOP_HOST;
-		}
+		return TILEKIND_TERRAIN2;
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)
 	{
-		if (frameY >= 0 && frameY <= 5 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
-		{
-			return TILEKIND_OPEN_DOOR;
-		}
-
-		if (frameY >= 0 && frameY <= 5 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
-		{
-			return TILEKIND_CLOSE_DOOR;
-		}
-
-		if (frameY >= 6 && frameY <= 9 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
-		{
-			return TILEKIND_USEDKEY_DOOR;
-		}
-
-		if (frameY >= 6 && frameY <= 9 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
-		{
-			return TILEKIND_LOCKED_DOOR;
-		}
+		return TILEKIND_TERRAIN3;
 	}
 	return TILEKIND_NONE;
 
@@ -474,7 +316,7 @@ void MapToolScene::TlieInit() // 모든 인덱스를 -1로 처리
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			_tileMap[i][j].index = -1;
+			//_tileMap[i][j].index = -1;
 		}
 	}
 }

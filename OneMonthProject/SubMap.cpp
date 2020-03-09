@@ -61,7 +61,7 @@ void SubMap::Render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("blocks")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+				IMAGEMANAGER->FindImage("MapTile1")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;
@@ -70,7 +70,7 @@ void SubMap::Render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("blocks")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+				IMAGEMANAGER->FindImage("MapTile2")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;
@@ -79,7 +79,7 @@ void SubMap::Render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("door")->FrameRender(hdc, 0 + i * 30, 200 + j * 30, i, j, 30, 30);
+				IMAGEMANAGER->FindImage("MapTile3")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;

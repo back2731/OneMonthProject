@@ -14,12 +14,12 @@ HRESULT MainGame::Init()
 	GameNode::Init(true);
 
 	// 맵툴용 이미지들
-	IMAGEMANAGER->AddFrameImage("blocks", "images/MapTile/Tile001.bmp",
+	IMAGEMANAGER->AddFrameImage("MapTile1", "images/MapTile/Tile001.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddFrameImage("mapTile", "images/MapTile/Tile001.bmp",
+	IMAGEMANAGER->AddFrameImage("MapTile2", "images/MapTile/Tile006.bmp",
+		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));	
+	IMAGEMANAGER->AddFrameImage("MapTile3", "images/MapTile/Tile003.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddFrameImage("door", "images/maptool/doorSprite2.bmp",
-		0, 0, 32 * 2.5 * 8, 32 * 2 * 10, 8, 10, true, RGB(255, 0, 255));
 
 	// A*테스트
 	SCENEMANAGER->AddScene("aStar", new aStarScene);
