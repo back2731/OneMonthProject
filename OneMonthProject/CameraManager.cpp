@@ -30,14 +30,14 @@ void CameraManager::relaese()
 void CameraManager::Update()
 {
 	cameraXY = PointMake(cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
-	count++;
+	//count++;
 
 }
 
 void CameraManager::Render(Image* img)
 {
-	sprintf_s(str, "count :  %d", count);
-	TextOut(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2, str, strlen(str));
+	//sprintf_s(str, "count :  %d", count);
+	//TextOut(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2, str, strlen(str));
 	GdiTransparentBlt(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2, WINSIZEX, WINSIZEY, camera->GetMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(255, 255, 255));
 }
 

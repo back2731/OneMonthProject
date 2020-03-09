@@ -1,8 +1,8 @@
 #pragma once
 #include "SingletonBase.h"
 
-#define SUBWINSIZEX 240
-#define SUBWINSIZEY 600
+#define SUBWINSIZEX 480
+#define SUBWINSIZEY 900
 
 enum CTRL
 {
@@ -82,7 +82,7 @@ public:
 	int GetFrameIndex() { return clickIndex; }
 
 	void SetIsoMap(MapToolScene* map) { this->map = map; }
-	MapToolScene* GetIsoMap() { return map; }
+	MapToolScene* GetMap() { return map; }
 
 	void CreateSubWindow();
 };

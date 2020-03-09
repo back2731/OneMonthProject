@@ -15,7 +15,7 @@ public:
 	Effect();
 	~Effect();
 	//이펙트 초기화(이펙트 이미지, 이펙트 한프레임 가로길이, 세로길이 FPS, 이펙트 속도)
-	HRESULT Init(Image* EffectImage, int frameW, int frameH, int FPS, float elapsedTime);
+	HRESULT Init (Image* EffectImage, int frameW, int frameH, int FPS, float elapsedTime);
 	void Release();
 	void Update();
 	void Render();

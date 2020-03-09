@@ -12,7 +12,15 @@ MainGame::~MainGame()
 HRESULT MainGame::Init()
 {
 	GameNode::Init(true);
-	
+
+	// 맵툴용 이미지들
+	IMAGEMANAGER->AddFrameImage("blocks", "images/MapTile/Tile001.bmp",
+		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("mapTile", "images/MapTile/Tile001.bmp",
+		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("door", "images/maptool/doorSprite2.bmp",
+		0, 0, 32 * 2.5 * 8, 32 * 2 * 10, 8, 10, true, RGB(255, 0, 255));
+
 	// A*테스트
 	SCENEMANAGER->AddScene("aStar", new aStarScene);
 
@@ -24,7 +32,7 @@ HRESULT MainGame::Init()
 	// 게임씬에서 필요한 매니저들 초기화.
 	OBJECTPOOL->Init();
 
-	SCENEMANAGER->ChangeScene("aStar");
+	SCENEMANAGER->ChangeScene("MapTool");
 
 	return S_OK;
 }
@@ -40,24 +48,6 @@ void MainGame::Update()
 
 	SCENEMANAGER->Update();
 
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 52, CAMERAMANAGER->GetCameraCenter().y));
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 52*62)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 52, CAMERAMANAGER->GetCameraCenter().y));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 52));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 52*38)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 52));
-	}
 //#ifdef SUBWINOPEN
 //
 //	SUBWIN->Update();

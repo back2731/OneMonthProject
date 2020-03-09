@@ -44,7 +44,6 @@ private:
 	bool moveDown;
 	bool moveRight;
 	bool moveLeft;
-
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
 	HANDLE file;
@@ -61,10 +60,10 @@ public:
 	void Render();
 
 	void DrawTileMap();
-	void Load(int loadCount);
+	void load(int loadCount);
 
-	void DrawLineX(int left, int top);
-	void DrawLineY(int left, int top);
+	void Draw_Line_X(int left, int top);
+	void Draw_Line_Y(int left, int top);
 
 	//DWORD* getAttribute() { return _attribute; }
 	//tagTile* getMap() { return _map; }

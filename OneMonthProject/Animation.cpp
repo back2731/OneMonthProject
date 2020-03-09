@@ -13,7 +13,7 @@ Animation::~Animation()
 {
 }
 
-HRESULT Animation::Init(int totalW, int totalH, int frameW, int frameH)
+HRESULT Animation::Init (int totalW, int totalH, int frameW, int frameH)
 {
 	//가로 프레임 갯수
 	_frameWidth = frameW;

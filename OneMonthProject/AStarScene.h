@@ -6,8 +6,8 @@
 #define TILEY 55
 #define TILESIZE TILEX*TILEY
 
-#define CELL_WIDTH 52
-#define CELL_HEIGHT 52
+#define CELL_WIDTH 32
+#define CELL_HEIGHT 32
 
 enum Select
 {

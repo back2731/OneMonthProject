@@ -30,17 +30,9 @@ HRESULT aStarScene::Init()
 	{
 		for (int j = 0; j < TILEY; j++)
 		{
-			for (int z = 0; z < TILE_MAX; z++)
+			if (_tileMap[i][j].tileKind[0] == TILEKIND_INVISIBLE_BLOCK)
 			{
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
-				{
-					tiles[i + j * TILEX].block = true;
-				}
-
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
-				{
-					tiles[i + j * TILEX].block = true;
-				}
+				tiles[i + j * TILEX].block = true;
 			}
 		}
 	}
@@ -171,6 +163,26 @@ void aStarScene::Update()
 	//Astar();
 
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraCenterX(), CAMERAMANAGER->GetCameraCenterY(), WINSIZEX, WINSIZEY);
+
+
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 32, CAMERAMANAGER->GetCameraCenter().y));
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 32 * 62)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 32, CAMERAMANAGER->GetCameraCenter().y));
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 32));
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 32 * 38)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 32));
+	}
 
 	// 이부분 만지는중
 	if (isFind && !isArrive)
@@ -329,14 +341,13 @@ void aStarScene::Render()
 	Rectangle(GetMemDC(), playerRect.left, playerRect.top, playerRect.right, playerRect.bottom);
 	DeleteObject(brush);
 
-	sprintf_s(str, "count :  %d", count);
-	TextOut(GetMemDC(), 0, 0, str, strlen(str));
+	//sprintf_s(str, "count :  %d", count);
+	//TextOut(GetMemDC(), 0, 0, str, strlen(str));
 }
 
 void aStarScene::Astar()
 {
 	//int currentTile = startTile;
-
 
 	int currentX = currentTile % TILEX;
 	int currentY = currentTile / TILEX;

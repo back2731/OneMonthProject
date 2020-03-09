@@ -26,9 +26,9 @@
 #define ANGLE_210	PI / 6 * 7
 #define ANGLE_225	PI / 4 * 5
 #define ANGLE_240	PI / 3 * 4
-#define ANGLE_255	PI / 12 * 17
+#define ANGLE_264	PI / 12 * 17
 #define ANGLE_270	PI / 2 * 3
-#define ANGLE_285	PI / 12 * 19
+#define ANGLE_264	PI / 12 * 19
 #define ANGLE_300	PI / 3 * 5
 #define ANGLE_315	PI / 4 * 7
 #define ANGLE_330	PI / 6 * 11

@@ -16,7 +16,7 @@ Image::~Image()
 {
 }
 
-HRESULT Image::Init(int width, int height)
+HRESULT Image::Init (int width, int height)
 {
 	//이미지 정보가 들어있다면 릴리즈
 	if (_imageInfo != NULL)Release();

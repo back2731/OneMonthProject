@@ -11,9 +11,7 @@ MainMap::~MainMap()
 
 HRESULT MainMap::Init()
 {
-
 	return S_OK;
-
 }
 
 void MainMap::Release()
@@ -27,14 +25,14 @@ void MainMap::Update()
 
 void MainMap::Render()
 {
-
 }
 
 void MainMap::DrawTileMap()
 {
+
 }
 
-void MainMap::Load(int loadCount)
+void MainMap::load(int loadCount)
 {
 	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -43,7 +41,7 @@ void MainMap::Load(int loadCount)
 	CloseHandle(file);
 }
 
-void MainMap::DrawLineX(int left, int top)
+void MainMap::Draw_Line_X(int left, int top)
 {
 	int centerX = left;
 	int centerY = top;
@@ -51,7 +49,7 @@ void MainMap::DrawLineX(int left, int top)
 	LineMake(GetMemDC(), centerX, centerY, centerX + CELL_WIDTH, centerY);
 }
 
-void MainMap::DrawLineY(int left, int top)
+void MainMap::Draw_Line_Y(int left, int top)
 {
 	int centerX = left;
 	int centerY = top;

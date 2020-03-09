@@ -15,7 +15,7 @@ HRESULT SubMap::Init()
 	{
 		for (int j = 0; j < TILE_SIZE_Y; j++)
 		{
-			rc[i][j] = RectMake(SUBWINSIZEX / TILE_SIZE_X * i, 300 / TILE_SIZE_Y * j + 200, SUBWINSIZEX / TILE_SIZE_X, 300 / TILE_SIZE_Y);
+			rc[i][j] = RectMake(CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 		}
 	}
 
@@ -34,20 +34,22 @@ void SubMap::Update()
 {
 	if (SUBWIN->GetIsActive() && KEYMANAGER->IsOnceKeyDown(VK_LBUTTON)) // 윈도우활성화 + 왼쪽 클릭 => framepoint 설정.
 	{
-		for (int i = 0; i < TILE_SIZE_Y; i++)
+		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
-			for (int j = 0; j < TILE_SIZE_X; j++)
+			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				if (PtInRect(&rc[j][i], SUBWIN->GetMousePos()))
+				if (PtInRect(&rc[i][j], SUBWIN->GetMousePos()))
 				{
-					SUBWIN->SetFramePoint(PointMake(j, i));
+					SUBWIN->SetFramePoint(PointMake(i, j));
 				}
 			}
 		}
 	}
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_SHIFT))
+	{
 		isDebug = !isDebug;
+	}
 }
 
 void SubMap::Render(HDC hdc)
@@ -57,14 +59,20 @@ void SubMap::Render(HDC hdc)
 	case CTRL_NUM1:
 		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
-			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
+			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("mapTile")->FrameRender(hdc, 0 + j * 30, 200 + i * 30, j, i, 30, 30);
+				IMAGEMANAGER->FindImage("blocks")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;
 	case CTRL_NUM2:
-		IMAGEMANAGER->FindImage("blocks")->Render(hdc, 0, 200, SUBWINSIZEX, 270);
+		for (int i = 0; i < TILE_SIZE_X; i++)
+		{
+			for (int j = 0; j < TILE_SIZE_Y; j++)
+			{
+				IMAGEMANAGER->FindImage("blocks")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+			}
+		}//end of for
 		break;
 	case CTRL_NUM3:
 		for (int i = 0; i < TILE_SIZE_X; i++)

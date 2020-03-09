@@ -28,7 +28,7 @@ void SubWindow::Init()
 	_btnDraw = CreateWindow("button", "Draw",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX, 0, 100, 20, hWnd, HMENU(CTRL_DRAW) , m_hInstance, NULL);
+		tempX, 0, 100, 20, hWnd, HMENU(CTRL_DRAW), m_hInstance, NULL);
 	_btnEraser = CreateWindow("button", "Eraser",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
@@ -125,18 +125,18 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				break;
 
 			case CTRL_Init:
-				SUBWIN->GetIsoMap()->SetSubWindow();
+				SUBWIN->GetMap()->SetSubWindow();
 				break;
 			case CTRL_SAVE:
 				if (SUBWIN->saveCount == 10)
 				{
 					SUBWIN->saveCount = 0;
 				}
-				SUBWIN->GetIsoMap()->Save(SUBWIN->saveCount);
+				SUBWIN->GetMap()->Save(SUBWIN->saveCount);
 				SUBWIN->saveCount += 1;
 				break;
 			case CTRL_LOAD:
-				SUBWIN->GetIsoMap()->Load(RND->GetInt(10));
+				SUBWIN->GetMap()->Load(RND->GetInt(10));
 				break;
 			case CTRL_NUM1:
 			case CTRL_NUM2:

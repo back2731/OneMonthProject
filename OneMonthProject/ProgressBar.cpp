@@ -17,10 +17,10 @@ HRESULT ProgressBar::Init(char * frontImage, char * backImage, float x, float y,
 	rectProgress = RectMake(x, y, width, height);
 
 	progressBarFront = new Image;
-	progressBarFront->Init(frontImage, x, y, width, height, true, RGB(255, 0, 255));
+	progressBarFront->Init(frontImage, x, y, width, height, true, RGB(264, 0, 264));
 
 	progressBarBack = new Image;
-	progressBarBack->Init(backImage, x, y, width, height, true, RGB(255, 0, 255));
+	progressBarBack->Init(backImage, x, y, width, height, true, RGB(264, 0, 264));
 
 
 	_width = progressBarFront->GetWidth();
