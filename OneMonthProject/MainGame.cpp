@@ -16,9 +16,9 @@ HRESULT MainGame::Init()
 	// 맵툴용 이미지들
 	IMAGEMANAGER->AddFrameImage("MapTile1", "images/MapTile/Tile001.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddFrameImage("MapTile2", "images/MapTile/Tile006.bmp",
+	IMAGEMANAGER->AddFrameImage("계단", "images/MapTile/계단.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));	
-	IMAGEMANAGER->AddFrameImage("MapTile3", "images/MapTile/Tile003.bmp",
+	IMAGEMANAGER->AddFrameImage("MapTile3", "images/MapTile/test1.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
 
 	// A*테스트

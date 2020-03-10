@@ -153,7 +153,7 @@ void MapToolScene::DrawTileMap()
 								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
 							break;
 						case TILEKIND_TERRAIN2:
-							IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
+							IMAGEMANAGER->FrameRender("°è´Ü", GetMemDC(),
 								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
 							break;						
 						case TILEKIND_TERRAIN3:

@@ -70,7 +70,7 @@ void SubMap::Render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("MapTile2")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+				IMAGEMANAGER->FindImage("°è´Ü")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;

@@ -1,7 +1,7 @@
 #pragma once
 #include "SingletonBase.h"
 
-#define SUBWINSIZEX 480
+#define SUBWINSIZEX 32*16
 #define SUBWINSIZEY 900
 
 enum CTRL

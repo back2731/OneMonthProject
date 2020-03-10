@@ -84,7 +84,7 @@ private:
 	HFONT font,oldFont;
 	char str[128];
 	int temp;
-	const char* fileName[10] = { "MapTile1.map","MapTile2.map","MapTile3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","MapTile10.map" };
+	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
 
 	HANDLE file;
 	DWORD write;

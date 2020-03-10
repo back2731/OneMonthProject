@@ -49,7 +49,7 @@ void SubWindow::Init()
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX, 135, 70, 25, hWnd, HMENU(CTRL_NUM1), m_hInstance, NULL);
-	_btnN2 = CreateWindow("button", "MapTile2",
+	_btnN2 = CreateWindow("button", "계단",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 75, 135, 70, 25, hWnd, HMENU(CTRL_NUM2), m_hInstance, NULL);

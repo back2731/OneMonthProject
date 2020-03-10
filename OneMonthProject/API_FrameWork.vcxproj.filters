@@ -28,9 +28,6 @@
     <Filter Include="Manager\타이머">
       <UniqueIdentifier>{63bdded0-ba64-47dd-adec-960c099f3b07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\수정중">
-      <UniqueIdentifier>{480d42e4-7e2a-4173-9e92-a35e450ce6fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\Image">
       <UniqueIdentifier>{c6071c33-1efa-44cc-a846-47833fbef4fe}</UniqueIdentifier>
     </Filter>
@@ -58,26 +55,134 @@
     <Filter Include="Manager\프로그래스바">
       <UniqueIdentifier>{dae6b3b8-16b1-4a62-aec4-1313566bf949}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit">
+      <UniqueIdentifier>{494f7923-200d-4ff3-8003-cd54eb3717f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build">
+      <UniqueIdentifier>{30c062b8-7a60-44f5-96bd-f2e8fd9693b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg">
+      <UniqueIdentifier>{1ef89942-3774-422f-bec1-7d4a11dcc64a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Terran">
+      <UniqueIdentifier>{5b0ce7b8-022a-4cba-accc-c08d14a28c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Protoss">
+      <UniqueIdentifier>{57afdaf0-c839-44f9-af3a-09b62f1f5aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg">
+      <UniqueIdentifier>{6dc4b79d-b112-4c64-80c0-4c5fe87e0276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Terran">
+      <UniqueIdentifier>{251233e3-9c09-4adf-a2a2-4dcf04ef6ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Protoss">
+      <UniqueIdentifier>{0420ffed-1c0f-453a-a37d-fcd7e91801f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\stdafx&amp;WinMain">
+      <UniqueIdentifier>{5bf4ef38-a6e7-40d9-87d9-e2b0459028ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Broodling">
+      <UniqueIdentifier>{f21d1d3c-70df-483b-81a6-eae659ea0637}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Defiler">
+      <UniqueIdentifier>{923b1b5a-23ae-43aa-894d-bbc1eaed7bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Devourer">
+      <UniqueIdentifier>{b09cff0e-02ce-427f-96e5-5ec0a6e0b059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Drone">
+      <UniqueIdentifier>{7679ac36-f0c3-4036-8fee-9478dca4707d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Guardian">
+      <UniqueIdentifier>{c1366610-fea1-466f-9759-21c6ead6e88f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Hydralisk">
+      <UniqueIdentifier>{ea416832-11db-491c-8fa2-98ac59980d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\InfestedTerran">
+      <UniqueIdentifier>{038e0542-452a-4131-889f-194c2a75d285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Larva">
+      <UniqueIdentifier>{b79e98c5-c3e8-41c9-b04f-3f8731015339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Lurker">
+      <UniqueIdentifier>{aad9cd8d-16b6-44eb-906c-25bf6077a20e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Mutalisk">
+      <UniqueIdentifier>{ed37d6ed-aeb4-4ac5-8edf-c692df7889fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Overlord">
+      <UniqueIdentifier>{ba71a780-c369-4476-b579-c3280393a8cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Queen">
+      <UniqueIdentifier>{019ebcbb-dd90-49f7-a268-fc2afb8f37a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Scourge">
+      <UniqueIdentifier>{4a4a4288-06c9-4ca1-b8cb-4ff794ce6d3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Ultralisk">
+      <UniqueIdentifier>{772be663-1385-49c0-80d7-998abeec2bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit\Zerg\Zergling">
+      <UniqueIdentifier>{55fb7cda-7757-43a7-8561-fe01442b34b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\CreepColony">
+      <UniqueIdentifier>{d0a9eddd-1b52-4cb6-8c8e-ce123dee5894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\DefilerMound">
+      <UniqueIdentifier>{a0089b8c-69e1-4662-9373-e36c6f990b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\EvolutionChamber">
+      <UniqueIdentifier>{253260a8-be37-4259-aa91-f75423c73002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\std및 기타 클래스들">
+      <UniqueIdentifier>{22dc929e-081d-44ca-a0fd-b9f1f063698a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\Extractor">
+      <UniqueIdentifier>{654be36b-9ce5-450c-99ab-a4335f5b4c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\GreaterSpire">
+      <UniqueIdentifier>{40a4190d-dc3a-40b1-a57f-2ca9eff6f00c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\Hatchery">
+      <UniqueIdentifier>{2f8fcc8d-9fd6-43e9-8443-b909931a15be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\Hive">
+      <UniqueIdentifier>{ef7bf292-e4f3-4805-9bb7-a656d35d2579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\HydraliskDen">
+      <UniqueIdentifier>{548feebd-898e-4951-a0c6-c7549243de61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\InfestedCommand">
+      <UniqueIdentifier>{496d60c9-0706-4f46-8e72-7e3dcbb3bf09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\Lair">
+      <UniqueIdentifier>{fa54eccf-34f5-416e-aa43-1e9112a4b824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\NydusCanal">
+      <UniqueIdentifier>{e1d587ff-375a-4194-a10d-4e69eacf4fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\QueensNest">
+      <UniqueIdentifier>{18518b65-5c67-4314-aede-8ff3e8445ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\SpawningPool">
+      <UniqueIdentifier>{99ef29d6-3682-4075-b0da-8f21a7fed65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\Spire">
+      <UniqueIdentifier>{cd02a5fd-9583-49e4-b3bb-b751d6833cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\SporeColony">
+      <UniqueIdentifier>{acef023b-0b07-4359-868b-144d0d166437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\SunkenColony">
+      <UniqueIdentifier>{b5b30033-3ae0-4d36-9e6d-8eb273c1fc55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Build\Zerg\UltraliskCavern">
+      <UniqueIdentifier>{e0ff56e5-6fb1-4d09-98a1-e3c8273bbd12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="API_FrameWork.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>Manager\수정중</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectPool.h">
-      <Filter>Manager\수정중</Filter>
-    </ClInclude>
     <ClInclude Include="MapToolScene.h">
       <Filter>MainGame\Scene\MapTool</Filter>
     </ClInclude>
@@ -89,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="SubMap.h">
       <Filter>MainGame\Scene\MapTool</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Manager\수정중</Filter>
     </ClInclude>
     <ClInclude Include="MainMap.h">
       <Filter>MainGame\Scene\MapTool</Filter>
@@ -150,26 +252,170 @@
     <ClInclude Include="ProgressBar.h">
       <Filter>Manager\프로그래스바</Filter>
     </ClInclude>
-    <ClInclude Include="CommonMacroFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RandomFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="AStarScene.h">
       <Filter>MainGame\aStar</Filter>
     </ClInclude>
+    <ClInclude Include="UnitBase.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildBase.h">
+      <Filter>Build</Filter>
+    </ClInclude>
+    <ClInclude Include="API_FrameWork.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMacroFunction.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomFunction.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일\std및 기타 클래스들</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PointManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>MainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>MainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>MainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>MainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Broodling.h">
+      <Filter>Unit\Zerg\Broodling</Filter>
+    </ClInclude>
+    <ClInclude Include="Defiler.h">
+      <Filter>Unit\Zerg\Defiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Devourer.h">
+      <Filter>Unit\Zerg\Devourer</Filter>
+    </ClInclude>
+    <ClInclude Include="Drone.h">
+      <Filter>Unit\Zerg\Drone</Filter>
+    </ClInclude>
+    <ClInclude Include="Guardian.h">
+      <Filter>Unit\Zerg\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="Hydralisk.h">
+      <Filter>Unit\Zerg\Hydralisk</Filter>
+    </ClInclude>
+    <ClInclude Include="InfestedTerran.h">
+      <Filter>Unit\Zerg\InfestedTerran</Filter>
+    </ClInclude>
+    <ClInclude Include="Larva.h">
+      <Filter>Unit\Zerg\Larva</Filter>
+    </ClInclude>
+    <ClInclude Include="Lurker.h">
+      <Filter>Unit\Zerg\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="Mutalisk.h">
+      <Filter>Unit\Zerg\Mutalisk</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlord.h">
+      <Filter>Unit\Zerg\Overlord</Filter>
+    </ClInclude>
+    <ClInclude Include="Queen.h">
+      <Filter>Unit\Zerg\Queen</Filter>
+    </ClInclude>
+    <ClInclude Include="Scourge.h">
+      <Filter>Unit\Zerg\Scourge</Filter>
+    </ClInclude>
+    <ClInclude Include="Ultralisk.h">
+      <Filter>Unit\Zerg\Ultralisk</Filter>
+    </ClInclude>
+    <ClInclude Include="Zergling.h">
+      <Filter>Unit\Zerg\Zergling</Filter>
+    </ClInclude>
+    <ClInclude Include="CreepColony.h">
+      <Filter>Build\Zerg\CreepColony</Filter>
+    </ClInclude>
+    <ClInclude Include="DefilerMound.h">
+      <Filter>Build\Zerg\DefilerMound</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolutionChamber.h">
+      <Filter>Build\Zerg\EvolutionChamber</Filter>
+    </ClInclude>
+    <ClInclude Include="Extractor.h">
+      <Filter>Build\Zerg\Extractor</Filter>
+    </ClInclude>
+    <ClInclude Include="GreaterSpire.h">
+      <Filter>Build\Zerg\GreaterSpire</Filter>
+    </ClInclude>
+    <ClInclude Include="Hatchery.h">
+      <Filter>Build\Zerg\Hatchery</Filter>
+    </ClInclude>
+    <ClInclude Include="Hive.h">
+      <Filter>Build\Zerg\Hive</Filter>
+    </ClInclude>
+    <ClInclude Include="HydraliskDen.h">
+      <Filter>Build\Zerg\HydraliskDen</Filter>
+    </ClInclude>
+    <ClInclude Include="InfestedCommand.h">
+      <Filter>Build\Zerg\InfestedCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="Lair.h">
+      <Filter>Build\Zerg\Lair</Filter>
+    </ClInclude>
+    <ClInclude Include="NydusCanal.h">
+      <Filter>Build\Zerg\NydusCanal</Filter>
+    </ClInclude>
+    <ClInclude Include="QueensNest.h">
+      <Filter>Build\Zerg\QueensNest</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawningPool.h">
+      <Filter>Build\Zerg\SpawningPool</Filter>
+    </ClInclude>
+    <ClInclude Include="Spire.h">
+      <Filter>Build\Zerg\Spire</Filter>
+    </ClInclude>
+    <ClInclude Include="SporeColony.h">
+      <Filter>Build\Zerg\SporeColony</Filter>
+    </ClInclude>
+    <ClInclude Include="SunkenColony.h">
+      <Filter>Build\Zerg\SunkenColony</Filter>
+    </ClInclude>
+    <ClInclude Include="UltraliskCavern.h">
+      <Filter>Build\Zerg\UltraliskCavern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>Manager\수정중</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectPool.cpp">
-      <Filter>Manager\수정중</Filter>
-    </ClCompile>
     <ClCompile Include="MapToolScene.cpp">
       <Filter>MainGame\Scene\MapTool</Filter>
     </ClCompile>
@@ -178,9 +424,6 @@
     </ClCompile>
     <ClCompile Include="SubMap.cpp">
       <Filter>MainGame\Scene\MapTool</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Manager\수정중</Filter>
     </ClCompile>
     <ClCompile Include="MainMap.cpp">
       <Filter>MainGame\Scene\MapTool</Filter>
@@ -230,9 +473,6 @@
     <ClCompile Include="Utils.cpp">
       <Filter>UTIL</Filter>
     </ClCompile>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="TxtData.cpp">
       <Filter>Manager\텍스트데이터</Filter>
     </ClCompile>
@@ -241,6 +481,153 @@
     </ClCompile>
     <ClCompile Include="AStarScene.cpp">
       <Filter>MainGame\aStar</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitBase.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildBase.cpp">
+      <Filter>Build</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일\stdafx&amp;WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>소스 파일\stdafx&amp;WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PointManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Broodling.cpp">
+      <Filter>Unit\Zerg\Broodling</Filter>
+    </ClCompile>
+    <ClCompile Include="Defiler.cpp">
+      <Filter>Unit\Zerg\Defiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Devourer.cpp">
+      <Filter>Unit\Zerg\Devourer</Filter>
+    </ClCompile>
+    <ClCompile Include="Drone.cpp">
+      <Filter>Unit\Zerg\Drone</Filter>
+    </ClCompile>
+    <ClCompile Include="Guardian.cpp">
+      <Filter>Unit\Zerg\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="Hydralisk.cpp">
+      <Filter>Unit\Zerg\Hydralisk</Filter>
+    </ClCompile>
+    <ClCompile Include="InfestedTerran.cpp">
+      <Filter>Unit\Zerg\InfestedTerran</Filter>
+    </ClCompile>
+    <ClCompile Include="Larva.cpp">
+      <Filter>Unit\Zerg\Larva</Filter>
+    </ClCompile>
+    <ClCompile Include="Lurker.cpp">
+      <Filter>Unit\Zerg\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="Mutalisk.cpp">
+      <Filter>Unit\Zerg\Mutalisk</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlord.cpp">
+      <Filter>Unit\Zerg\Overlord</Filter>
+    </ClCompile>
+    <ClCompile Include="Queen.cpp">
+      <Filter>Unit\Zerg\Queen</Filter>
+    </ClCompile>
+    <ClCompile Include="Scourge.cpp">
+      <Filter>Unit\Zerg\Scourge</Filter>
+    </ClCompile>
+    <ClCompile Include="Ultralisk.cpp">
+      <Filter>Unit\Zerg\Ultralisk</Filter>
+    </ClCompile>
+    <ClCompile Include="Zergling.cpp">
+      <Filter>Unit\Zerg\Zergling</Filter>
+    </ClCompile>
+    <ClCompile Include="CreepColony.cpp">
+      <Filter>Build\Zerg\CreepColony</Filter>
+    </ClCompile>
+    <ClCompile Include="DefilerMound.cpp">
+      <Filter>Build\Zerg\DefilerMound</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolutionChamber.cpp">
+      <Filter>Build\Zerg\EvolutionChamber</Filter>
+    </ClCompile>
+    <ClCompile Include="Extractor.cpp">
+      <Filter>Build\Zerg\Extractor</Filter>
+    </ClCompile>
+    <ClCompile Include="GreaterSpire.cpp">
+      <Filter>Build\Zerg\GreaterSpire</Filter>
+    </ClCompile>
+    <ClCompile Include="Hatchery.cpp">
+      <Filter>Build\Zerg\Hatchery</Filter>
+    </ClCompile>
+    <ClCompile Include="Hive.cpp">
+      <Filter>Build\Zerg\Hive</Filter>
+    </ClCompile>
+    <ClCompile Include="HydraliskDen.cpp">
+      <Filter>Build\Zerg\HydraliskDen</Filter>
+    </ClCompile>
+    <ClCompile Include="InfestedCommand.cpp">
+      <Filter>Build\Zerg\InfestedCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="Lair.cpp">
+      <Filter>Build\Zerg\Lair</Filter>
+    </ClCompile>
+    <ClCompile Include="NydusCanal.cpp">
+      <Filter>Build\Zerg\NydusCanal</Filter>
+    </ClCompile>
+    <ClCompile Include="QueensNest.cpp">
+      <Filter>Build\Zerg\QueensNest</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawningPool.cpp">
+      <Filter>Build\Zerg\SpawningPool</Filter>
+    </ClCompile>
+    <ClCompile Include="Spire.cpp">
+      <Filter>Build\Zerg\Spire</Filter>
+    </ClCompile>
+    <ClCompile Include="SporeColony.cpp">
+      <Filter>Build\Zerg\SporeColony</Filter>
+    </ClCompile>
+    <ClCompile Include="SunkenColony.cpp">
+      <Filter>Build\Zerg\SunkenColony</Filter>
+    </ClCompile>
+    <ClCompile Include="UltraliskCavern.cpp">
+      <Filter>Build\Zerg\UltraliskCavern</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
