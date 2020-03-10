@@ -11,9 +11,16 @@ Hatchery::~Hatchery()
 {
 }
 
+Hatchery::Hatchery(int _playerNumber)
+{
+	buildStatus.playerNumber = _playerNumber;
+	buildStatus.buildingHp = 300;
+	buildStatus.buildTime = 6.0f;
+}
+
 HRESULT Hatchery::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void Hatchery::Release()

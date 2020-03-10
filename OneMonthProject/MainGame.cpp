@@ -21,6 +21,9 @@ HRESULT MainGame::Init()
 	IMAGEMANAGER->AddFrameImage("MapTile3", "images/MapTile/test1.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
 
+	// 실제 게임 Scene
+	SCENEMANAGER->AddScene("GameScene", new GameScene);
+
 	// A*테스트
 	SCENEMANAGER->AddScene("aStar", new aStarScene);
 
@@ -29,10 +32,8 @@ HRESULT MainGame::Init()
 
 	SUBWIN->SetIsoMap(map);
 
-	// 게임씬에서 필요한 매니저들 초기화.
-	OBJECTPOOL->Init();
 
-	SCENEMANAGER->ChangeScene("MapTool");
+	SCENEMANAGER->ChangeScene("GameScene");
 
 	return S_OK;
 }
@@ -47,7 +48,6 @@ void MainGame::Update()
 	GameNode::Update();
 
 	SCENEMANAGER->Update();
-
 //#ifdef SUBWINOPEN
 //
 //	SUBWIN->Update();

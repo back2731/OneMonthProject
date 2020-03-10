@@ -7,6 +7,9 @@ public:
 	Hatchery();
 	~Hatchery();
 
+	Hatchery(int _playerNumber);
+
+
 	HRESULT Init();
 	void Release();
 	void Update();
