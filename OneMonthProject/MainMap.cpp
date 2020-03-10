@@ -29,6 +29,7 @@ HRESULT MainMap::Init()
 	stopCamera = true;
 	loadData = RND->GetInt(1);
 	load(0);
+	_isDebug = false;
 
 	return S_OK;
 }
@@ -39,11 +40,17 @@ void MainMap::Release()
 
 void MainMap::Update()
 {
+	//cameraRect = RectMake(CAMERAMANAGER->GetCameraCenterX() - 200, CAMERAMANAGER->GetCameraCenterY() - 200, WINSIZEX * 2, WINSIZEY * 2);
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x-32, CAMERAMANAGER->GetCameraXY().y-32, WINSIZEX * 2, WINSIZEY * 2);
 }
 
 void MainMap::Render()
 {
 	DrawTileMap();
+	//Rectangle(GetMemDC(), cameraRect.left, cameraRect.top, cameraRect.right, cameraRect.bottom);
+	//HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+	//FillRect(GetMemDC(), &cameraRect, brush);
+	//DeleteObject(brush);
 }
 
 void MainMap::DrawTileMap()
@@ -61,26 +68,27 @@ void MainMap::DrawTileMap()
 			_tileMap[i][j].top = top;
 			_tileMap[i][j].right = right;
 			_tileMap[i][j].bottom = bottom;
-
 			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
 
-
-			if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 			{
-				switch (_tileMap[i][j].tileKind)
+				if (_tileMap[i][j].tileKind != TILEKIND_NONE)
 				{
-				case TILEKIND_TERRAIN:
-					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
-						_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-					break;
-				case TILEKIND_TERRAIN2:
-					IMAGEMANAGER->FrameRender("계단", GetMemDC(),
-						_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-					break;
-				case TILEKIND_TERRAIN3:
-					IMAGEMANAGER->FrameRender("MapTile3", GetMemDC(),
-						_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-					break;
+					switch (_tileMap[i][j].tileKind)
+					{
+					case TILEKIND_TERRAIN:
+						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							break;
+					case TILEKIND_TERRAIN2:
+						IMAGEMANAGER->FrameRender("계단", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+						break;
+					case TILEKIND_TERRAIN3:
+						IMAGEMANAGER->FrameRender("MapTile3", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+						break;
+					}
 				}
 			}
 		}
@@ -96,7 +104,7 @@ void MainMap::load(int loadCount)
 	CloseHandle(file);
 }
 
-void MainMap::Draw_Line_X(int left, int top)
+void MainMap::DrawLineX(int left, int top)
 {
 	int centerX = left;
 	int centerY = top;
@@ -104,7 +112,7 @@ void MainMap::Draw_Line_X(int left, int top)
 	LineMake(GetMemDC(), centerX, centerY, centerX + CELL_WIDTH, centerY);
 }
 
-void MainMap::Draw_Line_Y(int left, int top)
+void MainMap::DrawLineY(int left, int top)
 {
 	int centerX = left;
 	int centerY = top;

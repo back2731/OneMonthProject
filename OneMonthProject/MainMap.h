@@ -62,8 +62,8 @@ public:
 	void DrawTileMap();
 	void load(int loadCount);
 
-	void Draw_Line_X(int left, int top);
-	void Draw_Line_Y(int left, int top);
+	void DrawLineX(int left, int top);
+	void DrawLineY(int left, int top);
 
 	//DWORD* getAttribute() { return _attribute; }
 	//tagTile* getMap() { return _map; }

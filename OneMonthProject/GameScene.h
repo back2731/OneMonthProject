@@ -6,6 +6,9 @@ class GameScene : public GameNode
 {
 private:
 	MainMap* mainMap;
+	Image* test1;
+	Animation* testAni;
+	RECT testRect;
 
 public:
 	GameScene();

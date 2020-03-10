@@ -48,10 +48,28 @@ void MainGame::Update()
 	GameNode::Update();
 
 	SCENEMANAGER->Update();
-//#ifdef SUBWINOPEN
-//
-//	SUBWIN->Update();
-//#endif // SUBWINOPEN
+
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 32, CAMERAMANAGER->GetCameraCenter().y));
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 32 * 100)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 32, CAMERAMANAGER->GetCameraCenter().y));
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 32));
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 32 * 100)
+	{
+		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 32));
+	}
+
+
+
 }
 
 void MainGame::Render(/*HDC hdc*/)
@@ -61,12 +79,9 @@ void MainGame::Render(/*HDC hdc*/)
 	PatBlt(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
 	PatBlt(CAMERAMANAGER->GetCameraDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//===================================================
-
 	SCENEMANAGER->Render();
-	//#ifdef SUBWINOPEN
-	//	SUBWIN->Render();
-	//#endif // SUBWINOPEN
-	TIMEMANAGER->Render(GetMemDC());
+
+
 
 	//===================================================
 	//백버퍼의 내용을 HDC에 그린다.(건드리지말것.)

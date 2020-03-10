@@ -53,7 +53,7 @@ void TimeManager::Render(HDC hdc)
 		{
 			//FPS
 			sprintf_s(str, "FPS :  %d", _timer->GetFrameRate());
-			TextOut(hdc, 0, 0, str, strlen(str));
+			TextOut(hdc, CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, str, strlen(str));
 
 			//전체 경과 시간
 			sprintf_s(str, "worldTime :  %f", _timer->GetWorldTime());

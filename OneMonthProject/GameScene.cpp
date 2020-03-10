@@ -16,6 +16,11 @@ HRESULT GameScene::Init()
 	mainMap = new MainMap;
 	mainMap->Init();
 
+	test1 = IMAGEMANAGER->AddFrameImage("test", "images/MapTile/Hatchery.bmp", 1152*1.5, 160*1.5, 6, 1, true, RGB(0, 222, 0));
+	ANIMATIONMANAGER->AddAnimation("testAni", "test", 1, 5, 15, false, true);
+	testAni = ANIMATIONMANAGER->FindAnimation("testAni");
+	testRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, test1->GetFrameWidth(), test1->GetFrameHeight());
+
 	return S_OK;
 }
 
@@ -26,31 +31,15 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
-
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 100, CAMERAMANAGER->GetCameraCenter().y));
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 32 * 100)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 100, CAMERAMANAGER->GetCameraCenter().y));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 100));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 32*100)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 100));
-	}
-
-
 	mainMap->Update();
+	testAni = ANIMATIONMANAGER->FindAnimation("testAni");
+	ANIMATIONMANAGER->Start("testAni");
 }
 
 void GameScene::Render()
 {
 	mainMap->Render();
+	//Rectangle(GetMemDC(), testRect.left, testRect.top, testRect.right, testRect.bottom);
+	//test1->FrameRender(GetMemDC(), testRect.left, testRect.top);
+	test1->AniRender(GetMemDC(), testRect.left, testRect.top, testAni);
 }
