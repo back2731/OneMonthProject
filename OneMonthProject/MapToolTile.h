@@ -1,21 +1,4 @@
 #pragma once
-//크기
-#define CELL_WIDTH 64
-#define CELL_HEIGHT 64
-
-//초기좌표
-#define INIT_X -1768
-#define INIT_Y -1144
-//타일 갯수
-#define TILE_COUNT_X 64
-#define TILE_COUNT_Y 64
-
-//타일 이미지
-#define TILE_SIZE_X 16
-#define TILE_SIZE_Y 17
-
-
-#define TILE_MAX 1
 
 enum TILEKIND
 {

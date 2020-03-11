@@ -7,7 +7,7 @@ public:
 	Hatchery();
 	~Hatchery();
 
-	Hatchery(int _playerNumber);
+	Hatchery(int _playerNumber, POINT buildXY);
 
 
 	HRESULT Init();

@@ -45,15 +45,15 @@ void SubWindow::Init()
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 115, 30, 100, 20, hWnd, HMENU(CTRL_LOAD), m_hInstance, NULL);
-	_btnN1 = CreateWindow("button", "MapTile1",
+	_btnN1 = CreateWindow("button", "BaseMap",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX, 135, 70, 25, hWnd, HMENU(CTRL_NUM1), m_hInstance, NULL);
-	_btnN2 = CreateWindow("button", "계단",
+	_btnN2 = CreateWindow("button", "MapTile1",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 75, 135, 70, 25, hWnd, HMENU(CTRL_NUM2), m_hInstance, NULL);
-	_btnN3 = CreateWindow("button", "MapTile3",
+	_btnN3 = CreateWindow("button", "MapTile2",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 150, 135, 70, 25, hWnd, HMENU(CTRL_NUM3), m_hInstance, NULL);
@@ -144,7 +144,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				SUBWIN->SetFrameIndex(LOWORD(wParam));
 				break;
 			case CTRL_MAIN:
-				SCENEMANAGER->ChangeScene("MainMenu");
+				SCENEMANAGER->ChangeScene("GameScene");
 				DestroyWindow(hWnd);
 				break;
 			}

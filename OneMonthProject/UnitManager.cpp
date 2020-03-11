@@ -13,8 +13,6 @@ UnitManager::~UnitManager()
 
 HRESULT UnitManager::Init()
 {
-
-
 	return S_OK;
 }
 

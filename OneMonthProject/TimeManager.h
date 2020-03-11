@@ -19,6 +19,7 @@ public:
 	float GetElapsedTime()const { return _timer->GetElapsedTime(); }
 	float GetWorldTime()const { return _timer->GetWorldTime(); }
 
+	unsigned long GetFPS()const { return  _timer->GetFrameRate(); }
 
 
 };

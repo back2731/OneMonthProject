@@ -99,7 +99,7 @@ void EffectManager::AddEffect(string EffectKey, char * imageName, int imageW, in
 	}
 	else
 	{
-		img = IMAGEMANAGER->AddImage(EffectKey, imageName, imageW, imageH, true, RGB(264, 0, 264));
+		img = IMAGEMANAGER->AddImage(EffectKey, imageName, imageW, imageH, true, RGB(255, 0, 255));
 	}
 
 	//버퍼 크기만큼 이펙트를 할당후 초기화 해서 벡터로 만든다.

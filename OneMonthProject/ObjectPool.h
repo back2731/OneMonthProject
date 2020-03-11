@@ -1,7 +1,5 @@
 #pragma once
 #include "SingletonBase.h"
-#define BULLETMAX 10000
-#define BUMBMAX 100
 
 // 총알 구조체 정보
 struct BulletInfo

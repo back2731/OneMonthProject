@@ -1,0 +1,13 @@
+#pragma once
+class CommandBase
+{
+public:
+	CommandBase();
+	~CommandBase();
+
+	virtual HRESULT Init();
+	virtual void Release();
+	virtual void Update();
+	virtual void Render(HDC hdc);
+};
+

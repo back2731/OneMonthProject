@@ -17,6 +17,17 @@
 #include "NydusCanal.h"
 #include "InfestedCommand.h"
 
+enum PlayerNumber
+{
+	PLAYER1,
+	PLAYER2,
+	PLAYER3,
+	PLAYER4,
+	PLAYER5,
+	PLAYER6,
+	PLAYER7,
+	PLAYER8
+};
 class BuildManager : public SingletonBase<BuildManager>
 {
 private:

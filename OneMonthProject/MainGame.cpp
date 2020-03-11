@@ -12,25 +12,22 @@ MainGame::~MainGame()
 HRESULT MainGame::Init()
 {
 	GameNode::Init(true);
+	// 리소스 클래스 생성
+	resource = new ResourceCollection;
+	resource->Init();
 
-	// 맵툴용 이미지들
-	IMAGEMANAGER->AddFrameImage("MapTile1", "images/MapTile/Tile001.bmp",
-		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddFrameImage("계단", "images/MapTile/계단.bmp",
-		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));	
-	IMAGEMANAGER->AddFrameImage("MapTile3", "images/MapTile/test1.bmp",
-		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
+	// 맵 클래스 생성
+	map = new MapToolScene;
+	SCENEMANAGER->AddScene("MapTool", map);
+
+	// 서브맵 셋업
+	SUBWIN->SetMap(map);
 
 	// 실제 게임 Scene
 	SCENEMANAGER->AddScene("GameScene", new GameScene);
 
 	// A*테스트
 	SCENEMANAGER->AddScene("aStar", new aStarScene);
-
-	MapToolScene* map = new MapToolScene;
-	SCENEMANAGER->AddScene("MapTool", map);
-
-	SUBWIN->SetIsoMap(map);
 
 
 	SCENEMANAGER->ChangeScene("GameScene");
@@ -41,33 +38,17 @@ HRESULT MainGame::Init()
 void MainGame::Release()
 {
 	GameNode::Release();
+	SAFE_DELETE(map);
+	SAFE_DELETE(resource);
 }
 
 void MainGame::Update()
 {
 	GameNode::Update();
 
+	CAMERAMANAGER->MoveCamera();
+	ANIMATIONMANAGER->Update();
 	SCENEMANAGER->Update();
-
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 32, CAMERAMANAGER->GetCameraCenter().y));
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 32 * 100)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 32, CAMERAMANAGER->GetCameraCenter().y));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 32));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 32 * 100)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 32));
-	}
-
 
 
 }
@@ -79,6 +60,7 @@ void MainGame::Render(/*HDC hdc*/)
 	PatBlt(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2, WINSIZEX, WINSIZEY, WHITENESS);
 	PatBlt(CAMERAMANAGER->GetCameraDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//===================================================
+	
 	SCENEMANAGER->Render();
 
 

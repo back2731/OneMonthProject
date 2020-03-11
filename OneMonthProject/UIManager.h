@@ -1,5 +1,7 @@
 #pragma once
-class UIManager
+#include "SingletonBase.h"
+
+class UIManager : public SingletonBase<UIManager>
 {
 public:
 	UIManager();

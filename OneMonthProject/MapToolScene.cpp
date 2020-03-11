@@ -55,10 +55,10 @@ void MapToolScene::Update()
 	SUBWIN->Update();
 #endif // SUBWINOPEN
 
-	if (KEYMANAGER->IsStayKeyDown('W')) { currentY += 5; }
-	if (KEYMANAGER->IsStayKeyDown('S')) { currentY -= 5; }
-	if (KEYMANAGER->IsStayKeyDown('A')) { currentX += 5; }
-	if (KEYMANAGER->IsStayKeyDown('D')) { currentX -= 5; }
+	if (KEYMANAGER->IsStayKeyDown('W')) { currentY += 10; }
+	if (KEYMANAGER->IsStayKeyDown('S')) { currentY -= 10; }
+	if (KEYMANAGER->IsStayKeyDown('A')) { currentX += 10; }
+	if (KEYMANAGER->IsStayKeyDown('D')) { currentX -= 10; }
 
 	if (KEYMANAGER->IsOnceKeyDown('B'))
 	{
@@ -139,31 +139,31 @@ void MapToolScene::DrawTileMap()
 
 			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
 
-
 			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 			{
-				//for (int z = 0; z <= _tileMap[i][j].index; z++)
-				//{
-					if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+				if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+				{
+					switch (_tileMap[i][j].tileKind)
 					{
-						switch (_tileMap[i][j].tileKind)
-						{
-						case TILEKIND_TERRAIN:
-							IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
-								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-							break;
-						case TILEKIND_TERRAIN2:
-							IMAGEMANAGER->FrameRender("°è´Ü", GetMemDC(),
-								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-							break;						
-						case TILEKIND_TERRAIN3:
-							IMAGEMANAGER->FrameRender("MapTile3", GetMemDC(),
-								_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
-							break;
-						}
-					}
-				//}
 
+					case TILEKIND_TERRAIN:
+						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+						break;
+					case TILEKIND_TERRAIN2:
+						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+						break;
+					case TILEKIND_TERRAIN3:
+						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
+							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+						break;
+					}
+				}
+			}
+
+			if (IntersectRect(&temp, &debugRect, &_tileMap[i][j].rect))
+			{
 				if (_isDebug)
 				{
 					if (j % 11 == 0)
@@ -216,8 +216,8 @@ void MapToolScene::SetMapTool()
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			_tileMap[i][j].tileKind = TILEKIND_TERRAIN;
-			_tileMap[i][j].tilePos = PointMake(1, 0);
+			_tileMap[i][j].tileKind = TILEKIND_NONE;
+			//_tileMap[i][j].tilePos = PointMake(1, 0);
 		}
 	}
 }

@@ -23,7 +23,7 @@ private:
 	
 	POINT imageFrame;
 	CTRL _currentCTRL;
-	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };
+	RECT cameraRect;
 	RECT temp;
 
 	Image* miniMapBoardImage;

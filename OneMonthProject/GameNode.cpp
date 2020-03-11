@@ -72,7 +72,6 @@ void GameNode::Release()
 		SCENEMANAGER->Release();
 		ANIMATIONMANAGER->Release();
 		EFFECTMANAGER->Release();
-
 	}
 
 	ReleaseDC(m_hWnd, _hdc);
@@ -80,7 +79,6 @@ void GameNode::Release()
 
 void GameNode::Update()
 {
-
 	//더블버퍼 이후 사용 하지 않는다.(true->false)
 	//InvalidateRect(m_hWnd, NULL, false);
 	CAMERAMANAGER->Update();
@@ -103,8 +101,9 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	{
 	case WM_MOUSEMOVE:
 		SUBWIN->SetIsActive(false);
-		m_ptMouse.x = LOWORD(lParam);
-		m_ptMouse.y = HIWORD(lParam);
+
+		m_ptMouse.x = LOWORD(lParam) + CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2;
+		m_ptMouse.y = HIWORD(lParam) + CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2;
 		break;
 	case WM_KEYDOWN:
 

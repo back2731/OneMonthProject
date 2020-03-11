@@ -148,132 +148,14 @@ void aStarScene::Update()
 
 	if (!isFind && !noPath &&startAstar)
 	{
-		Astar();
-	}
-	//Astar();
-
-	cameraRect = RectMake(CAMERAMANAGER->GetCameraCenterX(), CAMERAMANAGER->GetCameraCenterY(), WINSIZEX, WINSIZEY);
-
-
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT) && CAMERAMANAGER->GetCameraXY().x > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x - 32, CAMERAMANAGER->GetCameraCenter().y));
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT) && CAMERAMANAGER->GetCameraXY().x < 32 * 62)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x + 32, CAMERAMANAGER->GetCameraCenter().y));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_UP) && CAMERAMANAGER->GetCameraXY().y > 0)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y - 32));
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN) && CAMERAMANAGER->GetCameraXY().y < 32 * 38)
-	{
-		CAMERAMANAGER->SetCameraCenter(PointMake(CAMERAMANAGER->GetCameraCenter().x, CAMERAMANAGER->GetCameraCenter().y + 32));
-	}
-
-	// 이부분 만지는중
-	if (isFind && !isArrive)
-	{
-		int playerX = playerStart % TILEX;
-		int plyaerY = playerStart / TILEX;
-
-		int dx[] = { -1, 1, 0, 0, -1, 1, -1, 1 };
-		int dy[] = { 0, 0, -1, 1, -1, 1, 1, -1 };
-		bool tempBlock[8];
-
-		for (int i = 0; i < 8; i++)
+		while (!isFind)
 		{
-			int x = playerX + dx[i];
-			int y = plyaerY + dy[i];
-	
-			
-			tempBlock[i] = false;
-
-			// 해당 방향으로 움직인 타일이 유효한 타일인지 확인
-			if (0 <= x && x < TILEX && 0 <= y && y < TILEY)
-			{
-				bool isOpen;
-				// 대각선 타일의 이동 문제로 (주변에 블락있으면 못감) 임시로 블락 상태 저장
-				if (tiles[y * TILEX + x].block)
-				{
-					tempBlock[i] = true;
-				}
-				else 
-				{
-					// check closeList z
-					bool isClose = false;
-					for (int j = 0; j < closeList.size(); j++)
-					{
-						if (closeList[j] == y * TILEX + x)
-						{
-							isClose = true;
-							break;
-						}
-					}
-					if (isClose) continue;
-
-					if (i < 4)
-					{
-						tiles[y * TILEX + x].g = 10;
-					}
-					else
-					{
-						// leftup인 경우 left나 up에 블락있으면 안됨
-						if (i == DIRECTION_LEFTUP &&
-							tempBlock[DIRECTION_LEFT] || tempBlock[DIRECTION_UP]) continue;
-						// rightdown인 경우 right나 down에 블락있으면 안됨
-						if (i == DIRECTION_RIGHTDOWN &&
-							tempBlock[DIRECTION_RIGHT] || tempBlock[DIRECTION_DOWN]) continue;
-						// rightup인 경우 right나 up에 블락있으면 안됨
-						if (i == DIRECTION_RIGHTUP &&
-							tempBlock[DIRECTION_RIGHT] || tempBlock[DIRECTION_UP]) continue;
-						// leftdown인 경우 left나 down에 블락있으면 안됨
-						if (i == DIRECTION_LEFTDOWN &&
-							tempBlock[DIRECTION_LEFT] || tempBlock[DIRECTION_DOWN]) continue;
-						tiles[y * TILEX + x].g = 14;
-
-					}
-					//abs절대값
-
-					tiles[y * TILEX + x].h = (abs(endX - x) + abs(endY - y)) * 10;
-					tiles[y * TILEX + x].f = tiles[y * TILEX + x].g + tiles[y * TILEX + x].h;
-
-					// 오픈리스트에 있으면 g 비용 비교 후 처리
-					isOpen = false;
-					for (int i = 0; i < openList.size(); i++)
-					{
-						if (openList[i] == y * TILEX + x)
-						{
-							isOpen = true;
-							if (tiles[openList[i]].g > tiles[y * TILEX + x].g)
-							{
-								tiles[openList[i]].h = tiles[y * TILEX + x].h;
-								tiles[openList[i]].g = tiles[y * TILEX + x].g;
-								tiles[openList[i]].f = tiles[y * TILEX + x].f;
-								tiles[openList[i]].node = currentTile;
-							}
-						}
-					}
-					// 없으면 그냥 넣고 부모 설정
-					if (!isOpen)
-					{
-						openList.push_back(y * TILEX + x);
-						tiles[y * TILEX + x].node = currentTile;
-					}
-
-					// find
-					if (y * TILEX + x == endTile)
-						isFind = true;
-
-				}
-			}
+			Astar();
 		}
-
 	}
-	//
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
+
+	CAMERAMANAGER->MoveCamera();
 }
 
 void aStarScene::Render()

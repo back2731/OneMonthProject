@@ -9,15 +9,8 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Manager">
       <UniqueIdentifier>{18fb1c79-f50b-4b9b-a264-e066d2bca54b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UTIL">
-      <UniqueIdentifier>{ee673918-6273-48b6-b9d8-c4d87fd95bc1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\애니메이션">
       <UniqueIdentifier>{815067c8-1852-4de4-88c6-942efbfbdbf6}</UniqueIdentifier>
@@ -45,9 +38,6 @@
     </Filter>
     <Filter Include="MainGame\aStar">
       <UniqueIdentifier>{e19979f3-bf76-4ad3-b540-54313c97a1af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SingletonBase">
-      <UniqueIdentifier>{1352499b-c472-4ac9-85cb-71b3f3226ffd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\텍스트데이터">
       <UniqueIdentifier>{00ade87a-93a8-46f2-b42b-4e1b20260dd6}</UniqueIdentifier>
@@ -187,6 +177,94 @@
     <Filter Include="MainGame\Build\BuildBase">
       <UniqueIdentifier>{e5be7a1c-c279-459a-b8e7-abfdf0f0401c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\ManagerClass">
+      <UniqueIdentifier>{be3b33e5-aea4-4c1d-8679-a3e35a3517b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command">
+      <UniqueIdentifier>{35c3209d-b7f8-435a-9453-55345b6309bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\AnimationManager">
+      <UniqueIdentifier>{ced8019e-8761-4c3a-acf6-28a50a7b59d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\BuildManager">
+      <UniqueIdentifier>{934b9fc4-8c4d-48cc-a98c-710a81178df8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\BulletManager">
+      <UniqueIdentifier>{92c22851-64ab-4649-b469-6030c7369918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\CameraManager">
+      <UniqueIdentifier>{32f9f580-c6c4-411e-a24d-c76bb9bd71c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\CollisionManager">
+      <UniqueIdentifier>{80d9891c-af36-4566-954a-8333095f9ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\EffectManager">
+      <UniqueIdentifier>{cedae905-a6c0-4a32-8d18-9e10166df9f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\ImageManager">
+      <UniqueIdentifier>{e1c22f16-0885-4fdc-8699-ea30a19a028f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\KeyManager">
+      <UniqueIdentifier>{f2fb388b-0ca2-4ea5-bbcb-1c8bb64e242a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\ObjectPool">
+      <UniqueIdentifier>{8edd6251-1b1b-40f6-a1b5-05b99f025059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\PlayerManager">
+      <UniqueIdentifier>{490ad854-2e9e-4e2c-b789-4ca27ce2f604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\PointManager">
+      <UniqueIdentifier>{c0a3cede-b423-42a7-8651-c42c95572c51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\SceneManager">
+      <UniqueIdentifier>{4255dbab-c077-4dd2-9671-61dfd1fb355c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\SoundManager">
+      <UniqueIdentifier>{a04d3ead-c94f-4845-a137-f7d4c0e86652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\TimeManager">
+      <UniqueIdentifier>{c89c8f1f-30b9-4cde-8ee1-9d6948c4b630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\UIManager">
+      <UniqueIdentifier>{97ee457e-7e69-4b34-803b-4ac25ff8444b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\UnitManager">
+      <UniqueIdentifier>{12141ced-c1ae-4664-a448-095557fb37f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\UpgradeManager">
+      <UniqueIdentifier>{eaff272d-6696-4843-9686-5f237316ca19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ManagerClass\CommandManager">
+      <UniqueIdentifier>{271961b1-a087-468a-b23f-2d3ce88b326c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\SingletonBase">
+      <UniqueIdentifier>{1352499b-c472-4ac9-85cb-71b3f3226ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\UTIL">
+      <UniqueIdentifier>{ee673918-6273-48b6-b9d8-c4d87fd95bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandBase">
+      <UniqueIdentifier>{ed22b285-4a3d-4c6b-84a8-32b8ea951fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList">
+      <UniqueIdentifier>{3c9ae677-777b-4e39-ad77-7f689692a5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\EvolveBurrow">
+      <UniqueIdentifier>{9d9e9756-1ba7-4814-8046-4da749ff4478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\LairRequires">
+      <UniqueIdentifier>{a5b58f12-7804-4963-9cc3-3d939b5266a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\SelectLarva">
+      <UniqueIdentifier>{cc776fb3-62f6-4378-83bb-d5a95082473a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\SetRallyPoint">
+      <UniqueIdentifier>{0b4b5c54-8959-480a-9c16-2b73fc63a1b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapToolScene.h">
@@ -222,35 +300,11 @@
     <ClInclude Include="Timer.h">
       <Filter>Manager\타이머</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="SingletonBase.h">
-      <Filter>SingletonBase</Filter>
+      <Filter>헤더 파일\SingletonBase</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>UTIL</Filter>
+      <Filter>소스 파일\UTIL</Filter>
     </ClInclude>
     <ClInclude Include="TxtData.h">
       <Filter>Manager\텍스트데이터</Filter>
@@ -278,33 +332,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일\std및 기타 클래스들</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectPool.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="PointManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UpgradeManager.h">
-      <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>MainGame\Scene</Filter>
@@ -420,6 +447,78 @@
     <ClInclude Include="BuildBase.h">
       <Filter>MainGame\Build\BuildBase</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationManager.h">
+      <Filter>Manager\ManagerClass\AnimationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildManager.h">
+      <Filter>Manager\ManagerClass\BuildManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>Manager\ManagerClass\BulletManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Manager\ManagerClass\CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager\ManagerClass\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>Manager\ManagerClass\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Manager\ManagerClass\ImageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Manager\ManagerClass\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Manager\ManagerClass\ObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>Manager\ManagerClass\PlayerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PointManager.h">
+      <Filter>Manager\ManagerClass\PointManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\ManagerClass\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\ManagerClass\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Manager\ManagerClass\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Manager\ManagerClass\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Manager\ManagerClass\UnitManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeManager.h">
+      <Filter>Manager\ManagerClass\UpgradeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>Manager\ManagerClass\CommandManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCollection.h">
+      <Filter>리소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandBase.h">
+      <Filter>MainGame\Command\CommandBase</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolveBurrow.h">
+      <Filter>MainGame\Command\CommandList\EvolveBurrow</Filter>
+    </ClInclude>
+    <ClInclude Include="LairRequires.h">
+      <Filter>MainGame\Command\CommandList\LairRequires</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectLarva.h">
+      <Filter>MainGame\Command\CommandList\SelectLarva</Filter>
+    </ClInclude>
+    <ClInclude Include="SetRallyPoint.h">
+      <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapToolScene.cpp">
@@ -452,32 +551,8 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Manager\타이머</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>UTIL</Filter>
+      <Filter>소스 파일\UTIL</Filter>
     </ClCompile>
     <ClCompile Include="TxtData.cpp">
       <Filter>Manager\텍스트데이터</Filter>
@@ -493,33 +568,6 @@
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\stdafx&amp;WinMain</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectPool.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="PointManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UpgradeManager.cpp">
-      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>MainGame\Scene</Filter>
@@ -634,6 +682,78 @@
     </ClCompile>
     <ClCompile Include="BuildBase.cpp">
       <Filter>MainGame\Build\BuildBase</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationManager.cpp">
+      <Filter>Manager\ManagerClass\AnimationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildManager.cpp">
+      <Filter>Manager\ManagerClass\BuildManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Manager\ManagerClass\BulletManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Manager\ManagerClass\CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager\ManagerClass\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>Manager\ManagerClass\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Manager\ManagerClass\ImageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Manager\ManagerClass\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Manager\ManagerClass\ObjectPool</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Manager\ManagerClass\PlayerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PointManager.cpp">
+      <Filter>Manager\ManagerClass\PointManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\ManagerClass\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\ManagerClass\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Manager\ManagerClass\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Manager\ManagerClass\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Manager\ManagerClass\UnitManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeManager.cpp">
+      <Filter>Manager\ManagerClass\UpgradeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManager.cpp">
+      <Filter>Manager\ManagerClass\CommandManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCollection.cpp">
+      <Filter>리소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandBase.cpp">
+      <Filter>MainGame\Command\CommandBase</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolveBurrow.cpp">
+      <Filter>MainGame\Command\CommandList\EvolveBurrow</Filter>
+    </ClCompile>
+    <ClCompile Include="LairRequires.cpp">
+      <Filter>MainGame\Command\CommandList\LairRequires</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectLarva.cpp">
+      <Filter>MainGame\Command\CommandList\SelectLarva</Filter>
+    </ClCompile>
+    <ClCompile Include="SetRallyPoint.cpp">
+      <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

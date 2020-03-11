@@ -19,6 +19,7 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+	void Render(HDC hdc, float destX, float destY);
 	//게이지 셋팅
 	void SetGauge(float currentGauge, float maxGauge);
 

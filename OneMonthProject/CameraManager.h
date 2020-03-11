@@ -21,6 +21,8 @@ public:
 
 	void SetCameraCenter(POINT point);
 
+	void MoveCamera();
+
 	POINT GetCameraCenter() { return cameraCenter; }
 	POINT GetCameraXY() { return cameraXY; }
 

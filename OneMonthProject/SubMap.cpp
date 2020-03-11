@@ -32,18 +32,39 @@ void SubMap::Release()
 
 void SubMap::Update()
 {
-	if (SUBWIN->GetIsActive() && KEYMANAGER->IsOnceKeyDown(VK_LBUTTON)) // 윈도우활성화 + 왼쪽 클릭 => framepoint 설정.
+	switch (SUBWIN->GetFrameIndex())
 	{
-		for (int i = 0; i < TILE_SIZE_X; i++)
+	case CTRL_NUM1:
+		if (SUBWIN->GetIsActive() && KEYMANAGER->IsOnceKeyDown(VK_LBUTTON)) // 윈도우활성화 + 왼쪽 클릭 => framepoint 설정.
 		{
-			for (int j = 0; j < TILE_SIZE_Y; j++)
+			for (int i = 0; i < TILE_SIZE_X; i++)
 			{
-				if (PtInRect(&rc[i][j], SUBWIN->GetMousePos()))
+				for (int j = 0; j < TILE_SIZE_Y; j++)
 				{
-					SUBWIN->SetFramePoint(PointMake(i, j));
+					if (PtInRect(&rc[i][j], SUBWIN->GetMousePos()))
+					{
+						SUBWIN->SetFramePoint(PointMake(0, 0));
+					}
 				}
 			}
 		}
+		break;
+	case CTRL_NUM2:
+	case CTRL_NUM3:
+		if (SUBWIN->GetIsActive() && KEYMANAGER->IsOnceKeyDown(VK_LBUTTON)) // 윈도우활성화 + 왼쪽 클릭 => framepoint 설정.
+		{
+			for (int i = 0; i < TILE_SIZE_X; i++)
+			{
+				for (int j = 0; j < TILE_SIZE_Y; j++)
+				{
+					if (PtInRect(&rc[i][j], SUBWIN->GetMousePos()))
+					{
+						SUBWIN->SetFramePoint(PointMake(i, j));
+					}
+				}
+			}
+		}
+		break;
 	}
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_SHIFT))
@@ -57,29 +78,23 @@ void SubMap::Render(HDC hdc)
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case CTRL_NUM1:
-		for (int i = 0; i < TILE_SIZE_X; i++)
-		{
-			for (int j = 0; j < TILE_SIZE_Y; j++)
-			{
-				IMAGEMANAGER->FindImage("MapTile1")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
-			}
-		}//end of for
+		IMAGEMANAGER->FindImage("BaseMap")->Render(hdc, 0, 200, CELL_WIDTH * 8, CELL_HEIGHT * 8);
 		break;
 	case CTRL_NUM2:
 		for (int i = 0; i < TILE_SIZE_X; i++)
-		{
-			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("계단")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
-			}
-		}//end of for
-		break;
+				for (int j = 0; j < TILE_SIZE_Y; j++)
+				{
+					IMAGEMANAGER->FindImage("MapTile1")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+				}
+			}//end of for
+			break;
 	case CTRL_NUM3:
 		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->FindImage("MapTile3")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
+				IMAGEMANAGER->FindImage("MapTile2")->FrameRender(hdc, CELL_WIDTH / 2 * i, CELL_HEIGHT / 2 * j + 200, i, j, CELL_WIDTH / 2, CELL_HEIGHT / 2);
 			}
 		}//end of for
 		break;

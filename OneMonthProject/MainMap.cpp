@@ -40,8 +40,7 @@ void MainMap::Release()
 
 void MainMap::Update()
 {
-	//cameraRect = RectMake(CAMERAMANAGER->GetCameraCenterX() - 200, CAMERAMANAGER->GetCameraCenterY() - 200, WINSIZEX * 2, WINSIZEY * 2);
-	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x-32, CAMERAMANAGER->GetCameraXY().y-32, WINSIZEX * 2, WINSIZEY * 2);
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 }
 
 void MainMap::Render()
@@ -77,15 +76,15 @@ void MainMap::DrawTileMap()
 					switch (_tileMap[i][j].tileKind)
 					{
 					case TILEKIND_TERRAIN:
-						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
 							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
 							break;
 					case TILEKIND_TERRAIN2:
-						IMAGEMANAGER->FrameRender("°è´Ü", GetMemDC(),
+						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
 							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
 						break;
 					case TILEKIND_TERRAIN3:
-						IMAGEMANAGER->FrameRender("MapTile3", GetMemDC(),
+						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
 							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
 						break;
 					}
@@ -93,6 +92,8 @@ void MainMap::DrawTileMap()
 			}
 		}
 	}
+
+
 }
 
 void MainMap::load(int loadCount)

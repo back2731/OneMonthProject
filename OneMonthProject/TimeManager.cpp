@@ -43,7 +43,7 @@ void TimeManager::Render(HDC hdc)
 	//배경모드
 	SetBkMode(hdc, TRANSPARENT);
 	//색상
-	SetTextColor(hdc, RGB(264, 0, 0));
+	SetTextColor(hdc, RGB(255, 0, 0));
 	//디버그 모드라면
 #ifdef _DEBUG
 
@@ -53,14 +53,13 @@ void TimeManager::Render(HDC hdc)
 		{
 			//FPS
 			sprintf_s(str, "FPS :  %d", _timer->GetFrameRate());
-			TextOut(hdc, CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, str, strlen(str));
-
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2, str, strlen(str));
 			//전체 경과 시간
 			sprintf_s(str, "worldTime :  %f", _timer->GetWorldTime());
-			TextOut(hdc, 0, 20, str, strlen(str));
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 20, str, strlen(str));
 			//한프레임당 경과시간
 			sprintf_s(str, "ElapsedTime :  %f", _timer->GetElapsedTime());
-			TextOut(hdc, 0, 40, str, strlen(str));
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 40, str, strlen(str));
 		}
 	}
 

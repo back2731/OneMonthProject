@@ -2,12 +2,7 @@
 #include "GameNode.h"
 #include "MapToolTile.h"
 
-#define TILEX 85
-#define TILEY 55
-#define TILESIZE TILEX*TILEY
 
-#define CELL_WIDTH 32
-#define CELL_HEIGHT 32
 
 enum Select
 {

@@ -24,7 +24,8 @@ private:
 
 	POINT imageFrame;
 	CTRL _currentCTRL;
-	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };
+	RECT cameraRect = { -WINSIZEX,-WINSIZEY,WINSIZEX*2,WINSIZEY*2 };
+	RECT debugRect = { 0,0,WINSIZEX,WINSIZEY };
 	RECT temp;
 
 	bool _isDebug;
