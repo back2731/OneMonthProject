@@ -50,6 +50,7 @@ void MainMap::Render()
 	//HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
 	//FillRect(GetMemDC(), &cameraRect, brush);
 	//DeleteObject(brush);
+
 }
 
 void MainMap::DrawTileMap()

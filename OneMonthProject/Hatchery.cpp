@@ -13,7 +13,6 @@ Hatchery::~Hatchery()
 
 Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 {
-
 	/*
 		int			playerNumber;			// 플레이어 넘버
 

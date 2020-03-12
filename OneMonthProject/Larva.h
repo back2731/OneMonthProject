@@ -7,6 +7,8 @@ public:
 	Larva();
 	~Larva();
 
+	Larva(int _playerNumber, POINT birthXY);
+
 	HRESULT Init();
 	void Release();
 	void Update();

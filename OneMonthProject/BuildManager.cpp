@@ -13,14 +13,14 @@ BuildManager::~BuildManager()
 
 HRESULT BuildManager::Init()
 {
-	buildVector.push_back(new Hatchery(PLAYER1, PointMake(WINSIZEX/2, WINSIZEY/2)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2, WINSIZEY/2+300)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2, WINSIZEY/2-300)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2+300)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2-300)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2-300)));
+	//buildVector.push_back(new Hatchery(PLAYER1, PointMake(WINSIZEX/2, WINSIZEY/2)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2, WINSIZEY/2+300)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2, WINSIZEY/2-300)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2+300)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2-300)));
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2-300)));
 	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2+300)));
 
 	return S_OK;

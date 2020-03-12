@@ -35,7 +35,9 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("Hatchery", "images/Building/Hatchery.bmp", 1152 * 2, 160 * 2, 6, 1, true, RGB(0, 222, 0));
 	ANIMATIONMANAGER->AddAnimation("HatcheryAnimation", "Hatchery", 0, 4, 5, true, true);
 
-	
+	// 라바 이미지, 애니메이션
+	IMAGEMANAGER->AddFrameImage("larva", "images/Unit/larvaTest.bmp", 180 * 2, 36 * 2*9, 5, 9, true, RGB(0, 222, 0));
+	ANIMATIONMANAGER->AddAnimation("larvaAnimation", "larva", 0, 4, 21, false, true);
 
 	
 	return S_OK;
