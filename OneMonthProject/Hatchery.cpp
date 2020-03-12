@@ -52,7 +52,9 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildRect = RectMakeCenter(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
 	buildStatus.buildRectX = buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2;
 	buildStatus.buildRectY = buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2;
-
+	
+	buildStatus.frameCount = 0;
+	buildStatus.frameIndex = 0;
 	PROGRESSMANAGER->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
 	PROGRESSMANAGER->SetGauge(buildStatus.buildingCurrentHp, buildStatus.buildingMaxHp);
 }
@@ -68,8 +70,18 @@ void Hatchery::Release()
 
 void Hatchery::Update()
 {
-	ANIMATIONMANAGER->Resume("HatcheryAnimation");	
-
+	buildStatus.frameCount++;
+	buildStatus.buildImage->SetFrameY(0);
+	if (buildStatus.frameCount % 30 == 0)
+	{
+		buildStatus.frameCount = 0;
+		if (buildStatus.frameIndex >= buildStatus.buildImage->GetMaxFrameX())
+		{
+			buildStatus.frameIndex = 0;
+		}
+		buildStatus.buildImage->SetFrameX(buildStatus.frameIndex);
+		buildStatus.frameIndex++;
+	}
 }
 
 void Hatchery::Render(HDC hdc)
@@ -85,5 +97,5 @@ void Hatchery::Render(HDC hdc)
 		}
 	}
 
-	buildStatus.buildImage->AniRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.buildAnimation);
+	buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndex,0);
 }

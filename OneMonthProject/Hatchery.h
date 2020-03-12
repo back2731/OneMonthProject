@@ -3,6 +3,9 @@
 
 class Hatchery : public BuildBase
 {
+	int frameCount;
+	int frameIndex;
+
 public:
 	Hatchery();
 	~Hatchery();

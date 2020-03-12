@@ -22,6 +22,8 @@ struct BuildStatus
 	float		buildRectX;				// 건물 렉트 X
 	float		buildRectY;				// 건물 렉트 Y
 
+	int			frameCount;
+	int			frameIndex;
 
 };
 

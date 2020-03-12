@@ -34,6 +34,11 @@ private:
 
 	vector<BuildBase*> buildVector;
 
+	BuildBase* hatchery;
+	BuildBase* hatchery2;
+
+	bool test;
+
 public:
 	BuildManager();
 	~BuildManager();
@@ -42,5 +47,7 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
+	Hatchery* CreateHatchery(POINT XY);
 };
 

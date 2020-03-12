@@ -2,6 +2,8 @@
 #include "GameNode.h"
 #include "MainMap.h"
 
+#include "Hatchery.h"
+
 class GameScene : public GameNode
 {
 private:
@@ -15,5 +17,8 @@ public:
 	void Release();
 	void Update();
 	void Render();
+
+private:
+	vector<BuildBase*> m_MyBuilding;
 };
 

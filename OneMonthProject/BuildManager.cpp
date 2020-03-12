@@ -21,30 +21,44 @@ HRESULT BuildManager::Init()
 	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2+300)));
 	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2+300, WINSIZEY/2-300)));
 	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2-300)));
-	buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2+300)));
-
+	//buildVector.push_back(new Hatchery(PLAYER2, PointMake(WINSIZEX/2-300, WINSIZEY/2+300)));
+	test = false;
 	return S_OK;
 }
 
 void BuildManager::Release()
 {
+	SAFE_DELETE(hatchery);
 }
 
 void BuildManager::Update()
 {
-	for (int i = 0; i < buildVector.size(); i++)
+	//for (int i = 0; i < buildVector.size(); i++)
+	//{
+	//	buildVector[i]->Update();
+	//}
+	if (test)
 	{
-		buildVector[i]->Update();
+		hatchery->Update();
 	}
 }
 
 void BuildManager::Render(HDC hdc)
 {
-	for (int i = 0; i < buildVector.size(); i++)
+	if (test)
 	{
-		if (buildVector[i]->GetBuildingPlayerNumber() == PLAYER1)
-		{
-			buildVector[i]->Render(hdc);
-		}
+		hatchery->Render(hdc);
 	}
+	//for (int i = 0; i < buildVector.size(); i++)
+	//{
+	//	if (buildVector[i]->GetBuildingPlayerNumber() == PLAYER1)
+	//	{
+	//		buildVector[i]->Render(hdc);
+	//	}
+	//}
+}
+
+Hatchery* BuildManager::CreateHatchery(POINT XY)
+{
+	return new Hatchery(PLAYER1, XY);
 }
