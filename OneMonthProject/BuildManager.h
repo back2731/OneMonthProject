@@ -32,13 +32,6 @@ class BuildManager : public SingletonBase<BuildManager>
 {
 private:
 
-	vector<BuildBase*> buildVector;
-
-	BuildBase* hatchery;
-	BuildBase* hatchery2;
-
-	bool test;
-
 public:
 	BuildManager();
 	~BuildManager();

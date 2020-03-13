@@ -3,6 +3,7 @@
 
 class Larva : public UnitBase
 {
+
 public:
 	Larva();
 	~Larva();
@@ -13,5 +14,8 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
+	void PlayAnimation();
+
 };
 

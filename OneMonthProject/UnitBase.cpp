@@ -25,3 +25,7 @@ void UnitBase::Update()
 void UnitBase::Render(HDC hdc)
 {
 }
+
+void UnitBase::PlayAnimation()
+{
+}

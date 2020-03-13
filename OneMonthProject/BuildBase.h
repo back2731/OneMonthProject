@@ -22,9 +22,9 @@ struct BuildStatus
 	float		buildRectX;				// 건물 렉트 X
 	float		buildRectY;				// 건물 렉트 Y
 
-	int			frameCount;
-	int			frameIndex;
-
+	int			frameCount;				// 애니메이션용 카운트 변수
+	int			frameIndexX;			// 애니메이션용 인덱스 변수 X
+	int			frameIndexY;			// 애니메이션용 인덱스 변수 Y
 };
 
 class BuildBase
@@ -43,8 +43,13 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	RECT	GetBuildingRect() { return buildStatus.buildRect; }
+	virtual void PlayAnimation();
+
+	RECT GetBuildingRect() { return buildStatus.buildRect; }
 
 	int GetBuildingPlayerNumber() { return buildStatus.playerNumber; }
+
+	void SetIsClick(bool _isClick) { isClick = _isClick; }
+	bool GetIsClick() { return isClick; }
 };
 

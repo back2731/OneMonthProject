@@ -19,7 +19,6 @@
 class UnitManager : public SingletonBase<UnitManager>
 {
 private:
-	vector<UnitBase*> unitVector;
 
 public:
 	UnitManager();
@@ -29,5 +28,7 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
+	Larva* CreateLarva(POINT XY);
 };
 

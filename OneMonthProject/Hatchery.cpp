@@ -37,7 +37,7 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.playerNumber = _playerNumber;
 
 	buildStatus.buildingMaxHp = 1250;
-	buildStatus.buildingCurrentHp = 500;
+	buildStatus.buildingCurrentHp = 1250;
 	buildStatus.buildingAtk = 0;
 	buildStatus.buildingDef = 1;
 	buildStatus.buildTime = 120;
@@ -46,15 +46,22 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildingGasPrice = 0;
 
 	buildStatus.buildImage = IMAGEMANAGER->FindImage("Hatchery");
-	buildStatus.buildAnimation = ANIMATIONMANAGER->FindAnimation("HatcheryAnimation");
 	buildStatus.buildingSelectImage = IMAGEMANAGER->FindImage("4X3");
 
 	buildStatus.buildRect = RectMakeCenter(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
 	buildStatus.buildRectX = buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2;
 	buildStatus.buildRectY = buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2;
-	
+
 	buildStatus.frameCount = 0;
-	buildStatus.frameIndex = 0;
+	buildStatus.frameIndexX = 0;
+	buildStatus.frameIndexY = 0;
+
+	isClick = false;
+
+	larvaVector.push_back(UNITMANAGER->CreateLarva({ buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2 + 50, buildStatus.buildRect.bottom - 40 }));
+	larvaVector.push_back(UNITMANAGER->CreateLarva({ buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2, buildStatus.buildRect.bottom - 40 }));
+	larvaVector.push_back(UNITMANAGER->CreateLarva({ buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2 - 50, buildStatus.buildRect.bottom - 40 }));
+
 	PROGRESSMANAGER->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
 	PROGRESSMANAGER->SetGauge(buildStatus.buildingCurrentHp, buildStatus.buildingMaxHp);
 }
@@ -70,32 +77,58 @@ void Hatchery::Release()
 
 void Hatchery::Update()
 {
-	buildStatus.frameCount++;
-	buildStatus.buildImage->SetFrameY(0);
-	if (buildStatus.frameCount % 30 == 0)
+
+	//if (PtInRect(&buildStatus.buildRect, m_ptMouse))
+	//{
+	//	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	//	{
+	//		isClick = !isClick;
+	//		buildStatus.buildingCurrentHp -= 50;
+	//	}
+	//}
+			
+	PlayAnimation();
+
+	for (auto& larva : larvaVector)
 	{
-		buildStatus.frameCount = 0;
-		if (buildStatus.frameIndex >= buildStatus.buildImage->GetMaxFrameX())
-		{
-			buildStatus.frameIndex = 0;
-		}
-		buildStatus.buildImage->SetFrameX(buildStatus.frameIndex);
-		buildStatus.frameIndex++;
+		larva->Update();
 	}
+
+	PROGRESSMANAGER->SetGauge(buildStatus.buildingCurrentHp, buildStatus.buildingMaxHp);
 }
 
 void Hatchery::Render(HDC hdc)
 {
-	if (PtInRect(&buildStatus.buildRect, m_ptMouse))
-	{
-		if (KEYMANAGER->IsToggleKey(VK_LBUTTON))
-		{
-			buildStatus.buildingSelectImage->Render
-			(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImage->GetWidth() / 2, buildStatus.buildRectY - buildStatus.buildingSelectImage->GetHeight() / 2);
-			PROGRESSMANAGER->Render
-			(hdc, buildStatus.buildRectX - IMAGEMANAGER->FindImage("ZurgProgressBack")->GetWidth() / 2, buildStatus.buildRect.bottom - 75);
-		}
+	if (isClick)
+	{  
+		buildStatus.buildingSelectImage->Render
+		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImage->GetWidth() / 2, buildStatus.buildRectY - buildStatus.buildingSelectImage->GetHeight() / 2);
+		PROGRESSMANAGER->Render
+		(hdc, buildStatus.buildRectX - IMAGEMANAGER->FindImage("ZurgProgressBack")->GetWidth() / 2, buildStatus.buildRect.bottom - 75);
 	}
 
-	buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndex,0);
+	buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
+
+	for (auto& larva : larvaVector)
+	{
+		larva->Render(hdc);
+	}
+}
+
+void Hatchery::PlayAnimation()
+{
+	buildStatus.frameIndexY = 0;
+
+	buildStatus.frameCount++;
+	buildStatus.buildImage->SetFrameY(buildStatus.frameIndexY);
+	if (buildStatus.frameCount % 10 == 0)
+	{
+		buildStatus.frameCount = 0;
+		if (buildStatus.frameIndexX >= buildStatus.buildImage->GetMaxFrameX())
+		{
+			buildStatus.frameIndexX = 0;
+		}
+		buildStatus.buildImage->SetFrameX(buildStatus.frameIndexX);
+		buildStatus.frameIndexX++;
+	}
 }

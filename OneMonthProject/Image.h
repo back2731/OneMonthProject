@@ -131,7 +131,7 @@ public:
 	//가로,세로크기 얻기
 	inline int GetWidth() { return _imageInfo->width; }
 	inline int GetHeight() { return _imageInfo->height; }
-
+		
 	//바운딩 박스(충돌용)
 	inline RECT GetBoundingBox()
 	{

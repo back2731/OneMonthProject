@@ -25,3 +25,7 @@ void BuildBase::Update()
 void BuildBase::Render(HDC hdc)
 {
 }
+
+void BuildBase::PlayAnimation()
+{
+}

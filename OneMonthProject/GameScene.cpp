@@ -15,10 +15,11 @@ HRESULT GameScene::Init()
 {
 	mainMap = new MainMap;
 	mainMap->Init();
-	BUILDMANAGER->Init();
-	UNITMANAGER->Init();
 
-	m_MyBuilding.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2}));
+	// 檬扁 秦贸府 积己
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2}));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2 - 400, WINSIZEY / 2}));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2 + 400, WINSIZEY / 2}));
 
 	return S_OK;
 }
@@ -32,27 +33,36 @@ void GameScene::Update()
 {
 	mainMap->Update();
 
-	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
-	{
-		m_MyBuilding.push_back(BUILDMANAGER->CreateHatchery(m_ptMouse));
-	}
-
-	BUILDMANAGER->Update();
-	UNITMANAGER->Update();
-	for (auto& building : m_MyBuilding)
+	for (auto& building : buildingVector)
 	{
 		building->Update();
+	}
+	
+	for (int i = 0; i < buildingVector.size(); i++)
+	{
+		if (PtInRect(&buildingVector[i]->GetBuildingRect(), m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) && !buildingVector[i]->GetIsClick())
+			{
+				for (int j = 0; j < buildingVector.size(); j++)
+				{
+					buildingVector[j]->SetIsClick(false);
+					buildingVector[i]->SetIsClick(true);
+				}
+			}
+		}
 	}
 }
 
 void GameScene::Render()
 {
 	mainMap->Render();
-	BUILDMANAGER->Render(GetMemDC());
-	UNITMANAGER->Render(GetMemDC());
 
-	for (auto& building : m_MyBuilding)
+	for (auto& building : buildingVector)
 	{
 		building->Render(GetMemDC());
 	}
+	sprintf_s(str, "count :  %d", count);
+	TextOut(GetMemDC(), 800, 0, str, strlen(str));
+
 }

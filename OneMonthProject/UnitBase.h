@@ -22,6 +22,10 @@ struct UnitStatus
 	RECT		unitRect;				// 유닛 렉트
 	float		unitRectX;				// 유닛 렉트 X
 	float		unitRectY;				// 유닛 렉트 Y
+
+	int			frameCount;				// 애니메이션용 카운트 변수
+	int			frameIndexX;			// 애니메이션용 인덱스 변수 X
+	int			frameIndexY;			// 애니메이션용 인덱스 변수 Y
 };
 class UnitBase
 {
@@ -36,5 +40,8 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+	virtual void PlayAnimation();
+
 };
 

@@ -8,6 +8,10 @@ class GameScene : public GameNode
 {
 private:
 	MainMap* mainMap;
+	vector<BuildBase*> buildingVector;
+
+	int count;
+	char str[128];
 
 public:
 	GameScene();
@@ -18,7 +22,5 @@ public:
 	void Update();
 	void Render();
 
-private:
-	vector<BuildBase*> m_MyBuilding;
 };
 
