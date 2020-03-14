@@ -37,10 +37,13 @@ void CameraManager::Render(Image* img)
 {
 	sprintf_s(str, "x :  %d", m_ptMouse.x);
 	TextOut(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2 + 100, cameraCenter.y - WINSIZEY / 2, str, strlen(str));
+	sprintf_s(str, "y :  %d", m_ptMouse.y);
+	TextOut(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2 + 200, cameraCenter.y - WINSIZEY / 2, str, strlen(str));
+
 	GdiTransparentBlt(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2, WINSIZEX, WINSIZEY, camera->GetMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(255, 255, 255));
 	TIMEMANAGER->Render(img->GetMemDC());
 
-	IMAGEMANAGER->FindImage("ZurgConsole")->Render(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
+	//IMAGEMANAGER->FindImage("ZurgConsole")->Render(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
 }
 
 void CameraManager::SetCameraCenter(POINT point)

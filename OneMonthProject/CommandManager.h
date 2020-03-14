@@ -5,13 +5,10 @@
 #include "SelectLarva.h"
 #include "SetRallyPoint.h"
 
-#define COMMANDMAX 9
-
 class CommandManager : public SingletonBase<CommandManager>
 {
 private:
-	CommandBase*	hatcheryCommand[COMMANDMAX];
-	RECT			commandSlot[COMMANDMAX];
+
 public:
 	CommandManager();
 	~CommandManager();
@@ -20,5 +17,6 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
 };
 

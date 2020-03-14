@@ -1,4 +1,5 @@
 #pragma once
+#define IMAGESIZECONTROL 2
 class ResourceCollection
 {
 public:

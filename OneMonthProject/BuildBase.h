@@ -1,4 +1,9 @@
 #pragma once
+#include "CommandBase.h"
+
+#define COMMANDMAX 9
+#define COMMANDSLOTSIZE 64
+
 struct BuildStatus
 {
 	int			playerNumber;			// 플레이어 넘버
@@ -17,6 +22,7 @@ struct BuildStatus
 	Image*		buildingSelectImage;	// 건물 선택 테두리 이미지
 	Image*		buildingFrontProgress;	// 건물 체력바 (전면)
 	Image*		buildingBackProgress;	// 건물 체력바 (후면)
+	Image*		buildingWireFrame;		// 건물 와이어프레임
 
 	RECT		buildRect;				// 건물 렉트
 	float		buildRectX;				// 건물 렉트 X
@@ -30,9 +36,13 @@ struct BuildStatus
 class BuildBase
 {
 protected:
+
 	BuildStatus		buildStatus;
 		
 	bool			isClick;
+
+	CommandBase*	commandSlot[COMMANDMAX];
+	RECT			commandRect[COMMANDMAX];
 
 public:
 	BuildBase();

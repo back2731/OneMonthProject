@@ -33,9 +33,9 @@ void GameScene::Update()
 {
 	mainMap->Update();
 
-	for (auto& building : buildingVector)
+	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		building->Update();
+		buildingVector[i]->Update();
 	}
 	
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -58,10 +58,13 @@ void GameScene::Render()
 {
 	mainMap->Render();
 
-	for (auto& building : buildingVector)
+	IMAGEMANAGER->FindImage("ZurgConsole")->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+
+	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		building->Render(GetMemDC());
+		buildingVector[i]->Render(GetMemDC());
 	}
+
 	sprintf_s(str, "count :  %d", count);
 	TextOut(GetMemDC(), 800, 0, str, strlen(str));
 

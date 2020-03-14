@@ -8,7 +8,7 @@ class Hatchery : public BuildBase
 private:
 	vector<UnitBase*> larvaVector;
 
-	int count;
+	char str[128];
 
 public:
 	Hatchery();
