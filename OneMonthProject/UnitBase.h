@@ -1,4 +1,6 @@
 #pragma once
+#include "CommandBase.h"
+#include "ProgressBar.h"
 
 struct UnitStatus
 {
@@ -30,7 +32,13 @@ struct UnitStatus
 class UnitBase
 {
 protected:
-	UnitStatus	unitStatus;
+	UnitStatus		unitStatus;
+	ProgressBar*	progressBar;
+
+	bool			isClick;
+
+	CommandBase*	commandSlot[COMMANDMAX];
+	RECT			commandRect[COMMANDMAX];
 
 public:
 	UnitBase();
@@ -42,6 +50,13 @@ public:
 	virtual void Render(HDC hdc);
 
 	virtual void PlayAnimation();
+
+	RECT GetUnitRect() { return unitStatus.unitRect; }
+
+	int GetUnitPlayerNumber() { return unitStatus.playerNumber; }
+
+	void SetIsClick(bool _isClick) { isClick = _isClick; }
+	bool GetIsClick() { return isClick; }
 
 };
 

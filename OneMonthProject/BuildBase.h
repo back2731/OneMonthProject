@@ -1,8 +1,6 @@
 #pragma once
 #include "CommandBase.h"
-
-#define COMMANDMAX 9
-#define COMMANDSLOTSIZE 64
+#include "ProgressBar.h"
 
 struct BuildStatus
 {
@@ -38,7 +36,8 @@ class BuildBase
 protected:
 
 	BuildStatus		buildStatus;
-		
+	ProgressBar*	progressBar;
+
 	bool			isClick;
 
 	CommandBase*	commandSlot[COMMANDMAX];

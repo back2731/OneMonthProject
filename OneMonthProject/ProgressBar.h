@@ -1,6 +1,5 @@
 #pragma once
-#include"SingletonBase.h"
-class ProgressBar :public SingletonBase<ProgressBar>
+class ProgressBar 
 {
 private:
 

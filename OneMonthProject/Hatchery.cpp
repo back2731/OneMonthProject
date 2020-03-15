@@ -13,6 +13,8 @@ Hatchery::~Hatchery()
 
 Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 {
+	progressBar = new ProgressBar;
+
 	buildStatus.playerNumber = _playerNumber;
 
 	buildStatus.buildingMaxHp = 1250;
@@ -42,7 +44,7 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	larvaVector.push_back(UNITMANAGER->CreateLarva({ buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2, buildStatus.buildRect.bottom - 40 }));
 	larvaVector.push_back(UNITMANAGER->CreateLarva({ buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2 - 50, buildStatus.buildRect.bottom - 40 }));
 
-	PROGRESSMANAGER->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
+	progressBar->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
 
 	// 명령 슬롯 생성 - > 함수화
 	commandSlot[0] = new SelectLarva;
@@ -66,7 +68,7 @@ HRESULT Hatchery::Init()
 
 void Hatchery::Release()
 {
-
+	SAFE_DELETE(progressBar);
 }
 
 void Hatchery::Update()
@@ -87,7 +89,11 @@ void Hatchery::Update()
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
-				commandSlot[0]->Update();
+				for (int i = 0; i < larvaVector.size(); i++)
+				{
+					larvaVector[i]->SetIsClick(true);
+				}
+				isClick = false;
 			}
 		}
 	}
@@ -97,15 +103,25 @@ void Hatchery::Update()
 		for (int j = 0; j < 3; j++)
 		{
 			commandRect[i * 3 + j] = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335 + (j * 85), CAMERAMANAGER->GetCameraCenter().y + 225 + (i * 75), 70, 70);
-
 		}
 	}
 
-	if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
+	for (int i = 0; i < larvaVector.size(); i++)
 	{
-		buildStatus.buildingCurrentHp -= 50;
+		if (PtInRect(&larvaVector[i]->GetUnitRect(), m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) && !larvaVector[i]->GetIsClick())
+			{
+				for (int j = 0; j < larvaVector.size(); j++)
+				{
+					larvaVector[j]->SetIsClick(false);
+					larvaVector[i]->SetIsClick(true);
+				}
+			}
+		}
 	}
-	PROGRESSMANAGER->SetGauge(buildStatus.buildingCurrentHp, buildStatus.buildingMaxHp);
+
+	progressBar->SetGauge(buildStatus.buildingCurrentHp, buildStatus.buildingMaxHp);
 }
 
 void Hatchery::Render(HDC hdc)
@@ -115,7 +131,7 @@ void Hatchery::Render(HDC hdc)
 	{  
 		buildStatus.buildingSelectImage->Render
 		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImage->GetWidth() / 2, buildStatus.buildRectY - buildStatus.buildingSelectImage->GetHeight() / 2);
-		PROGRESSMANAGER->Render
+		progressBar->Render
 		(hdc, buildStatus.buildRectX - IMAGEMANAGER->FindImage("ZurgProgressBack")->GetWidth() / 2, buildStatus.buildRect.bottom - 75);
 	}
 

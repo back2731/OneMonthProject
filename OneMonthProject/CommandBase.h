@@ -1,4 +1,6 @@
 #pragma once
+#define COMMANDMAX 9
+
 class CommandBase
 {
 private:
