@@ -8,6 +8,7 @@ private:
 	MainMap* mainMap;
 	vector<BuildBase*> buildingVector;
 	vector<UnitBase*> unitVector;
+	vector<UnitBase*> selectVector;
 
 	int count;
 	char str[128];

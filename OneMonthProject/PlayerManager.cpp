@@ -39,3 +39,10 @@ void PlayerManager::SetXY(int x, int y)
 	saveX = x;
 	saveY = y;
 }
+
+UnitBase * PlayerManager::ReturnUnitVector()
+{
+	tempUnitBase = tempVector[0];
+	tempVector.clear();
+	return tempUnitBase;
+}

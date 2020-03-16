@@ -97,6 +97,11 @@ void GameScene::Update()
 						buildingVector[k]->SetIsClick(false);
 					}
 				}
+				// 선택된 유닛을 셀렉트 벡터에 담는다
+				if (unitVector[i]->GetIsClick())
+				{
+					selectVector.push_back(unitVector[i]);
+				}
 			}
 		}
 	}
@@ -114,9 +119,24 @@ void GameScene::Update()
 			if (unitVector[i]->GetHatcheryX() == PLAYERMANAGER->GetSaveX() && unitVector[i]->GetHatcheryY() == PLAYERMANAGER->GetSaveY())
 			{
 				unitVector[i]->SetIsClick(true);
+				selectVector.push_back(unitVector[i]);
 			}
 		}
 		PLAYERMANAGER->SetSelectLarva(false);
+	}
+
+	if (PLAYERMANAGER->GetTempVector().size() > 0)
+	{
+		unitVector.push_back(PLAYERMANAGER->ReturnUnitVector());
+	}
+
+	// 선택이 해제됐다면 벡터에서 지운다
+	for (int i = 0; i < selectVector.size(); i++)
+	{
+		if(selectVector[i]->GetIsClick() == false)
+		{
+			selectVector.erase(selectVector.begin() + i); 
+		}
 	}
 }
 
@@ -162,4 +182,5 @@ void GameScene::Render()
 	{
 		unitVector[i]->RenderUI(GetMemDC());
 	}
+
 }

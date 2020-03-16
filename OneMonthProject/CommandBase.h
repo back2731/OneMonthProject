@@ -26,7 +26,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	virtual	void GetBirthXY(float X, float Y);
+	virtual	void GetBirthXY(int X, int Y);
 
 
 };

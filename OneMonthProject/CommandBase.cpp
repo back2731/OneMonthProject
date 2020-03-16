@@ -28,6 +28,6 @@ void CommandBase::Render(HDC hdc)
 {
 }
 
-void CommandBase::GetBirthXY(float X, float Y)
+void CommandBase::GetBirthXY(int X, int Y)
 {
 }

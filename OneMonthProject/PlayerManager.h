@@ -8,6 +8,9 @@ private:
 	
 	bool selectLarva;
 
+	vector<UnitBase*> tempVector;
+	UnitBase* tempUnitBase;
+
 public:
 	PlayerManager();
 	~PlayerManager();
@@ -23,5 +26,9 @@ public:
 	void SetXY(int x, int y);
 	int GetSaveX() { return saveX; }
 	int GetSaveY() { return saveY; }
+
+	vector<UnitBase*> GetTempVector() { return tempVector; }
+	void GetUnitVector(UnitBase* unitClass) { tempVector.push_back(unitClass); }
+	UnitBase* ReturnUnitVector();
 };
 

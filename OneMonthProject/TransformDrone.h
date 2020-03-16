@@ -5,8 +5,8 @@ class TransformDrone : public CommandBase
 {
 private:
 
-	float birthX;
-	float birthY;
+	int birthX;
+	int birthY;
 
 public:
 	TransformDrone();
@@ -17,6 +17,6 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void GetBirthXY(float X, float Y);
+	void GetBirthXY(int X, int Y);
 };
 

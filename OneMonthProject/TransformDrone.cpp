@@ -22,14 +22,14 @@ void TransformDrone::Release()
 
 void TransformDrone::Update()
 {
-	UNITMANAGER->CreateDrone({ birthX ,birthY });
+	PLAYERMANAGER->GetUnitVector(UNITMANAGER->CreateDrone({ birthX ,birthY }));
 }
 
 void TransformDrone::Render(HDC hdc)
 {
 }
 
-void TransformDrone::GetBirthXY(float X, float Y)
+void TransformDrone::GetBirthXY(int X, int Y)
 {
 	birthX = X;
 	birthY = Y;
