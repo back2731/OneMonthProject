@@ -27,3 +27,7 @@ void CommandBase::Update()
 void CommandBase::Render(HDC hdc)
 {
 }
+
+void CommandBase::GetBirthXY(float X, float Y)
+{
+}

@@ -2,8 +2,28 @@
 #include "CommandBase.h"
 #include "ProgressBar.h"
 
+enum DIRECTION
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	LEFTUP,
+	LEFTDOWN,
+	RIGHTUP,
+	RIGHTDOWN
+};
+
+enum UNITKIND
+{
+	LARVA,
+	DRONE,
+};
+
 struct UnitStatus
 {
+	UNITKIND	unitKind;				// 유닛 종류
+
 	int			playerNumber;			// 플레이어 넘버
 
 	int			unitMaxHp;				// 유닛 최대 체력
@@ -29,11 +49,14 @@ struct UnitStatus
 	int			frameIndexX;			// 애니메이션용 인덱스 변수 X
 	int			frameIndexY;			// 애니메이션용 인덱스 변수 Y
 };
+
 class UnitBase
 {
 protected:
 	UnitStatus		unitStatus;
 	ProgressBar*	progressBar;
+	
+	int				direction;
 
 	bool			isClick;
 
@@ -49,7 +72,13 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	virtual void PlayAnimation();
+	virtual void RenderUI(HDC hdc);
+
+	virtual int GetHatcheryX();
+	virtual int GetHatcheryY();
+	virtual int GetLarvaNumber();
+
+	void PlayAnimation();
 
 	RECT GetUnitRect() { return unitStatus.unitRect; }
 
@@ -57,6 +86,12 @@ public:
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }
 	bool GetIsClick() { return isClick; }
+
+	void SetCommandSlot(int rectNumber, CommandBase* commandClass);
+	void SetCommandRect();
+
+	UNITKIND GetUnitKind() { return unitStatus.unitKind; }
+
 
 };
 

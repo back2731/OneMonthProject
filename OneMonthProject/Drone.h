@@ -6,10 +6,15 @@ class Drone : public UnitBase
 public:
 	Drone();
 	~Drone();
+	Drone(int _playerNumber, POINT birthXY);
 
-	HRESULT Init();
-	void Release();
-	void Update();
-	void Render(HDC hdc);
+	HRESULT Init() override;
+	void Release() override;
+	void Update() override;
+	void Render(HDC hdc) override;
+
+	void RenderUI(HDC hdc) override;
+
+	void PlayAnimation();
 };
 

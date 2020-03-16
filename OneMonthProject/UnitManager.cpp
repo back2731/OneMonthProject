@@ -31,7 +31,12 @@ void UnitManager::Render(HDC hdc)
 
 }
 
-Larva * UnitManager::CreateLarva(POINT XY)
+Larva * UnitManager::CreateLarva(POINT XY, int _hatcheryX, int _hatcheryY, int _larvaNumber)
 {
-	return new Larva(PLAYER1, XY);
+	return new Larva(PLAYER1, XY, _hatcheryX, _hatcheryY, _larvaNumber);
+}
+
+Drone * UnitManager::CreateDrone(POINT XY)
+{
+	return new Drone(PLAYER1, XY);
 }

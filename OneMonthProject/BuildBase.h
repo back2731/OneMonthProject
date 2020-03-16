@@ -2,8 +2,15 @@
 #include "CommandBase.h"
 #include "ProgressBar.h"
 
+enum BUILDKIND
+{
+	HATCHERY,
+};
+
 struct BuildStatus
 {
+	BUILDKIND	buidKind;				// 건물종류
+
 	int			playerNumber;			// 플레이어 넘버
 
 	int			buildingMaxHp;			// 건물 최대 체력
@@ -43,6 +50,8 @@ protected:
 	CommandBase*	commandSlot[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
+	int currentLarva;
+
 public:
 	BuildBase();
 	~BuildBase();
@@ -52,13 +61,26 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	virtual void PlayAnimation();
+	virtual void RenderUI(HDC hdc);
+
+	virtual int GetMaxLarva();
+	virtual int GetCurrentLarva();
+	virtual void SetCurrentLarva(int _currentLarva);
+
+	void PlayAnimation();
 
 	RECT GetBuildingRect() { return buildStatus.buildRect; }
+	int GetBuildingRectX() { return buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2; }
+	int GetBuildingRectY() { return buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2; }
 
 	int GetBuildingPlayerNumber() { return buildStatus.playerNumber; }
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }
 	bool GetIsClick() { return isClick; }
+
+	void SetCommandSlot(int rectNumber, CommandBase* commandClass);
+	void SetCommandRect();
+
+	BUILDKIND GetBuildKind() { return buildStatus.buidKind; }
 };
 

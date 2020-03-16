@@ -29,6 +29,7 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	Larva* CreateLarva(POINT XY);
+	Larva* CreateLarva(POINT XY, int _hatcheryX, int _hatcheryY, int _larvaNumber);
+	Drone* CreateDrone(POINT XY);
 };
 

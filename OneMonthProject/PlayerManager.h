@@ -1,6 +1,13 @@
 #pragma once
-class PlayerManager
+#include "SingletonBase.h"
+class PlayerManager : public SingletonBase<PlayerManager>
 {
+private:
+	int saveX;
+	int saveY;
+	
+	bool selectLarva;
+
 public:
 	PlayerManager();
 	~PlayerManager();
@@ -9,5 +16,12 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
+	void SetSelectLarva(bool _isPush) { selectLarva = _isPush; }
+	bool GetSelectLarvaValue() { return selectLarva; }
+
+	void SetXY(int x, int y);
+	int GetSaveX() { return saveX; }
+	int GetSaveY() { return saveY; }
 };
 

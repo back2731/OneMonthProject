@@ -265,6 +265,36 @@
     <Filter Include="MainGame\Command\CommandList\SetRallyPoint">
       <UniqueIdentifier>{0b4b5c54-8959-480a-9c16-2b73fc63a1b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva">
+      <UniqueIdentifier>{8c7f5108-3c6c-40c9-8235-50505176c00c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformDrone">
+      <UniqueIdentifier>{3d69b88b-caec-4485-84b2-8a96980bd777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformZergling">
+      <UniqueIdentifier>{d69a0480-4baa-4852-8111-0d110f9e080d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformOverlord">
+      <UniqueIdentifier>{1938d66a-5e91-42dc-9563-53c078597f46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformHydralisk">
+      <UniqueIdentifier>{95f30211-c00a-4e2f-9c84-63f6887f6b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformMutalisk">
+      <UniqueIdentifier>{9ca1c72d-c969-4b53-93ac-9972625519e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformScourge">
+      <UniqueIdentifier>{6e8a0415-0c95-4f3a-bbe3-91a2a99823eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformQueen">
+      <UniqueIdentifier>{0342da90-229b-47bc-b151-7cd53048aa28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformUltralisk">
+      <UniqueIdentifier>{1b751279-68d3-4bbe-bf14-c1eedd4bec71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformDefiler">
+      <UniqueIdentifier>{bae86e8c-3884-4ffc-88d8-fab5f3e4a663}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapToolScene.h">
@@ -519,6 +549,33 @@
     <ClInclude Include="SetRallyPoint.h">
       <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
     </ClInclude>
+    <ClInclude Include="TransformDrone.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformDrone</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformZergling.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformZergling</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformOverlord.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformOverlord</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformHydralisk.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformHydralisk</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformMutalisk.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformMutalisk</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformScourge.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformScourge</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformQueen.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformQueen</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformUltralisk.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformUltralisk</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformDefiler.h">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformDefiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapToolScene.cpp">
@@ -754,6 +811,33 @@
     </ClCompile>
     <ClCompile Include="SetRallyPoint.cpp">
       <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformDrone.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformDrone</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformZergling.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformZergling</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformOverlord.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformOverlord</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformHydralisk.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformHydralisk</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformMutalisk.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformMutalisk</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformScourge.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformScourge</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformQueen.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformQueen</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUltralisk.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformUltralisk</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformDefiler.cpp">
+      <Filter>MainGame\Command\CommandList\TransformLarva\TransformDefiler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
