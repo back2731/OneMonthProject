@@ -24,10 +24,7 @@ void PlayerManager::Release()
 
 void PlayerManager::Update()
 {
-	if (selectLarva)
-	{
 
-	}
 }
 
 void PlayerManager::Render(HDC hdc)

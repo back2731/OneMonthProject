@@ -74,8 +74,6 @@ void Larva::Release()
 
 void Larva::Update()
 {
-	PlayAnimation();
-
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 
@@ -95,6 +93,8 @@ void Larva::Update()
 			}
 		}
 	}
+
+	PlayAnimation();
 }
 
 void Larva::Render(HDC hdc)

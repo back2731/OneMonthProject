@@ -5,7 +5,6 @@ class Hatchery : public BuildBase
 {
 private:
 
-
 public:
 	Hatchery();
 	~Hatchery();
@@ -19,6 +18,6 @@ public:
 	void RenderUI(HDC hdc) override;
 	
 	int GetCurrentLarva() { return currentLarva; }
-	void SetCurrentLarva(int _currentLarva) { currentLarva = _currentLarva; }
+	void SetCurrentLarva(int _currentLarva) { currentLarva += _currentLarva; }
 };
 

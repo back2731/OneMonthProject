@@ -3,6 +3,8 @@
 
 class Drone : public UnitBase
 {
+private:
+	char str[128];
 public:
 	Drone();
 	~Drone();

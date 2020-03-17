@@ -34,7 +34,6 @@ HRESULT GameScene::Init()
 			buildingVector[i]->SetCurrentLarva(LARVAMAX);
 		}
 	}
-
 	return S_OK;
 }
 
@@ -58,7 +57,7 @@ void GameScene::Update()
 	{
 		unitVector[i]->Update();
 	}
-	
+
 	// 해당 건물을 클릭 했을 때 상태를 변경해주는 부분
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
@@ -133,23 +132,45 @@ void GameScene::Update()
 	// 선택이 해제됐다면 벡터에서 지운다
 	for (int i = 0; i < selectVector.size(); i++)
 	{
-		if(selectVector[i]->GetIsClick() == false)
+		if (selectVector[i]->GetIsClick() == false)
 		{
-			selectVector.erase(selectVector.begin() + i); 
+			selectVector.erase(selectVector.begin() + i);
 		}
 	}
 
-	// 변신중이라면 삭제
+	// 변태를 마치면 삭제 후 해처리 현재 라바 수 감소
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		if (unitVector[i]->GetUnitKind() == LARVA)
 		{
 			if (unitVector[i]->GetIsTransform())
 			{
+				for (int j = 0; j < buildingVector.size(); j++)
+				{
+					if (unitVector[i]->GetHatcheryX() == buildingVector[j]->GetBuildingRectX() &&
+						unitVector[i]->GetHatcheryY() == buildingVector[j]->GetBuildingRectY())
+					{
+						buildingVector[j]->SetCurrentLarva(-1);
+					}
+				}
 				unitVector.erase(unitVector.begin() + i);
 			}
 		}
 	}
+
+	for (int i = 0; i < buildingVector.size(); i++)
+	{
+		if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
+		{
+			count++;
+			if (count % 200 == 0)
+			{
+				unitVector.push_back(UNITMANAGER->CreateLarva({ buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+				buildingVector[i]->SetCurrentLarva(+1);
+			}
+		}
+	}
+	COLLISIONMANAGER->SameVectorCollision(unitVector);
 }
 
 void GameScene::Render()

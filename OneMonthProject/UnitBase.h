@@ -83,6 +83,22 @@ public:
 
 	RECT GetUnitRect() { return unitStatus.unitRect; }
 
+	float GetUnitRectX() { return unitStatus.unitRectX; }
+	float GetUnitRectY() { return unitStatus.unitRectY; }
+
+	float GetUnitRectLeft() { return unitStatus.unitRect.left; }
+	float GetUnitRectTop() { return unitStatus.unitRect.top; }
+	float GetUnitRectRight() { return unitStatus.unitRect.right; }
+	float GetUnitRectBottom() { return unitStatus.unitRect.bottom; }
+	
+	void SetUnitRectX(float num) { unitStatus.unitRectX = num; }
+	void SetUnitRectY(float num) { unitStatus.unitRectY = num; }
+
+	void SetUnitRectLeft(float num) { unitStatus.unitRect.left = num; }
+	void SetUnitRectTop(float num) { unitStatus.unitRect.top = num; }
+	void SetUnitRectRight(float num) { unitStatus.unitRect.right = num; }
+	void SetUnitRectBottom(float num) { unitStatus.unitRect.bottom = num; }
+
 	int GetUnitPlayerNumber() { return unitStatus.playerNumber; }
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }
