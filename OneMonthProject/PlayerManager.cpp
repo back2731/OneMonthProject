@@ -39,7 +39,11 @@ void PlayerManager::SetXY(int x, int y)
 
 UnitBase * PlayerManager::ReturnUnitVector()
 {
-	tempUnitBase = tempVector[0];
-	tempVector.clear();
+	if (tempVector.size() > 0)
+	{
+		tempUnitBase = tempVector[0];
+		tempVector.erase(tempVector.begin());
+	}
+
 	return tempUnitBase;
 }

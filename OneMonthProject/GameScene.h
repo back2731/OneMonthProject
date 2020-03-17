@@ -13,6 +13,11 @@ private:
 	int count;
 	char str[128];
 
+	float leftPoint;
+	float topPoint;
+	float rightPoint;
+	float bottomPoint;
+
 public:
 	GameScene();
 	~GameScene();

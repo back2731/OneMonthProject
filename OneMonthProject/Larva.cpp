@@ -86,11 +86,16 @@ void Larva::Update()
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
-				commandSlot[SLOT1]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
-				isClick = false;
-				isTransDrone = true;
-				unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				PLAYERMANAGER->SetInputCommand(true);
 			}
+
+		}
+		if (PLAYERMANAGER->GetInputCommand())
+		{
+			//isClick = false;
+			isTransDrone = true;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}
 	}
 
@@ -157,6 +162,7 @@ void Larva::PlayAnimation()
 				unitStatus.frameIndexX = 0;
 				isTransform = true;
 				isTransDrone = false;
+				commandSlot[SLOT1]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
 				commandSlot[SLOT1]->Update();
 				unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 			}

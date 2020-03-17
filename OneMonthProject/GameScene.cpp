@@ -126,7 +126,10 @@ void GameScene::Update()
 
 	if (PLAYERMANAGER->GetTempVector().size() > 0)
 	{
-		unitVector.push_back(PLAYERMANAGER->ReturnUnitVector());
+		while (PLAYERMANAGER->GetTempVector().size() > 0)
+		{
+			unitVector.push_back(PLAYERMANAGER->ReturnUnitVector());
+		}
 	}
 
 	// 선택이 해제됐다면 벡터에서 지운다
@@ -170,7 +173,22 @@ void GameScene::Update()
 			}
 		}
 	}
+
 	COLLISIONMANAGER->SameVectorCollision(unitVector);
+
+	
+	//if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	//{
+	//	leftPoint = m_ptMouse.x;
+	//	topPoint = m_ptMouse.y;
+	//}
+	//if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+	//{
+	//	rightPoint = m_ptMouse.x;
+	//	bottomPoint = m_ptMouse.y;
+	//}
+
+	PLAYERMANAGER->SetInputCommand(false);
 }
 
 void GameScene::Render()
@@ -215,5 +233,7 @@ void GameScene::Render()
 	{
 		unitVector[i]->RenderUI(GetMemDC());
 	}
+
+	//Rectangle(GetMemDC(), leftPoint, topPoint, rightPoint, bottomPoint);
 
 }
