@@ -40,8 +40,11 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = RND->GetInt(16);
-	rndNum = RND->GetFromIntTo(20, 50);
+
 	isClick = false;
+	isTransform = false;
+
+	isTransDrone = false;
 
 	direction = RIGHTDOWN;
 
@@ -76,64 +79,8 @@ void Larva::Update()
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 
-	//direction = RND->GetInt(100);
-	//switch (direction)
-	//{
-	//case UP:
-	//	unitStatus.unitRectY -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom -= LARVAMOVEPOWER;
-	//	break;
-	//case DOWN:
-	//	unitStatus.unitRectY += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom += LARVAMOVEPOWER;
-	//	break;
-	//case LEFT:
-	//	unitStatus.unitRectX -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right -= LARVAMOVEPOWER;
-	//	break;
-	//case RIGHT:
-	//	unitStatus.unitRectX += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right += LARVAMOVEPOWER;
-	//	break;
-	//case LEFTUP:
-	//	unitStatus.unitRectX -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right -= LARVAMOVEPOWER;
-	//	unitStatus.unitRectY -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom -= LARVAMOVEPOWER;
-	//	break;
-	//case LEFTDOWN:
-	//	unitStatus.unitRectX -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right -= LARVAMOVEPOWER;
-	//	unitStatus.unitRectY += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom += LARVAMOVEPOWER;
-	//	break;
-	//case RIGHTUP:
-	//	unitStatus.unitRectX += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right += LARVAMOVEPOWER;
-	//	unitStatus.unitRectY -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top -= LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom -= LARVAMOVEPOWER;
-	//	break;
-	//case RIGHTDOWN:
-	//	unitStatus.unitRectX += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.left += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.right += LARVAMOVEPOWER;
-	//	unitStatus.unitRectY += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.top += LARVAMOVEPOWER;
-	//	unitStatus.unitRect.bottom += LARVAMOVEPOWER;
-	//	break;
-	//default:
-	//	break;
-	//}
+	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
+
 	if (isClick)
 	{
 		// 명령 컨트롤 업데이트
@@ -142,11 +89,12 @@ void Larva::Update()
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
 				commandSlot[SLOT1]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
-				commandSlot[SLOT1]->Update();
+				isClick = false;
+				isTransDrone = true;
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 			}
 		}
-
-	}	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
+	}
 }
 
 void Larva::Render(HDC hdc)
@@ -158,7 +106,14 @@ void Larva::Render(HDC hdc)
 		progressBar->Render
 		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRect.bottom-15);
 	}
-	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left, unitStatus.unitRect.top, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	if (isTransDrone)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left-60, unitStatus.unitRect.top-50, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left, unitStatus.unitRect.top, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
 }
 
 void Larva::RenderUI(HDC hdc)
@@ -189,29 +144,39 @@ void Larva::RenderUI(HDC hdc)
 
 void Larva::PlayAnimation()
 {
-	unitStatus.frameCount++;
-	unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
-	if (unitStatus.frameCount % 10 == 0)
+	if (isTransDrone)
 	{
-		unitStatus.frameCount = 0;
-		if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
 		{
-			unitStatus.frameIndexX = 0;
-			test++;
-			if (test % rndNum == 0)
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
 			{
-				if (unitStatus.frameIndexY < unitStatus.unitImage->GetMaxFrameY())
-				{
-					unitStatus.frameIndexY++;
-				}
-				else if (unitStatus.frameIndexY >= unitStatus.unitImage->GetMaxFrameY())
-				{
-					unitStatus.frameIndexY = 0;
-					unitStatus.frameIndexY++;
-				}
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransDrone = false;
+				commandSlot[SLOT1]->Update();
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
 		}
-		unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
-		unitStatus.frameIndexX++;
+	}
+	else
+	{
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 10 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
 	}
 }

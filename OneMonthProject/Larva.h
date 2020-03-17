@@ -22,6 +22,8 @@ private:
 	int test;
 
 	int rndNum;
+
+	bool isTransDrone;
 public:
 	Larva();
 	~Larva();

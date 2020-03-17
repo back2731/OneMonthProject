@@ -138,6 +138,18 @@ void GameScene::Update()
 			selectVector.erase(selectVector.begin() + i); 
 		}
 	}
+
+	// 변신중이라면 삭제
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		if (unitVector[i]->GetUnitKind() == LARVA)
+		{
+			if (unitVector[i]->GetIsTransform())
+			{
+				unitVector.erase(unitVector.begin() + i);
+			}
+		}
+	}
 }
 
 void GameScene::Render()

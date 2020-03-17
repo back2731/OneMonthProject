@@ -11,22 +11,9 @@ TransformDrone::~TransformDrone()
 {
 }
 
-HRESULT TransformDrone::Init()
-{
-	return E_NOTIMPL;
-}
-
-void TransformDrone::Release()
-{
-}
-
 void TransformDrone::Update()
 {
 	PLAYERMANAGER->GetUnitVector(UNITMANAGER->CreateDrone({ birthX ,birthY }));
-}
-
-void TransformDrone::Render(HDC hdc)
-{
 }
 
 void TransformDrone::GetBirthXY(int X, int Y)

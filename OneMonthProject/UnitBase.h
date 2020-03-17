@@ -59,6 +59,7 @@ protected:
 	int				direction;
 
 	bool			isClick;
+	bool			isTransform;
 
 	CommandBase*	commandSlot[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
@@ -86,6 +87,7 @@ public:
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }
 	bool GetIsClick() { return isClick; }
+	bool GetIsTransform() { return isTransform; }
 
 	void SetCommandSlot(int rectNumber, CommandBase* commandClass);
 	void SetCommandRect();

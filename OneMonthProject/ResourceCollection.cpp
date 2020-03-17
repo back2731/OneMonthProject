@@ -27,6 +27,7 @@ HRESULT ResourceCollection::Init()
 	// 셀렉트 원
 	IMAGEMANAGER->AddImage("4X3", "images/UI/4X3.bmp", 300, 300, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("1X1", "images/UI/1X1.bmp", 40, 40, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("2X2", "images/UI/2X2.bmp", 80, 80, true, RGB(255, 0, 255));
 
 	// 프로그래스바
 	IMAGEMANAGER->AddImage("ZurgProgressBack", "images/UI/ZurgProgressBack.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
@@ -39,9 +40,12 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("Hatchery", "images/Building/HatcheryTest.bmp", 714 * IMAGESIZECONTROL, 88 * IMAGESIZECONTROL, 6, 1, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("HatcheryWirefram", "images/Building/HatcheryWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
-	// 라바 이미지, 애니메이션
+	// 라바 이미지
 	IMAGEMANAGER->AddFrameImage("larva", "images/Unit/larvaTest.bmp", 180 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL * 16, 5, 16, true, RGB(0, 222, 0));
-	IMAGEMANAGER->AddFrameImage("larva2", "images/Unit/larvaTest2.bmp", 2880 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, 80, 1, true, RGB(0, 222, 0));
+	
+	// 드론 이미지
+	IMAGEMANAGER->AddFrameImage("drone", "images/Unit/droneTest.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("droneBirth", "images/Unit/droneBirth.bmp", 3072 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 32, 1, true, RGB(0, 222, 0));
 
 	// 아이콘
 	IMAGEMANAGER->AddImage("SelectLarva", "images/UI/Icon/Hatchery/SelectLarva.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));

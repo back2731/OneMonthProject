@@ -12,10 +12,7 @@ public:
 	TransformDrone();
 	~TransformDrone();
 
-	HRESULT Init();
-	void Release();
 	void Update();
-	void Render(HDC hdc);
 
 	void GetBirthXY(int X, int Y);
 };
