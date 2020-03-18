@@ -3,6 +3,7 @@
 
 class UIManager : public SingletonBase<UIManager>
 {
+
 public:
 	UIManager();
 	~UIManager();

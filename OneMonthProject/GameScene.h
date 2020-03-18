@@ -10,6 +10,9 @@ private:
 	vector<UnitBase*> unitVector;
 	vector<UnitBase*> selectVector;
 
+	RECT dragRect;
+	RECT tempRect;
+
 	int count;
 	char str[128];
 

@@ -93,7 +93,7 @@ void Larva::Update()
 		}
 		if (PLAYERMANAGER->GetInputCommand())
 		{
-			//isClick = false;
+			isClick = false;
 			isTransDrone = true;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}

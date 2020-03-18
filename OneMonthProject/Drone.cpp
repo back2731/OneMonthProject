@@ -35,7 +35,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) / 2;
 
 	unitStatus.frameCount = 0;
-	unitStatus.frameIndexY = 3;
+	unitStatus.frameIndexY = 5;
 	isClick = false;
 
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
@@ -137,7 +137,7 @@ void Drone::PlayAnimation()
 	if (unitStatus.frameCount % 10 == 0)
 	{
 		unitStatus.frameCount = 0;
-		if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX() - 5)
+		if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
 		{
 			unitStatus.frameIndexX = 0;
 		}

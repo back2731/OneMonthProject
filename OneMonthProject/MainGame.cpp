@@ -50,7 +50,7 @@ void MainGame::Update()
 	ANIMATIONMANAGER->Update();
 	SCENEMANAGER->Update();
 
-
+	ShowCursor(false);
 }
 
 void MainGame::Render(/*HDC hdc*/)
@@ -62,8 +62,6 @@ void MainGame::Render(/*HDC hdc*/)
 	//===================================================
 	
 	SCENEMANAGER->Render();
-
-
 
 	//===================================================
 	//백버퍼의 내용을 HDC에 그린다.(건드리지말것.)

@@ -20,6 +20,7 @@ HRESULT CameraManager::Init()
 	cameraXY = PointMake(cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
 
 
+
 	return S_OK;
 }
 
@@ -30,7 +31,20 @@ void CameraManager::relaese()
 void CameraManager::Update()
 {
 	cameraXY = PointMake(cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
-	//count++;
+	
+	mouseCursor = IMAGEMANAGER->FindImage("Cursor");
+	frameCount++;
+	mouseCursor->SetFrameY(0);
+	if (frameCount % 10 == 0)
+	{
+		frameCount = 0;
+		if (frameX >= mouseCursor->GetMaxFrameX())
+		{
+			frameX = 0;
+		}
+		mouseCursor->SetFrameX(frameX);
+		frameX++;
+	}
 }
 
 void CameraManager::Render(Image* img)
@@ -42,8 +56,8 @@ void CameraManager::Render(Image* img)
 
 	GdiTransparentBlt(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2, WINSIZEX, WINSIZEY, camera->GetMemDC(), 0, 0, WINSIZEX, WINSIZEY, RGB(255, 255, 255));
 	TIMEMANAGER->Render(img->GetMemDC());
-
-	//IMAGEMANAGER->FindImage("ZurgConsole")->Render(img->GetMemDC(), cameraCenter.x - WINSIZEX / 2, cameraCenter.y - WINSIZEY / 2);
+	
+	mouseCursor->FrameRender(img->GetMemDC(), m_ptMouse.x, m_ptMouse.y, frameX, frameY);
 }
 
 void CameraManager::SetCameraCenter(POINT point)

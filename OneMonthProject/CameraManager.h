@@ -4,9 +4,16 @@ class CameraManager : public SingletonBase<CameraManager>
 {
 private:
 	Image* camera;
-	
+	Image* mouseCursor;
+
 	POINT cameraCenter;
 	POINT cameraXY;
+
+	int frameX;
+	int frameY;
+	int frameCount;
+	int frameIndex;
+
 	char str[128];
 	int count;
 

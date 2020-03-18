@@ -16,6 +16,9 @@ HRESULT GameScene::Init()
 	mainMap = new MainMap;
 	mainMap->Init();
 	PLAYERMANAGER->Init();
+	buildingVector.reserve(1000);
+	unitVector.reserve(1000);
+	selectVector.reserve(50);
 
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2 - 400, WINSIZEY / 2}));
@@ -44,6 +47,7 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+
 	mainMap->Update();
 	PLAYERMANAGER->Update();
 
@@ -65,6 +69,9 @@ void GameScene::Update()
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
+				dragRect.left = m_ptMouse.x;
+				dragRect.top = m_ptMouse.y;
+
 				for (int j = 0; j < buildingVector.size(); j++)
 				{
 					buildingVector[j]->SetIsClick(false);
@@ -86,6 +93,9 @@ void GameScene::Update()
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
+				dragRect.left = m_ptMouse.x;
+				dragRect.top = m_ptMouse.y;
+
 				for (int j = 0; j < unitVector.size(); j++)
 				{
 					unitVector[j]->SetIsClick(false);
@@ -124,6 +134,7 @@ void GameScene::Update()
 		PLAYERMANAGER->SetSelectLarva(false);
 	}
 
+	// 생산된 유닛을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
 	if (PLAYERMANAGER->GetTempVector().size() > 0)
 	{
 		while (PLAYERMANAGER->GetTempVector().size() > 0)
@@ -161,6 +172,7 @@ void GameScene::Update()
 		}
 	}
 
+	// 라바 자동 생산 기능
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
 		if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
@@ -174,21 +186,55 @@ void GameScene::Update()
 		}
 	}
 
+	// 유닛간의 충돌처리 함수
 	COLLISIONMANAGER->SameVectorCollision(unitVector);
-
 	
-	//if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
-	//{
-	//	leftPoint = m_ptMouse.x;
-	//	topPoint = m_ptMouse.y;
-	//}
-	//if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-	//{
-	//	rightPoint = m_ptMouse.x;
-	//	bottomPoint = m_ptMouse.y;
-	//}
-
+	// 명령이 종료되면 false로 세팅하는 함수
 	PLAYERMANAGER->SetInputCommand(false);
+
+	// 드래그 명령문
+	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	{
+		dragRect.left = m_ptMouse.x;
+		dragRect.top = m_ptMouse.y;
+		for (int i = 0; i < buildingVector.size(); i++)
+		{
+			buildingVector[i]->SetIsClick(false);
+		}
+		for (int i = 0; i < unitVector.size(); i++)
+		{
+			unitVector[i]->SetIsClick(false);
+		}
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+	{
+		dragRect.right = m_ptMouse.x;
+		dragRect.bottom = m_ptMouse.y;
+	}
+	if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+	{
+		dragRect.right = m_ptMouse.x;
+		dragRect.bottom = m_ptMouse.y;
+	}
+
+	// 드래그된 유닛 선택 명령문
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &dragRect, &unitVector[i]->GetUnitRect()))
+		{
+			unitVector[i]->SetIsClick(true);
+			selectVector.push_back(unitVector[i]);
+		}
+	}
+
+	// 유닛들이 선택중일시에는 건물선택을 false해준다.
+	if (selectVector.size() > 0) 
+	{
+		for (int i = 0; i < buildingVector.size(); i++)
+		{
+			buildingVector[i]->SetIsClick(false);
+		}
+	}
 }
 
 void GameScene::Render()
@@ -221,6 +267,33 @@ void GameScene::Render()
 		unitVector[i]->Render(GetMemDC());
 	}
 
+	// 선택 드래그 렌더링
+	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+	{
+		HBRUSH myBrush, oldBrush;
+		HPEN myPen, oldPen;
+
+		myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		oldBrush = (HBRUSH)SelectObject(GetMemDC(), myBrush);
+		myPen = CreatePen(PS_SOLID, 2, RGB(0, 222, 0));
+		oldPen = (HPEN)SelectObject(GetMemDC(), myPen);
+
+		//Rectangle(GetMemDC(), leftPoint, topPoint, rightPoint, bottomPoint);
+		Rectangle(GetMemDC(), dragRect.left, dragRect.top, dragRect.right, dragRect.bottom);
+		
+		SelectObject(GetMemDC(), oldBrush);
+		DeleteObject(myBrush);
+		SelectObject(GetMemDC(), oldPen);
+		DeleteObject(myPen);
+	}
+	else
+	{
+		dragRect.left = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
+		dragRect.top = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
+		dragRect.right = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
+		dragRect.bottom = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
+	}
+
 	// 유닛보다는 위에 있고 유닛 UI보다는 아래에 있는 콘솔 렌더링
 	IMAGEMANAGER->FindImage("ZurgConsole")->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
 	
@@ -233,7 +306,5 @@ void GameScene::Render()
 	{
 		unitVector[i]->RenderUI(GetMemDC());
 	}
-
-	//Rectangle(GetMemDC(), leftPoint, topPoint, rightPoint, bottomPoint);
 
 }
