@@ -2,7 +2,8 @@
 #include "GameNode.h"
 #include "MapToolTile.h"
 
-
+#define SPEED 5
+#define SPEED2 3
 
 enum Select
 {
@@ -53,6 +54,7 @@ private:
 	vector<int>::iterator iter;
 	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
 
+	vector<int> saveRoad;
 
 	Select currentSelect;
 
@@ -69,11 +71,15 @@ private:
 
 	RECT playerRect;
 	int playerStart;
-
+	RECT testRect[TILESIZE];
 
 	int endX;
 	int endY;
 	int count;
+
+	int playerX;
+	int playerY;
+
 
 	HBRUSH brush;
 	HFONT font,oldFont;

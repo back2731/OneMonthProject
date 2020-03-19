@@ -21,19 +21,26 @@ HRESULT aStarScene::Init()
 			ZeroMemory(&tiles[j + i * TILEX], sizeof(tagTile));
 			tiles[j + i * TILEX].rc = RectMake(CELL_HEIGHT * j, CELL_WIDTH * i, CELL_WIDTH, CELL_HEIGHT);
 			tiles[j + i * TILEX].block = false;
+
+			testRect[j + i * TILEX] = RectMakeCenter(tiles[j + i * TILEX].rc.left + (tiles[j + i * TILEX].rc.right - tiles[j + i * TILEX].rc.left) / 2,
+				tiles[j + i * TILEX].rc.top + (tiles[j + i * TILEX].rc.bottom - tiles[j + i * TILEX].rc.top) / 2, 4 ,4);
 		}
 	}
 
 	Load(0);
 
+	playerRect = RectMakeCenter(tiles[0].rc.left + (tiles[0].rc.right - tiles[0].rc.left) / 2, tiles[0].rc.top + (tiles[0].rc.bottom - tiles[0].rc.top) / 2, 30, 30);
 
-
-	currentSelect = SELECT_START;
+	currentSelect = SELECT_END;
 
 	isFind = false;
 	noPath = false;
 	startAstar = false;
 	isArrive = false;
+
+	playerX = playerRect.left + (playerRect.right - playerRect.left) / 2;
+	playerY = playerRect.top + (playerRect.bottom - playerRect.top) / 2;
+
 
 	return S_OK;
 }
@@ -74,6 +81,23 @@ void aStarScene::Update()
 		Init();
 	}
 
+	if (!startAstar)
+	{
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (IntersectRect(&tempRect, &tiles[i].rc, &testRect[i]))
+			{
+				if (IntersectRect(&tempRect, &tiles[i].rc, &playerRect))
+				{
+					if (IntersectRect(&tempRect, &testRect[i], &playerRect))
+					{
+						startTile = i;
+					}
+				}
+			}
+		}
+	}
+
 	if (KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
 	{
 		for (int i = 0; i < TILESIZE; i++)
@@ -82,19 +106,13 @@ void aStarScene::Update()
 			{
 				switch (currentSelect)
 				{
-				case SELECT_START:
-					startTile = i + CAMERAMANAGER->GetCameraCenterX() / CELL_WIDTH + CAMERAMANAGER->GetCameraCenterY() / CELL_HEIGHT * TILEX;
-					playerStart = i + CAMERAMANAGER->GetCameraCenterX() / CELL_WIDTH + CAMERAMANAGER->GetCameraCenterY() / CELL_HEIGHT * TILEX;
-					playerRect = RectMakeCenter(tiles[playerStart].rc.left + (tiles[playerStart].rc.right - tiles[playerStart].rc.left) / 2,
-						tiles[playerStart].rc.top + (tiles[playerStart].rc.bottom - tiles[playerStart].rc.top) / 2, 30, 30);
-					break;
 				case SELECT_END:
-					endTile = i + CAMERAMANAGER->GetCameraCenterX() / CELL_WIDTH + CAMERAMANAGER->GetCameraCenterY() / CELL_HEIGHT * TILEX;
+					endTile = i;
 					endX = endTile % TILEX;
 					endY = endTile / TILEX;
 					break;
 				case SELECT_BLOCK:
-					tiles[i + CAMERAMANAGER->GetCameraCenterX() / CELL_WIDTH + CAMERAMANAGER->GetCameraCenterY() / CELL_HEIGHT * TILEX].block = true;
+					tiles[i].block = true;
 					break;
 				}
 			}
@@ -121,6 +139,8 @@ void aStarScene::Update()
 
 			openList.clear();
 			closeList.clear();
+			saveRoad.clear();
+			saveRoad.push_back(endTile);
 			count = 0;
 		}
 		if (KEYMANAGER->IsOnceKeyUp(VK_RBUTTON))
@@ -130,9 +150,10 @@ void aStarScene::Update()
 			//시작지점을 오픈리스트에 넣자
 			openList.push_back(currentTile);
 		}
+		break;
 	}
 
-	if (KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
+	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < TILESIZE; i++)
 		{
@@ -145,14 +166,67 @@ void aStarScene::Update()
 			}
 		}
 	}
-
-	if (!isFind && !noPath &&startAstar)
+	
+	if (startTile != endTile)
 	{
-		while (!isFind)
+		if (!isFind && !noPath && startAstar)
 		{
-			Astar();
+			while (!isFind && !noPath)
+			{
+				Astar();
+			}
 		}
 	}
+
+	if (!saveRoad.empty())
+	{
+		startAstar = false;
+
+		if (startTile + 1 == saveRoad.back())
+		{
+			playerX += SPEED;
+		}
+		if (startTile - 1 == saveRoad.back())
+		{
+			playerX -= SPEED;
+		}
+		if (startTile + 64 == saveRoad.back())
+		{
+			playerY += SPEED;
+		}
+		if (startTile - 64 == saveRoad.back())
+		{
+			playerY -= SPEED;
+		}
+
+		if (startTile + 65 == saveRoad.back())
+		{
+			playerX += SPEED2;
+			playerY += SPEED2;
+		}
+		if (startTile - 65 == saveRoad.back())
+		{
+			playerX -= SPEED2;
+			playerY -= SPEED2;
+		}
+		if (startTile - 63 == saveRoad.back())
+		{
+			playerX += SPEED2;
+			playerY -= SPEED2;
+		}
+		if (startTile + 63 == saveRoad.back())
+		{
+			playerX -= SPEED2;
+			playerY += SPEED2;
+		}
+
+		if (startTile == saveRoad.back())
+		{
+			saveRoad.pop_back();
+		}
+	}
+	
+	playerRect = RectMakeCenter(playerX, playerY, 30, 30);
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	CAMERAMANAGER->MoveCamera();
@@ -203,6 +277,7 @@ void aStarScene::Render()
 					BeginSolidColor(GetMemDC(), &brush, RGB(255, 255, 255));
 				}
 				RectangleMake(GetMemDC(), tiles[i].rc);
+				RectangleMake(GetMemDC(), testRect[i]);
 
 				DeleteObject(brush);
 			}
@@ -347,7 +422,6 @@ void aStarScene::Astar()
 		}
 	}
 
-
 	// 타일 렌더를 위해 상태 저장
 	for (int i = 0; i < openList.size(); i++)
 	{
@@ -364,6 +438,7 @@ void aStarScene::Astar()
 	{
 		tempTile = tiles[tempTile].node;
 		tiles[tempTile].showState = STATE_PATH;
+		saveRoad.push_back(tempTile);
 	}
 }
 

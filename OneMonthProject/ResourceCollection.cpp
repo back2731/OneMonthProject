@@ -49,6 +49,7 @@ HRESULT ResourceCollection::Init()
 	
 	// 드론 이미지
 	IMAGEMANAGER->AddFrameImage("drone", "images/Unit/drone.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("droneShadow", "images/Unit/droneShadow.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("droneBirth", "images/Unit/droneBirth.bmp", 3072 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 32, 1, true, RGB(0, 222, 0));
 
 	// 아이콘

@@ -28,6 +28,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.unitGasPrice = 0;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("drone");
+	unitStatus.unitShadowImage = IMAGEMANAGER->FindImage("droneShadow");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
 
 	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth() /3, unitStatus.unitImage->GetFrameHeight()/3);
@@ -36,6 +37,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = 5;
+	direction = 5;
 	isClick = false;
 
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
@@ -78,8 +80,6 @@ void Drone::Update()
 	//		{
 	//			direction = RIGHT;
 	//		}
-
-
 	//	}
 
 	//	switch (direction)
@@ -112,12 +112,13 @@ void Drone::Update()
 
 void Drone::Render(HDC hdc)
 {
+	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
 	if (isClick)
 	{
 		unitStatus.unitSelectImage->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImage->GetWidth() / 2, unitStatus.unitRectY - unitStatus.unitSelectImage->GetHeight() / 2);
 		progressBar->Render
-		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRect.bottom - 10);
+		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRect.bottom);
 	}
 	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	

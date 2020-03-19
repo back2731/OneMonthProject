@@ -107,6 +107,8 @@ public:
 	void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void AlphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
+	void AlphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
+
 	void AniRender(HDC hdc, int destX, int destY, Animation* ani);
 
 	//DC가져와라

@@ -36,6 +36,7 @@ struct UnitStatus
 	int			unitGasPrice;			// 유닛 가스 가격
 
 	Image*		unitImage;				// 유닛 이미지
+	Image*		unitShadowImage;		// 유닛 이미지
 	Animation*	unitAnimation;			// 유닛 애니메이션
 	Image*		unitSelectImage;		// 유닛 선택 테두리 이미지
 	Image*		unitFrontProgress;		// 유닛 체력바 (전면)
