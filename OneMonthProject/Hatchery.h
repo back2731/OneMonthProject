@@ -1,5 +1,9 @@
 #pragma once
 #include "BuildBase.h"
+#include "EvolveBurrow.h"
+#include "LairRequires.h"
+#include "SelectLarva.h"
+#include "SetRallyPoint.h"
 
 class Hatchery : public BuildBase
 {

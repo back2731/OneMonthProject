@@ -253,18 +253,6 @@
     <Filter Include="MainGame\Command\CommandList">
       <UniqueIdentifier>{3c9ae677-777b-4e39-ad77-7f689692a5a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Command\CommandList\EvolveBurrow">
-      <UniqueIdentifier>{9d9e9756-1ba7-4814-8046-4da749ff4478}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Command\CommandList\LairRequires">
-      <UniqueIdentifier>{a5b58f12-7804-4963-9cc3-3d939b5266a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Command\CommandList\SelectLarva">
-      <UniqueIdentifier>{cc776fb3-62f6-4378-83bb-d5a95082473a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Command\CommandList\SetRallyPoint">
-      <UniqueIdentifier>{0b4b5c54-8959-480a-9c16-2b73fc63a1b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Command\CommandList\TransformLarva">
       <UniqueIdentifier>{8c7f5108-3c6c-40c9-8235-50505176c00c}</UniqueIdentifier>
     </Filter>
@@ -294,6 +282,96 @@
     </Filter>
     <Filter Include="MainGame\Command\CommandList\TransformLarva\TransformDefiler">
       <UniqueIdentifier>{bae86e8c-3884-4ffc-88d8-fab5f3e4a663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\HatcheryCommand">
+      <UniqueIdentifier>{48ead0ea-0111-4d6a-80d3-fc3d15c94ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\HatcheryCommand\EvolveBurrow">
+      <UniqueIdentifier>{9d9e9756-1ba7-4814-8046-4da749ff4478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\HatcheryCommand\LairRequires">
+      <UniqueIdentifier>{a5b58f12-7804-4963-9cc3-3d939b5266a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\HatcheryCommand\SelectLarva">
+      <UniqueIdentifier>{cc776fb3-62f6-4378-83bb-d5a95082473a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\HatcheryCommand\SetRallyPoint">
+      <UniqueIdentifier>{0b4b5c54-8959-480a-9c16-2b73fc63a1b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base">
+      <UniqueIdentifier>{0c2ed5c0-8b0e-4018-a44f-6779484fc0f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\AttackCommand">
+      <UniqueIdentifier>{085f296b-cda0-438b-a763-d532dfd42f56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\HoldCommand">
+      <UniqueIdentifier>{24ffd244-eda3-484b-a186-63a35972a15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\MoveCommand">
+      <UniqueIdentifier>{62f993ef-550d-4ee0-b913-e488bbed378c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\PatrolCommand">
+      <UniqueIdentifier>{67391533-0ad4-4d98-a812-6cfb47a90670}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\PauseCommand">
+      <UniqueIdentifier>{fc985384-02b1-4d14-9c89-050f8bd090d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\StopCommand">
+      <UniqueIdentifier>{47de59f8-891e-4c14-a415-c2ca0de93ae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand">
+      <UniqueIdentifier>{5d322bf4-30f4-42b8-a999-80eab723073e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base">
+      <UniqueIdentifier>{4b6d5b03-3ce8-4c15-bd29-76578c5cd472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildCreepColony">
+      <UniqueIdentifier>{a1e97d07-7e54-436a-95d8-efc3b418ad0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildEvolutionChamber">
+      <UniqueIdentifier>{213edf52-ec3d-40c9-8f8b-291ebb28c73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildExtractor">
+      <UniqueIdentifier>{b3b21b49-dfb4-4182-a7fa-c47a94652f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildHatchery">
+      <UniqueIdentifier>{8814bc27-bce5-41a1-8ea5-46a2d56d9c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildHydraliskDen">
+      <UniqueIdentifier>{9eabade1-a597-4ea6-a767-4db9cd02d0a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BuildSpawningPool">
+      <UniqueIdentifier>{4ec201c3-313e-4ee1-be83-60063437ed58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High">
+      <UniqueIdentifier>{ae5842dd-7e53-447f-b35b-9ef82f117a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\BuildDefilerMound">
+      <UniqueIdentifier>{2a0bb9c7-36a3-40f6-97b3-ebac0e1a1b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\BuildNydusCanal">
+      <UniqueIdentifier>{432c0121-ab6a-4b8d-8396-6ec7b9810644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\BuildQueensNest">
+      <UniqueIdentifier>{f622bc38-b141-45d5-b67f-9bb0130e3f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\BuildSpire">
+      <UniqueIdentifier>{43a32f57-0265-4965-aac9-cb96910cb487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\BuildUltraliskCavern">
+      <UniqueIdentifier>{fa8e4999-3537-4a80-abea-cca9ac865a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Base\BaseBuilding">
+      <UniqueIdentifier>{0ed6fbe8-8e6d-4337-acdc-23d406ec133e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\High\HighBuilding">
+      <UniqueIdentifier>{d846d74d-e454-4fac-8b2b-78ed9266e4f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\DroneCommand\Gathering">
+      <UniqueIdentifier>{ebc9e2cc-e33b-453f-b8c6-f3b4c0a9ea04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Command\CommandList\Base\Burrow">
+      <UniqueIdentifier>{8b4d5304-89c0-47ef-b250-5051907853b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -538,16 +616,16 @@
       <Filter>MainGame\Command\CommandBase</Filter>
     </ClInclude>
     <ClInclude Include="EvolveBurrow.h">
-      <Filter>MainGame\Command\CommandList\EvolveBurrow</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\EvolveBurrow</Filter>
     </ClInclude>
     <ClInclude Include="LairRequires.h">
-      <Filter>MainGame\Command\CommandList\LairRequires</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\LairRequires</Filter>
     </ClInclude>
     <ClInclude Include="SelectLarva.h">
-      <Filter>MainGame\Command\CommandList\SelectLarva</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\SelectLarva</Filter>
     </ClInclude>
     <ClInclude Include="SetRallyPoint.h">
-      <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\SetRallyPoint</Filter>
     </ClInclude>
     <ClInclude Include="TransformDrone.h">
       <Filter>MainGame\Command\CommandList\TransformLarva\TransformDrone</Filter>
@@ -575,6 +653,69 @@
     </ClInclude>
     <ClInclude Include="TransformDefiler.h">
       <Filter>MainGame\Command\CommandList\TransformLarva\TransformDefiler</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildCreepColony.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildCreepColony</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildEvolutionChamber.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildEvolutionChamber</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildExtractor.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildHatchery.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildHatchery</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildHydraliskDen.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildHydraliskDen</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildSpawningPool.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildSpawningPool</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildDefilerMound.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildDefilerMound</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildNydusCanal.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildNydusCanal</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildQueensNest.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildQueensNest</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildSpire.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildSpire</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildUltraliskCavern.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildUltraliskCavern</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\AttackCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="HoldCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\HoldCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\MoveCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\PatrolCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\PauseCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="StopCommand.h">
+      <Filter>MainGame\Command\CommandList\Base\StopCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseBuilding.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BaseBuilding</Filter>
+    </ClInclude>
+    <ClInclude Include="HighBuilding.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\HighBuilding</Filter>
+    </ClInclude>
+    <ClInclude Include="Gathering.h">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Gathering</Filter>
+    </ClInclude>
+    <ClInclude Include="Burrow.h">
+      <Filter>MainGame\Command\CommandList\Base\Burrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -801,16 +942,16 @@
       <Filter>MainGame\Command\CommandBase</Filter>
     </ClCompile>
     <ClCompile Include="EvolveBurrow.cpp">
-      <Filter>MainGame\Command\CommandList\EvolveBurrow</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\EvolveBurrow</Filter>
     </ClCompile>
     <ClCompile Include="LairRequires.cpp">
-      <Filter>MainGame\Command\CommandList\LairRequires</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\LairRequires</Filter>
     </ClCompile>
     <ClCompile Include="SelectLarva.cpp">
-      <Filter>MainGame\Command\CommandList\SelectLarva</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\SelectLarva</Filter>
     </ClCompile>
     <ClCompile Include="SetRallyPoint.cpp">
-      <Filter>MainGame\Command\CommandList\SetRallyPoint</Filter>
+      <Filter>MainGame\Command\CommandList\HatcheryCommand\SetRallyPoint</Filter>
     </ClCompile>
     <ClCompile Include="TransformDrone.cpp">
       <Filter>MainGame\Command\CommandList\TransformLarva\TransformDrone</Filter>
@@ -838,6 +979,69 @@
     </ClCompile>
     <ClCompile Include="TransformDefiler.cpp">
       <Filter>MainGame\Command\CommandList\TransformLarva\TransformDefiler</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildCreepColony.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildCreepColony</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildEvolutionChamber.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildEvolutionChamber</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildExtractor.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildExtractor</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildHatchery.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildHatchery</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildHydraliskDen.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildHydraliskDen</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildSpawningPool.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BuildSpawningPool</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildDefilerMound.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildDefilerMound</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildNydusCanal.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildNydusCanal</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildQueensNest.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildQueensNest</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildSpire.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildSpire</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildUltraliskCavern.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\BuildUltraliskCavern</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\AttackCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="HoldCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\HoldCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\MoveCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\PatrolCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\PauseCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="StopCommand.cpp">
+      <Filter>MainGame\Command\CommandList\Base\StopCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseBuilding.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Base\BaseBuilding</Filter>
+    </ClCompile>
+    <ClCompile Include="HighBuilding.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\High\HighBuilding</Filter>
+    </ClCompile>
+    <ClCompile Include="Gathering.cpp">
+      <Filter>MainGame\Command\CommandList\DroneCommand\Gathering</Filter>
+    </ClCompile>
+    <ClCompile Include="Burrow.cpp">
+      <Filter>MainGame\Command\CommandList\Base\Burrow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

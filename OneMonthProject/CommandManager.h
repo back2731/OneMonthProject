@@ -1,9 +1,12 @@
 #pragma once
 #include "SingletonBase.h"
-#include "EvolveBurrow.h"
-#include "LairRequires.h"
-#include "SelectLarva.h"
-#include "SetRallyPoint.h"
+#include "AttackCommand.h"
+#include "HoldCommand.h"
+#include "MoveCommand.h"
+#include "StopCommand.h"
+#include "PauseCommand.h"
+#include "PatrolCommand.h"
+#include "Burrow.h"
 
 class CommandManager : public SingletonBase<CommandManager>
 {

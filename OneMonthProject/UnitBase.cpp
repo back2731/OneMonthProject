@@ -11,7 +11,7 @@ UnitBase::~UnitBase()
 
 HRESULT UnitBase::Init()
 {
-	return S_OK;
+	return E_NOTIMPL;
 }
 
 void UnitBase::Release()

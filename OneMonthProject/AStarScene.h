@@ -5,6 +5,25 @@
 #define SPEED 5
 #define SPEED2 3
 
+
+//크기
+#define CELL_WIDTH	64
+#define CELL_HEIGHT 64
+
+//타일 갯수
+#define TILE_COUNT_X 64
+#define TILE_COUNT_Y 64
+
+//타일 이미지
+#define TILE_SIZE_X 16
+#define TILE_SIZE_Y 17
+
+#define TILE_MAX 1
+
+#define TILEX 64
+#define TILEY 64
+#define TILESIZE TILEX*TILEY
+
 enum Select
 {
 	SELECT_START,
@@ -94,21 +113,24 @@ private:
 	int currentX;
 	int currentY;
 
-	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };
+	RECT cameraRect;
 	RECT tempRect;
 	
 public:
 	aStarScene();
 	~aStarScene();
 
-	HRESULT Init();
+	HRESULT Init(float unitX, float unitY);
 	void Release();
-	void Update();
+	void Update(float unitX, float unitY);
 	void Render();
 
 	void Astar();
 
 	void Load(int loadCount);
+
+	float GetUnitX() { return playerX; }
+	float GetUnitY() { return playerY; }
 
 };
 

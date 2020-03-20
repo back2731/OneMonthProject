@@ -1,10 +1,15 @@
 #pragma once
 #include "UnitBase.h"
+#include "Gathering.h"
+#include "BaseBuilding.h"
+#include "HighBuilding.h"
 
 class Drone : public UnitBase
 {
 private:
+	aStarScene* aStar;
 	char str[128];
+	bool test;
 public:
 	Drone();
 	~Drone();

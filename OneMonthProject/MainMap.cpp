@@ -50,7 +50,21 @@ void MainMap::Render()
 	//HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
 	//FillRect(GetMemDC(), &cameraRect, brush);
 	//DeleteObject(brush);
-
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	{
+		for (int i = 0; i < TILE_COUNT_X; i++)
+		{
+			for (int j = 0; j < TILE_COUNT_Y; j++)
+			{
+				if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+				{
+					SetTextColor(GetMemDC(), RGB(255, 0, 0));
+					sprintf_s(str, "(%d,%d)", i, j);
+					TextOut(GetMemDC(), _tileMap[i][j].left + CELL_WIDTH / 2 - 20, _tileMap[i][j].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+				}
+			}
+		}
+	}
 }
 
 void MainMap::DrawTileMap()

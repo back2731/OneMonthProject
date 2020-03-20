@@ -19,7 +19,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.playerNumber = _playerNumber;
 
 	unitStatus.unitMaxHp = 40;
-	unitStatus.unitCurrentHp = 40;
+	unitStatus.unitCurrentHp = 20;
 	unitStatus.unitAtk = 5;
 	unitStatus.unitDef = 0;
 	unitStatus.unitTime = 0;
@@ -42,6 +42,17 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 
+	aStar = new aStarScene;
+	aStar->Init(unitStatus.unitRectX, unitStatus.unitRectY);
+
+	// 명령 슬롯 생성
+	SetCommandSlot(SLOT1, new MoveCommand);
+	SetCommandSlot(SLOT2, new StopCommand);
+	SetCommandSlot(SLOT3, new AttackCommand);
+	SetCommandSlot(SLOT5, new Gathering);
+	SetCommandSlot(SLOT7, new BaseBuilding);
+	SetCommandSlot(SLOT8, new HighBuilding);
+	SetCommandSlot(SLOT9, new Burrow);
 }
 
 HRESULT Drone::Init()
@@ -54,60 +65,22 @@ void Drone::Release()
 }
 
 void Drone::Update()
-{
-	PlayAnimation();
-	//if (isClick)
-	//{
-	//	if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
-	//	{
-	//		if (GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) > ANGLE_60 &&
-	//			GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) < ANGLE_120)
-	//		{
-	//			direction = UP;
-	//		}
-	//		else if (GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) > -ANGLE_30 &&
-	//			GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) < ANGLE_60)
-	//		{
-	//			direction = LEFT;
-	//		}
-	//		else if (GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) > -ANGLE_60 &&
-	//			GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) < -ANGLE_120)
-	//		{
-	//			direction = DOWN;
-	//		}
-	//		else if (GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) > ANGLE_120 &&
-	//			GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y) < -ANGLE_180)
-	//		{
-	//			direction = RIGHT;
-	//		}
-	//	}
+{	
+	// 슬롯 위치 카메라 반영
+	SetCommandRect();
 
-	//	switch (direction)
-	//	{
-	//	case UP:
-	//		unitStatus.unitRectY -= 1;
-	//		unitStatus.unitRect.top -= 1;
-	//		unitStatus.unitRect.bottom -= 1;
-	//		break;
-	//	case DOWN:
-	//		unitStatus.unitRectY += 1;
-	//		unitStatus.unitRect.top += 1;
-	//		unitStatus.unitRect.bottom += 1;
-	//		break;
-	//	case RIGHT:
-	//		unitStatus.unitRectX += 1;
-	//		unitStatus.unitRect.left += 1;
-	//		unitStatus.unitRect.right += 1;
-	//		break;
-	//	case LEFT:
-	//		unitStatus.unitRectX -= 1;
-	//		unitStatus.unitRect.left -= 1;
-	//		unitStatus.unitRect.right -= 1;
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
+
+	PlayAnimation();
+	if (isClick)
+	{
+		aStar->Update(unitStatus.unitRectX, unitStatus.unitRectY);
+		unitStatus.unitRectX = aStar->GetUnitX();
+		unitStatus.unitRectY = aStar->GetUnitY();
+		unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth() / 3, unitStatus.unitImage->GetFrameHeight() / 3);
+	}
+
+
 }
 
 void Drone::Render(HDC hdc)
@@ -118,16 +91,38 @@ void Drone::Render(HDC hdc)
 		unitStatus.unitSelectImage->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImage->GetWidth() / 2, unitStatus.unitRectY - unitStatus.unitSelectImage->GetHeight() / 2);
 		progressBar->Render
-		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRect.bottom);
+		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRectY + 40);
 	}
 	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	
 	sprintf_s(str, "angle :  %f", GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y));
 	TextOut(hdc, 0, 30, str, strlen(str));
+
+	aStar->Render();
 }
 
 void Drone::RenderUI(HDC hdc)
 {
+	if (isClick)
+	{
+		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+
+		if (KEYMANAGER->IsToggleKey(VK_TAB))
+		{
+			for (int i = 0; i < COMMANDMAX; i++)
+			{
+				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
+			}
+		}
+
+		IMAGEMANAGER->FindImage("Move")->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
+		IMAGEMANAGER->FindImage("Stop")->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
+		IMAGEMANAGER->FindImage("Attack")->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+		IMAGEMANAGER->FindImage("Gathering")->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+		IMAGEMANAGER->FindImage("BaseBuilding")->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+		IMAGEMANAGER->FindImage("HighBuilding")->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
+		IMAGEMANAGER->FindImage("EvolveBurrow")->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+	}
 
 }
 

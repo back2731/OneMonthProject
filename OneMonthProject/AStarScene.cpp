@@ -12,8 +12,10 @@ aStarScene::~aStarScene()
 {
 }
 
-HRESULT aStarScene::Init()
+HRESULT aStarScene::Init(float unitX, float unitY)
 {
+	cameraRect = { 0,0, WINSIZEX, WINSIZEY };
+
 	for (int i = 0; i < TILEY; i++)
 	{
 		for (int j = 0; j < TILEX; j++)
@@ -23,13 +25,13 @@ HRESULT aStarScene::Init()
 			tiles[j + i * TILEX].block = false;
 
 			testRect[j + i * TILEX] = RectMakeCenter(tiles[j + i * TILEX].rc.left + (tiles[j + i * TILEX].rc.right - tiles[j + i * TILEX].rc.left) / 2,
-				tiles[j + i * TILEX].rc.top + (tiles[j + i * TILEX].rc.bottom - tiles[j + i * TILEX].rc.top) / 2, 4 ,4);
+				tiles[j + i * TILEX].rc.top + (tiles[j + i * TILEX].rc.bottom - tiles[j + i * TILEX].rc.top) / 2, 20, 20);
 		}
 	}
 
 	Load(0);
 
-	playerRect = RectMakeCenter(tiles[0].rc.left + (tiles[0].rc.right - tiles[0].rc.left) / 2, tiles[0].rc.top + (tiles[0].rc.bottom - tiles[0].rc.top) / 2, 30, 30);
+	playerRect = RectMakeCenter(unitX, unitY, 15, 15);
 
 	currentSelect = SELECT_END;
 
@@ -49,8 +51,25 @@ void aStarScene::Release()
 {
 }
 
-void aStarScene::Update()
+void aStarScene::Update(float unitX, float unitY)
 {
+	if (!startAstar)
+	{
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (IntersectRect(&tempRect, &tiles[i].rc, &playerRect))
+			{
+				//if (IntersectRect(&tempRect, &testRect[i], &playerRect))
+				//{
+					startTile = i;
+				//}
+			}
+		}
+	}
+
+
+
+
 	if (KEYMANAGER->IsOnceKeyDown('1'))
 	{
 		currentSelect = SELECT_START;
@@ -78,26 +97,8 @@ void aStarScene::Update()
 	{
 		openList.clear();
 		closeList.clear();
-		Init();
+		//Init(tiles[0].rc.left + (tiles[0].rc.right - tiles[0].rc.left) / 2, tiles[0].rc.top + (tiles[0].rc.bottom - tiles[0].rc.top) / 2);
 	}
-
-	if (!startAstar)
-	{
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (IntersectRect(&tempRect, &tiles[i].rc, &testRect[i]))
-			{
-				if (IntersectRect(&tempRect, &tiles[i].rc, &playerRect))
-				{
-					if (IntersectRect(&tempRect, &testRect[i], &playerRect))
-					{
-						startTile = i;
-					}
-				}
-			}
-		}
-	}
-
 	if (KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
 	{
 		for (int i = 0; i < TILESIZE; i++)
@@ -225,8 +226,8 @@ void aStarScene::Update()
 			saveRoad.pop_back();
 		}
 	}
-	
-	playerRect = RectMakeCenter(playerX, playerY, 30, 30);
+
+	playerRect = RectMakeCenter(playerX, playerY, 15, 15);
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	CAMERAMANAGER->MoveCamera();
@@ -234,7 +235,7 @@ void aStarScene::Update()
 
 void aStarScene::Render()
 {
-	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	if (KEYMANAGER->IsToggleKey(VK_F4))
 	{
 		for (int i = 0; i < TILESIZE; i++)
 		{

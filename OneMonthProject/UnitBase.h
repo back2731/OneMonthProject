@@ -1,6 +1,7 @@
 #pragma once
 #include "CommandBase.h"
 #include "ProgressBar.h"
+#include "AStarScene.h"
 
 enum DIRECTION
 {
