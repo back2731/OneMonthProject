@@ -46,7 +46,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	isTransDrone = false;
 
-	direction = RIGHTDOWN;
+	//direction = RIGHTDOWN;
 
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 

@@ -26,8 +26,8 @@ HRESULT MainGame::Init()
 	// 실제 게임 Scene
 	SCENEMANAGER->AddScene("GameScene", new GameScene);
 
-	// A*테스트
-	SCENEMANAGER->AddScene("aStar", new aStarScene);
+	//// A*테스트
+	//SCENEMANAGER->AddScene("aStar", new aStarScene);
 
 
 	SCENEMANAGER->ChangeScene("GameScene");

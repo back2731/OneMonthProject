@@ -2,7 +2,6 @@
 #include "GameNode.h"
 #include "ResourceCollection.h"
 #include "GameScene.h"
-#include "AStarScene.h"
 #include "MapToolScene.h"
 
 class MainGame :  public GameNode

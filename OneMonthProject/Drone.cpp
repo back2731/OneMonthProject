@@ -42,8 +42,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 
-	aStar = new aStarScene;
-	aStar->Init(unitStatus.unitRectX, unitStatus.unitRectY);
+	InitAstar();
 
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new MoveCommand);
@@ -74,12 +73,9 @@ void Drone::Update()
 	PlayAnimation();
 	if (isClick)
 	{
-		aStar->Update(unitStatus.unitRectX, unitStatus.unitRectY);
-		unitStatus.unitRectX = aStar->GetUnitX();
-		unitStatus.unitRectY = aStar->GetUnitY();
+		UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
 		unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth() / 3, unitStatus.unitImage->GetFrameHeight() / 3);
 	}
-
 
 }
 
@@ -98,7 +94,7 @@ void Drone::Render(HDC hdc)
 	sprintf_s(str, "angle :  %f", GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y));
 	TextOut(hdc, 0, 30, str, strlen(str));
 
-	aStar->Render();
+	//RenderAstar(hdc);
 }
 
 void Drone::RenderUI(HDC hdc)

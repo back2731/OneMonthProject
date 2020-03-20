@@ -151,7 +151,6 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="API_FrameWork.h" />
-    <ClInclude Include="AStarScene.h" />
     <ClInclude Include="AttackCommand.h" />
     <ClInclude Include="BaseBuilding.h" />
     <ClInclude Include="Broodling.h" />
@@ -266,7 +265,6 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
-    <ClCompile Include="AStarScene.cpp" />
     <ClCompile Include="AttackCommand.cpp" />
     <ClCompile Include="BaseBuilding.cpp" />
     <ClCompile Include="Broodling.cpp" />

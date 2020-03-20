@@ -7,7 +7,6 @@
 class Drone : public UnitBase
 {
 private:
-	aStarScene* aStar;
 	char str[128];
 	bool test;
 public:

@@ -420,9 +420,6 @@
     <ClInclude Include="ProgressBar.h">
       <Filter>Manager\프로그래스바</Filter>
     </ClInclude>
-    <ClInclude Include="AStarScene.h">
-      <Filter>MainGame\aStar</Filter>
-    </ClInclude>
     <ClInclude Include="API_FrameWork.h">
       <Filter>헤더 파일\std및 기타 클래스들</Filter>
     </ClInclude>
@@ -757,9 +754,6 @@
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
       <Filter>Manager\프로그래스바</Filter>
-    </ClCompile>
-    <ClCompile Include="AStarScene.cpp">
-      <Filter>MainGame\aStar</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일\stdafx&amp;WinMain</Filter>

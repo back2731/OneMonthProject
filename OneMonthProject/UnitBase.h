@@ -1,18 +1,67 @@
 #pragma once
 #include "CommandBase.h"
 #include "ProgressBar.h"
-#include "AStarScene.h"
+#include "MapToolTile.h"
+
+#define SPEED 5
+#define SPEED2 3
+
+//크기
+#define CELL_WIDTH	64
+#define CELL_HEIGHT 64
+
+//타일 갯수
+#define TILE_COUNT_X 64
+#define TILE_COUNT_Y 64
+
+//타일 이미지
+#define TILE_SIZE_X 16
+#define TILE_SIZE_Y 17
+
+#define TILE_MAX 1
+
+#define TILEX 64
+#define TILEY 64
+#define TILESIZE TILEX*TILEY
+
+enum SELECT
+{
+	SELECT_START,
+	SELECT_END,
+	SELECT_BLOCK
+};
+
+struct TAGTILE
+{
+	RECT rc;
+	bool block;
+
+	int node;
+
+	int showState;
+
+	int f, g, h;
+};
+
+enum STATE
+{
+	STATE_NONE,
+	STATE_OPEN,
+	STATE_CLOSE,
+	STATE_PATH
+};
+
 
 enum DIRECTION
 {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	LEFTUP,
-	LEFTDOWN,
-	RIGHTUP,
-	RIGHTDOWN
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT,
+	DIRECTION_UP,
+	DIRECTION_DOWN,
+	DIRECTION_LEFTUP,
+	DIRECTION_RIGHTDOWN,
+	DIRECTION_LEFTDOWN,
+	DIRECTION_RIGHTUP
 };
 
 enum UNITKIND
@@ -66,6 +115,57 @@ protected:
 	CommandBase*	commandSlot[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
+	// a스타용 변수들
+	TAGTILE			tiles[TILESIZE];
+	TAGTILE			_tileMap[TILE_COUNT_X][TILE_COUNT_Y];
+
+	vector<int>		openList;
+	vector<int>		closeList;
+	vector<int>::iterator iter;
+
+	vector<int>		saveRoad;
+
+	SELECT			currentSelect;
+
+	int				startTile;
+	int				endTile;
+	int				currentTile;
+	bool			isFind;
+	bool			noPath;
+	bool			startAstar;
+
+	bool			isArrive;
+
+	RECT			rc[6];
+
+	RECT			playerRect;
+	int				playerStart;
+	RECT			testRect[TILESIZE];
+
+	int				endX;
+	int				endY;
+	int				count;
+
+	int				playerX;
+	int				playerY;
+
+
+	HBRUSH			brush;
+	HFONT			font, oldFont;
+	char			str[128];
+	int				temp;
+	const char*		fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
+
+	HANDLE			file;
+	DWORD			write;
+	DWORD			read;
+
+	int				currentX;
+	int				currentY;
+
+	RECT			cameraRect;
+	RECT			tempRect;
+
 public:
 	UnitBase();
 	~UnitBase();
@@ -112,6 +212,14 @@ public:
 
 	UNITKIND GetUnitKind() { return unitStatus.unitKind; }
 
+	// a 스타 함수
 
+	void InitAstar();
+	void UpdateAstar(float unitX, float unitY);
+	void RenderAstar(HDC hdc);
+
+	void PlayAstar();
+
+	void LoadMap(int loadCount);
 };
 
