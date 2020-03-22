@@ -79,26 +79,22 @@ void UnitBase::SetCommandRect()
 
 void UnitBase::InitAstar()
 {
-	//cameraRect = { 0,0, WINSIZEX, WINSIZEY };
-
-	for (int i = 0; i < TILEY; i++)
-	{
-		for (int j = 0; j < TILEX; j++)
-		{
-			ZeroMemory(&tiles[j + i * TILEX], sizeof(TAGTILE));
-			tiles[j + i * TILEX].rc = RectMake(CELL_HEIGHT * j, CELL_WIDTH * i, CELL_WIDTH, CELL_HEIGHT);
-			tiles[j + i * TILEX].block = false;
-
-			testRect[j + i * TILEX] = RectMakeCenter(tiles[j + i * TILEX].rc.left + (tiles[j + i * TILEX].rc.right - tiles[j + i * TILEX].rc.left) / 2,
-				tiles[j + i * TILEX].rc.top + (tiles[j + i * TILEX].rc.bottom - tiles[j + i * TILEX].rc.top) / 2, 20, 20);
-		}
-	}
 
 	LoadMap(0);
 
-
-	currentSelect = SELECT_END;
-
+		_tileMap[70].block = true;
+		_tileMap[71].block = true;
+		_tileMap[72].block = true;
+		_tileMap[73].block = true;
+		_tileMap[74].block = true;
+		_tileMap[75].block = true;
+		_tileMap[10].block = true;
+		_tileMap[20].block = true;
+		_tileMap[30].block = true;
+		_tileMap[40].block = true;
+		_tileMap[50].block = true;
+		_tileMap[268].block = true;
+	
 	isFind = false;
 	noPath = false;
 	startAstar = false;
@@ -107,90 +103,19 @@ void UnitBase::InitAstar()
 
 void UnitBase::UpdateAstar(float unitX, float unitY)
 {
-	playerRect = RectMakeCenter(unitX, unitY, 15, 15);
+	playerRect = RectMakeCenter(unitX, unitY, 5, 5);
 
 	if (!startAstar)
 	{
 		for (int i = 0; i < TILESIZE; i++)
 		{
-			if (IntersectRect(&tempRect, &tiles[i].rc, &playerRect))
+			if (IntersectRect(&tempRect, &_tileMap[i].rect, &playerRect))
 			{
-				//if (IntersectRect(&tempRect, &testRect[i], &playerRect))
-				//{
 				startTile = i;
-				//}
 			}
 		}
 	}
 
-	if (KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
-	{
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&tiles[i].rc, m_ptMouse))
-			{
-				switch (currentSelect)
-				{
-				case SELECT_END:
-					endTile = i;
-					endX = endTile % TILEX;
-					endY = endTile / TILEX;
-					break;
-				case SELECT_BLOCK:
-					tiles[i].block = true;
-					break;
-				}
-			}
-		}
-	}//end of VK_LBUTTON
-
-	switch (currentSelect)
-	{
-	case SELECT_END:
-		if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
-		{
-			isFind = false;
-			noPath = false;
-			startAstar = false;
-
-			//for (int i = 0; i < openList.size(); i++)
-			//{
-			//	tiles[openList[i]].showState = STATE_NONE;
-			//}
-			//for (int i = 0; i < closeList.size(); i++)
-			//{
-			//	tiles[closeList[i]].showState = STATE_NONE;
-			//}
-
-			closeList.clear();
-			openList.clear();
-			saveRoad.clear();
-			saveRoad.push_back(endTile);
-			count = 0;
-		}
-		if (KEYMANAGER->IsOnceKeyUp(VK_RBUTTON))
-		{
-			startAstar = true;
-			currentTile = startTile;
-			//시작지점을 오픈리스트에 넣자
-			openList.push_back(currentTile);
-		}
-		break;
-	}
-
-	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-	{
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&tiles[i].rc, m_ptMouse))
-			{
-				if (currentSelect == SELECT_BLOCK)
-				{
-					tiles[i + CAMERAMANAGER->GetCameraCenterX() / CELL_WIDTH + CAMERAMANAGER->GetCameraCenterY() / CELL_HEIGHT * TILEX].block = false;
-				}
-			}
-		}
-	}
 
 	if (startTile != endTile)
 	{
@@ -203,46 +128,112 @@ void UnitBase::UpdateAstar(float unitX, float unitY)
 		}
 	}
 
+}
+
+void UnitBase::SetEndTile()
+{
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+		{
+			{
+				endTile = i;
+				endX = endTile % TILEX;
+				endY = endTile / TILEX;
+			}
+		}
+	}
+}
+
+void UnitBase::SetAstarVector()
+{
+	isFind = false;
+	noPath = false;
+	startAstar = false;
+
+	for (int i = 0; i < openList.size(); i++)
+	{
+		_tileMap[openList[i]].showState = STATE_NONE;
+	}
+	for (int i = 0; i < closeList.size(); i++)
+	{
+		_tileMap[closeList[i]].showState = STATE_NONE;
+	}
+
+	closeList.clear();
+	openList.clear();
+	saveRoad.clear();
+	saveRoad.push_back(endTile);
+	count = 0;
+
+}
+
+void UnitBase::SetStartTile()
+{
+	startAstar = true;
+	currentTile = startTile;
+	//시작지점을 오픈리스트에 넣자
+	openList.push_back(currentTile);
+}
+
+void UnitBase::MoveUnit()
+{
 	if (!saveRoad.empty())
 	{
 		startAstar = false;
 
 		if (startTile + 1 == saveRoad.back())
 		{
-			unitStatus.unitRectX += SPEED;
+			unitStatus.unitRectY += SPEED;
+			//saveNumber = DIRECTION_DOWN;
+			//return DIRECTION_DOWN;
 		}
 		if (startTile - 1 == saveRoad.back())
 		{
-			unitStatus.unitRectX -= SPEED;
+			unitStatus.unitRectY -= SPEED;
+			//saveNumber = DIRECTION_UP;
+			//return DIRECTION_UP;
 		}
 		if (startTile + 64 == saveRoad.back())
 		{
-			unitStatus.unitRectY += SPEED;
+			unitStatus.unitRectX += SPEED;
+			//saveNumber = DIRECTION_LEFT;
+			//return DIRECTION_LEFT;
 		}
 		if (startTile - 64 == saveRoad.back())
 		{
-			unitStatus.unitRectY -= SPEED;
+			unitStatus.unitRectX -= SPEED;
+			//saveNumber = DIRECTION_RIGHT;
+			//return DIRECTION_RIGHT;
 		}
 
 		if (startTile + 65 == saveRoad.back())
 		{
-			unitStatus.unitRectX += SPEED2;
 			unitStatus.unitRectY += SPEED2;
+			unitStatus.unitRectX += SPEED2;
+		//	saveNumber = DIRECTION_RIGHTDOWN;
+		//	return DIRECTION_RIGHTDOWN;
 		}
 		if (startTile - 65 == saveRoad.back())
 		{
-			unitStatus.unitRectX -= SPEED2;
 			unitStatus.unitRectY -= SPEED2;
+			unitStatus.unitRectX -= SPEED2;
+			//saveNumber = DIRECTION_RIGHTUP;
+			//return DIRECTION_RIGHTUP;
 		}
 		if (startTile - 63 == saveRoad.back())
 		{
-			unitStatus.unitRectX += SPEED2;
-			unitStatus.unitRectY -= SPEED2;
+			unitStatus.unitRectY += SPEED2;
+			unitStatus.unitRectX -= SPEED2;
+			//saveNumber = DIRECTION_LEFTDOWN;
+			//return DIRECTION_LEFTDOWN;
 		}
 		if (startTile + 63 == saveRoad.back())
 		{
-			unitStatus.unitRectX -= SPEED2;
-			unitStatus.unitRectY += SPEED2;
+			unitStatus.unitRectY -= SPEED2;
+			unitStatus.unitRectX += SPEED2;
+			//saveNumber = DIRECTION_LEFTUP;
+			//return DIRECTION_LEFTUP;
 		}
 
 		if (startTile == saveRoad.back())
@@ -251,20 +242,72 @@ void UnitBase::UpdateAstar(float unitX, float unitY)
 		}
 	}
 
-	playerRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 15, 15);
+	//return saveNumber;
 
-	CAMERAMANAGER->MoveCamera();
+	//playerRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 15, 15);
+	//return DIRECTION_RIGHTDOWN;
+}
+
+int UnitBase::ChangeImageFrame()
+{
+	if (!saveRoad.empty())
+	{
+		startAstar = false;
+
+		if (startTile + 1 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_DOWN;
+			return DIRECTION_DOWN;
+		}
+		if (startTile - 1 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_UP;
+			return DIRECTION_UP;
+		}
+		if (startTile + 64 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_LEFT;
+			return DIRECTION_LEFT;
+		}
+		if (startTile - 64 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_RIGHT;
+			return DIRECTION_RIGHT;
+		}
+
+		if (startTile + 65 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_RIGHTDOWN;
+			return DIRECTION_RIGHTDOWN;
+		}
+		if (startTile - 65 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_RIGHTUP;
+			return DIRECTION_RIGHTUP;
+		}
+		if (startTile - 63 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_LEFTDOWN;
+			return DIRECTION_LEFTDOWN;
+		}
+		if (startTile + 63 == saveRoad.back())
+		{
+			saveNumber = DIRECTION_LEFTUP;
+			return DIRECTION_LEFTUP;
+		}
+	}
+	return saveNumber;
 }
 
 void UnitBase::RenderAstar(HDC hdc)
 {
-	if (KEYMANAGER->IsToggleKey(VK_F4))
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
 		for (int i = 0; i < TILESIZE; i++)
 		{
-			if (IntersectRect(&tempRect, &cameraRect, &tiles[i].rc))
+			if (IntersectRect(&tempRect, &cameraRect, &_tileMap[i].rect))
 			{
-				if (tiles[i].block)
+				if (_tileMap[i].block)
 				{
 					if (i == startTile)
 					{
@@ -284,15 +327,15 @@ void UnitBase::RenderAstar(HDC hdc)
 				{
 					BeginSolidColor(hdc, &brush, RGB(255, 0, 0));
 				}
-				else if (tiles[i].showState == STATE_OPEN)
+				else if (_tileMap[i].showState == STATE_OPEN)
 				{
 					BeginSolidColor(hdc, &brush, RGB(128, 255, 255));
 				}
-				else if (tiles[i].showState == STATE_CLOSE)
+				else if (_tileMap[i].showState == STATE_CLOSE)
 				{
 					BeginSolidColor(hdc, &brush, RGB(128, 255, 0));
 				}
-				else if (tiles[i].showState == STATE_PATH)
+				else if (_tileMap[i].showState == STATE_PATH)
 				{
 					BeginSolidColor(hdc, &brush, RGB(255, 128, 128));
 				}
@@ -300,7 +343,7 @@ void UnitBase::RenderAstar(HDC hdc)
 				{
 					BeginSolidColor(hdc, &brush, RGB(255, 255, 255));
 				}
-				RectangleMake(hdc, tiles[i].rc);
+				RectangleMake(hdc, _tileMap[i].rect);
 				RectangleMake(hdc, testRect[i]);
 
 				DeleteObject(brush);
@@ -339,7 +382,7 @@ void UnitBase::PlayAstar()
 		{
 			bool isOpen;
 			// 대각선 타일의 이동 문제로 (주변에 블락있으면 못감) 임시로 블락 상태 저장
-			if (tiles[y * TILEX + x].block) tempBlock[i] = true;
+			if (_tileMap[y * TILEX + x].block) tempBlock[i] = true;
 			else {
 				// check closeList z
 				bool isClose = false;
@@ -355,7 +398,7 @@ void UnitBase::PlayAstar()
 
 				if (i < 4)
 				{
-					tiles[y * TILEX + x].g = 10;
+					_tileMap[y * TILEX + x].g = 10;
 				}
 				else
 				{
@@ -371,13 +414,13 @@ void UnitBase::PlayAstar()
 					// leftdown인 경우 left나 down에 블락있으면 안됨
 					if (i == DIRECTION_LEFTDOWN &&
 						tempBlock[DIRECTION_LEFT] || tempBlock[DIRECTION_DOWN]) continue;
-					tiles[y * TILEX + x].g = 14;
+					_tileMap[y * TILEX + x].g = 14;
 
 				}
 				//abs절대값
 
-				tiles[y * TILEX + x].h = (abs(endX - x) + abs(endY - y)) * 10;
-				tiles[y * TILEX + x].f = tiles[y * TILEX + x].g + tiles[y * TILEX + x].h;
+				_tileMap[y * TILEX + x].h = (abs(endX - x) + abs(endY - y)) * 10;
+				_tileMap[y * TILEX + x].f = _tileMap[y * TILEX + x].g + _tileMap[y * TILEX + x].h;
 
 				// 오픈리스트에 있으면 g 비용 비교 후 처리
 				isOpen = false;
@@ -386,12 +429,12 @@ void UnitBase::PlayAstar()
 					if (openList[i] == y * TILEX + x)
 					{
 						isOpen = true;
-						if (tiles[openList[i]].g > tiles[y * TILEX + x].g)
+						if (_tileMap[openList[i]].g > _tileMap[y * TILEX + x].g)
 						{
-							tiles[openList[i]].h = tiles[y * TILEX + x].h;
-							tiles[openList[i]].g = tiles[y * TILEX + x].g;
-							tiles[openList[i]].f = tiles[y * TILEX + x].f;
-							tiles[openList[i]].node = currentTile;
+							_tileMap[openList[i]].h = _tileMap[y * TILEX + x].h;
+							_tileMap[openList[i]].g = _tileMap[y * TILEX + x].g;
+							_tileMap[openList[i]].f = _tileMap[y * TILEX + x].f;
+							_tileMap[openList[i]].node = currentTile;
 						}
 					}
 				}
@@ -399,7 +442,7 @@ void UnitBase::PlayAstar()
 				if (!isOpen)
 				{
 					openList.push_back(y * TILEX + x);
-					tiles[y * TILEX + x].node = currentTile;
+					_tileMap[y * TILEX + x].node = currentTile;
 				}
 
 				// find
@@ -434,13 +477,13 @@ void UnitBase::PlayAstar()
 	if (openList.size() != 0)
 	{
 		// find minimum f cost in openList
-		int min = tiles[*openList.begin()].h;
+		int min = _tileMap[*openList.begin()].h;
 		currentTile = *openList.begin();
 		for (iter = openList.begin(); iter != openList.end(); ++iter)
 		{
-			if (min > tiles[(*iter)].h)
+			if (min > _tileMap[(*iter)].h)
 			{
-				min = tiles[(*iter)].h;
+				min = _tileMap[(*iter)].h;
 				currentTile = *iter;
 			}
 		}
@@ -449,19 +492,19 @@ void UnitBase::PlayAstar()
 	// 타일 렌더를 위해 상태 저장
 	for (int i = 0; i < openList.size(); i++)
 	{
-		tiles[openList[i]].showState = STATE_OPEN;
+		_tileMap[openList[i]].showState = STATE_OPEN;
 	}
 	for (int i = 0; i < closeList.size(); i++)
 	{
-		tiles[closeList[i]].showState = STATE_CLOSE;
+		_tileMap[closeList[i]].showState = STATE_CLOSE;
 	}
 	// 길 찾기 성공시 각 타일에 길찾기 상태 저장
 	int tempTile = endTile;
-	while (tiles[tempTile].node != startTile
+	while (_tileMap[tempTile].node != startTile
 		&& isFind)
 	{
-		tempTile = tiles[tempTile].node;
-		tiles[tempTile].showState = STATE_PATH;
+		tempTile = _tileMap[tempTile].node;
+		_tileMap[tempTile].showState = STATE_PATH;
 		saveRoad.push_back(tempTile);
 	}
 

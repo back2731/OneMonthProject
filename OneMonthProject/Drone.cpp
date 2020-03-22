@@ -39,11 +39,11 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.frameIndexY = 5;
 	direction = 5;
 	isClick = false;
-
+	testNum = 4;
 	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 
 	InitAstar();
-
+	
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new MoveCommand);
 	SetCommandSlot(SLOT2, new StopCommand);
@@ -52,6 +52,9 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	SetCommandSlot(SLOT7, new BaseBuilding);
 	SetCommandSlot(SLOT8, new HighBuilding);
 	SetCommandSlot(SLOT9, new Burrow);
+
+	// 슬롯 위치 카메라 반영
+	SetCommandRect();
 }
 
 HRESULT Drone::Init()
@@ -64,24 +67,45 @@ void Drone::Release()
 }
 
 void Drone::Update()
-{	
-	// 슬롯 위치 카메라 반영
-	SetCommandRect();
-
+{
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
-	PlayAnimation();
 	if (isClick)
 	{
-		UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
-		unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth() / 3, unitStatus.unitImage->GetFrameHeight() / 3);
+		if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			PLAYERMANAGER->SetInputCommandMove(true);
+		}
+		if (PLAYERMANAGER->GetInputCommandMove())
+		{
+			// 명령이 들어왔을 때 A*를 위한 값을 초기화해주고 실행bool변수를 true로 바꿔준다
+			SetEndTile();
+			SetAstarVector();
+			SetStartTile();
+		}
 	}
 
+	// A*실행
+	UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
+	
+	// 변하는 각도에 따라 프레임을 바꿔준다.
+	unitStatus.frameIndexY = ChangeImageFrame();
+	
+	// 길찾기를 통해 유닛을 이동한다.
+	MoveUnit();
+
+	// 애니메이션의 프레임을 돌린다.
+	PlayAnimation();
+
+	// 유닛 렉트를 재설정해준다.
+	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth() / 3, unitStatus.unitImage->GetFrameHeight() / 3);
 }
 
 void Drone::Render(HDC hdc)
 {
-	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
+	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, 
+		unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
 	if (isClick)
 	{
 		unitStatus.unitSelectImage->Render
@@ -89,16 +113,28 @@ void Drone::Render(HDC hdc)
 		progressBar->Render
 		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRectY + 40);
 	}
-	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY);
-	
-	sprintf_s(str, "angle :  %f", GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, m_ptMouse.x, m_ptMouse.y));
-	TextOut(hdc, 0, 30, str, strlen(str));
+	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, 
+		unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (KEYMANAGER->IsToggleKey(VK_TAB))
+		{
+			if (_tileMap[i].block == true)
+			{
+				Rectangle(hdc, _tileMap[i].rect.left, _tileMap[i].rect.top, _tileMap[i].rect.right, _tileMap[i].rect.bottom);
+				HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+				FillRect(hdc, &_tileMap[i].rect, brush);
+				DeleteObject(brush);
 
-	//RenderAstar(hdc);
+			}
+		}
+	}
 }
 
 void Drone::RenderUI(HDC hdc)
-{
+{	
+	// 슬롯 위치 카메라 반영
+	SetCommandRect();
 	if (isClick)
 	{
 		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
@@ -129,7 +165,7 @@ void Drone::PlayAnimation()
 	if (unitStatus.frameCount % 10 == 0)
 	{
 		unitStatus.frameCount = 0;
-		if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+		if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX() - 5)
 		{
 			unitStatus.frameIndexX = 0;
 		}

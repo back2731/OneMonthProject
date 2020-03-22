@@ -7,7 +7,10 @@ private:
 	int saveY;
 	
 	bool selectLarva;
-	bool inputCommand;
+	
+	bool inputCommandTransDrone;
+
+	bool inputCommandMove;
 
 	vector<UnitBase*> tempVector;
 	UnitBase* tempUnitBase;
@@ -24,8 +27,13 @@ public:
 	void SetSelectLarva(bool _isPush) { selectLarva = _isPush; }
 	bool GetSelectLarvaValue() { return selectLarva; }
 
-	void SetInputCommand(bool _inputCommand) { inputCommand = _inputCommand; }
-	bool GetInputCommand() { return inputCommand; }
+	// 명령 컨트롤
+	void SetInputCommandTransDrone(bool _inputCommand) { inputCommandTransDrone = _inputCommand; }
+	bool GetInputCommandTransDrone() { return inputCommandTransDrone; }
+
+	void SetInputCommandMove(bool _inputCommand) { inputCommandMove = _inputCommand; }
+	bool GetInputCommandMove() { return inputCommandMove; }
+
 
 	void SetXY(int x, int y);
 	int GetSaveX() { return saveX; }

@@ -9,6 +9,8 @@ class Drone : public UnitBase
 private:
 	char str[128];
 	bool test;
+
+	int testNum;
 public:
 	Drone();
 	~Drone();

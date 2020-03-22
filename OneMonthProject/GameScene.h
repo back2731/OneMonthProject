@@ -12,6 +12,8 @@ private:
 
 	RECT dragRect;
 	RECT tempRect;
+	RECT cameraRect;
+	RECT commandRect;
 
 	int count;
 	char str[128];

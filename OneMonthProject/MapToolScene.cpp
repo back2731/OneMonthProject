@@ -60,11 +60,6 @@ void MapToolScene::Update()
 	if (KEYMANAGER->IsStayKeyDown('A')) { currentX += 10; }
 	if (KEYMANAGER->IsStayKeyDown('D')) { currentX -= 10; }
 
-	if (KEYMANAGER->IsOnceKeyDown('B'))
-	{
-		openDoor = !openDoor;
-	}
-
 	if (KEYMANAGER->IsOnceKeyDown(VK_TAB))
 	{
 		_isDebug = !_isDebug;
@@ -108,8 +103,7 @@ void MapToolScene::Render()
 #endif // SUBWINOPEN
 
 	//좌표 출력.
-	sprintf_s(str, "X : %d, Y : %d",
-		_locationX + 1, _locationY + 1);
+	sprintf_s(str, "%d", _locationX * TILE_COUNT_X + _locationY);
 	TextOut(GetMemDC(), WINSIZEX - 100, 0, str, strlen(str));
 
 	DrawTileMap();
@@ -132,37 +126,37 @@ void MapToolScene::DrawTileMap()
 			int right = currentX + (i * CELL_WIDTH) + CELL_WIDTH;
 			int bottom = currentY + (j * CELL_HEIGHT) + CELL_HEIGHT;
 
-			_tileMap[i][j].left = left;
-			_tileMap[i][j].top = top;
-			_tileMap[i][j].right = right;
-			_tileMap[i][j].bottom = bottom;
+			_tileMap[i*TILE_COUNT_X+j].left = left;
+			_tileMap[i*TILE_COUNT_X+j].top = top;
+			_tileMap[i*TILE_COUNT_X+j].right = right;
+			_tileMap[i*TILE_COUNT_X+j].bottom = bottom;
 
-			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
+			_tileMap[i*TILE_COUNT_X + j].rect = { _tileMap[i*TILE_COUNT_X + j].left , _tileMap[i*TILE_COUNT_X + j].top , _tileMap[i*TILE_COUNT_X + j].right , _tileMap[i*TILE_COUNT_X + j].bottom };
 
-			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i*TILE_COUNT_X + j].rect))
 			{
-				if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+				if (_tileMap[i*TILE_COUNT_X + j].tileKind != TILEKIND_NONE)
 				{
-					switch (_tileMap[i][j].tileKind)
+					switch (_tileMap[i*TILE_COUNT_X + j].tileKind)
 					{
 
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
 					case TILEKIND_TERRAIN2:
 						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
 					case TILEKIND_TERRAIN3:
 						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
 					}
 				}
 			}
 
-			if (IntersectRect(&temp, &debugRect, &_tileMap[i][j].rect))
+			if (IntersectRect(&temp, &debugRect, &_tileMap[i*TILE_COUNT_X + j].rect))
 			{
 				if (_isDebug)
 				{
@@ -184,7 +178,7 @@ void MapToolScene::DrawTileMap()
 						DrawLineY(left, top);
 					}
 					SetTextColor(GetMemDC(), RGB(255, 0, 0));
-					sprintf_s(str, "(%d,%d)", i, j);
+					sprintf_s(str, "(%d)", i*TILE_COUNT_X + j);
 					TextOut(GetMemDC(),
 						left + CELL_WIDTH / 2 - 20,
 						top + CELL_HEIGHT / 2 - 10, str, strlen(str));
@@ -216,8 +210,8 @@ void MapToolScene::SetMapTool()
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			_tileMap[i][j].tileKind = TILEKIND_NONE;
-			//_tileMap[i][j].tilePos = PointMake(1, 0);
+			_tileMap[i*TILE_COUNT_X + j].tileKind = TILEKIND_NONE;
+			//_tileMap[i*TILE_COUNT_X+j].tilePos = PointMake(1, 0);
 		}
 	}
 }
@@ -250,8 +244,8 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 				_tileMap[locationX][locationY].index = 0;
 			}*/
 			//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-			_tileMap[locationX][locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
-			_tileMap[locationX][locationY].tilePos = imageFrame;
+			_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
+			_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = imageFrame;
 		}
 		else
 		{
@@ -264,8 +258,8 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 			//		_tileMap[locationX][locationY].index = TILE_MAX - 1;
 			//	}
 				//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-			{	_tileMap[locationX][locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
-				_tileMap[locationX][locationY].tilePos = imageFrame;
+			{	_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
+				_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = imageFrame;
 			}
 		}
 		break;
@@ -276,8 +270,8 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 		//	{
 				//_tileMap[locationX][locationY].tileNum[i] = 0;
 			{
-				_tileMap[locationX][locationY].tileKind = TILEKIND_NONE;
-				_tileMap[locationX][locationY].tilePos = { 0 };
+				_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = TILEKIND_NONE;
+				_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = { 0 };
 			}
 		//	index = -1;
 		//}
@@ -325,7 +319,7 @@ void MapToolScene::Load(int loadCount)
 {
 	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
+	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 	CloseHandle(file);
 }
 //세이브
@@ -333,6 +327,6 @@ void MapToolScene::Save(int saveCount)
 {
 	file = CreateFile(fileName[saveCount], GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
+	WriteFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
 	CloseHandle(file);
 }

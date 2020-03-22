@@ -10,7 +10,7 @@ class MapToolScene : public GameNode
 private:
 	SubMap* sub = new SubMap;
 
-	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
+	TAGTILE _tileMap[TILE_COUNT_X * TILE_COUNT_Y];
 
 	int _locationX, _locationY;
 	int _center;

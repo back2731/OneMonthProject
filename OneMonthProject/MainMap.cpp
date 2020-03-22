@@ -56,11 +56,11 @@ void MainMap::Render()
 		{
 			for (int j = 0; j < TILE_COUNT_Y; j++)
 			{
-				if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+				if (IntersectRect(&temp, &cameraRect, &_tileMap[i*TILE_COUNT_X+j].rect))
 				{
 					SetTextColor(GetMemDC(), RGB(255, 0, 0));
-					sprintf_s(str, "(%d,%d)", i, j);
-					TextOut(GetMemDC(), _tileMap[i][j].left + CELL_WIDTH / 2 - 20, _tileMap[i][j].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+					sprintf_s(str, "(%d)", i*TILE_COUNT_X + j);
+					TextOut(GetMemDC(), _tileMap[i*TILE_COUNT_X+j].left + CELL_WIDTH / 2 - 20, _tileMap[i*TILE_COUNT_X+j].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
 				}
 			}
 		}
@@ -78,29 +78,29 @@ void MainMap::DrawTileMap()
 			int right = currentX + (i * CELL_WIDTH) + CELL_WIDTH;
 			int bottom = currentY + (j * CELL_HEIGHT) + CELL_HEIGHT;
 
-			_tileMap[i][j].left = left;
-			_tileMap[i][j].top = top;
-			_tileMap[i][j].right = right;
-			_tileMap[i][j].bottom = bottom;
-			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
+			_tileMap[i*TILE_COUNT_X+j].left = left;
+			_tileMap[i*TILE_COUNT_X+j].top = top;
+			_tileMap[i*TILE_COUNT_X+j].right = right;
+			_tileMap[i*TILE_COUNT_X+j].bottom = bottom;
+			_tileMap[i*TILE_COUNT_X+j].rect = { _tileMap[i*TILE_COUNT_X+j].left , _tileMap[i*TILE_COUNT_X+j].top , _tileMap[i*TILE_COUNT_X+j].right , _tileMap[i*TILE_COUNT_X+j].bottom };
 
-			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i*TILE_COUNT_X+j].rect))
 			{
-				if (_tileMap[i][j].tileKind != TILEKIND_NONE)
+				if (_tileMap[i*TILE_COUNT_X+j].tileKind != TILEKIND_NONE)
 				{
-					switch (_tileMap[i][j].tileKind)
+					switch (_tileMap[i*TILE_COUNT_X+j].tileKind)
 					{
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
 							break;
 					case TILEKIND_TERRAIN2:
 						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
 						break;
 					case TILEKIND_TERRAIN3:
 						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
-							_tileMap[i][j].left, _tileMap[i][j].top, _tileMap[i][j].tilePos.x, _tileMap[i][j].tilePos.y);
+							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
 						break;
 					}
 				}
@@ -115,7 +115,7 @@ void MainMap::load(int loadCount)
 {
 	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
+	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 
 	CloseHandle(file);
 }

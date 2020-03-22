@@ -60,6 +60,8 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	SetCommandSlot(SLOT7, new TransformQueen);
 	SetCommandSlot(SLOT8, new TransformUltralisk);
 	SetCommandSlot(SLOT9, new TransformDefiler);
+
+	SetCommandRect();
 }
 
 HRESULT Larva::Init()
@@ -74,8 +76,7 @@ void Larva::Release()
 
 void Larva::Update()
 {
-	// 슬롯 위치 카메라 반영
-	SetCommandRect();
+
 
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
@@ -87,16 +88,20 @@ void Larva::Update()
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
-				PLAYERMANAGER->SetInputCommand(true);
+				PLAYERMANAGER->SetInputCommandTransDrone(true);
+
 			}
 
 		}
-		if (PLAYERMANAGER->GetInputCommand())
+		if (PLAYERMANAGER->GetInputCommandTransDrone())
 		{
 			isClick = false;
 			isTransDrone = true;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}
+
+		// 슬롯 위치 카메라 반영
+		SetCommandRect();
 	}
 
 	PlayAnimation();

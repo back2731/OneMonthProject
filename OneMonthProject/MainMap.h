@@ -4,13 +4,13 @@
 class MainMap : public GameNode
 {
 private:
-	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
+	TAGTILE _tileMap[TILE_COUNT_X*TILE_COUNT_Y];
 
 	int _locationX, _locationY;
 	int _center;
 	char str[128];
 
-	int count = 0;
+	//int count = 0;
 
 	int loadData;
 	int resetData;

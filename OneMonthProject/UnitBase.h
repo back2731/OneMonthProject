@@ -24,25 +24,6 @@
 #define TILEY 64
 #define TILESIZE TILEX*TILEY
 
-enum SELECT
-{
-	SELECT_START,
-	SELECT_END,
-	SELECT_BLOCK
-};
-
-struct TAGTILE
-{
-	RECT rc;
-	bool block;
-
-	int node;
-
-	int showState;
-
-	int f, g, h;
-};
-
 enum STATE
 {
 	STATE_NONE,
@@ -54,13 +35,13 @@ enum STATE
 
 enum DIRECTION
 {
-	DIRECTION_LEFT,
-	DIRECTION_RIGHT,
 	DIRECTION_UP,
-	DIRECTION_DOWN,
 	DIRECTION_LEFTUP,
+	DIRECTION_LEFT,
 	DIRECTION_RIGHTDOWN,
+	DIRECTION_DOWN,
 	DIRECTION_LEFTDOWN,
+	DIRECTION_RIGHT,
 	DIRECTION_RIGHTUP
 };
 
@@ -116,16 +97,14 @@ protected:
 	RECT			commandRect[COMMANDMAX];
 
 	// a스타용 변수들
-	TAGTILE			tiles[TILESIZE];
-	TAGTILE			_tileMap[TILE_COUNT_X][TILE_COUNT_Y];
+	//TAGTILE			tiles[TILESIZE];
+	TAGTILE			_tileMap[TILE_COUNT_X * TILE_COUNT_Y];
 
 	vector<int>		openList;
 	vector<int>		closeList;
 	vector<int>::iterator iter;
 
 	vector<int>		saveRoad;
-
-	SELECT			currentSelect;
 
 	int				startTile;
 	int				endTile;
@@ -148,6 +127,8 @@ protected:
 
 	int				playerX;
 	int				playerY;
+
+	int				saveNumber = DIRECTION_RIGHTDOWN;
 
 
 	HBRUSH			brush;
@@ -216,6 +197,12 @@ public:
 
 	void InitAstar();
 	void UpdateAstar(float unitX, float unitY);
+
+	void SetEndTile();
+	void SetAstarVector();
+	void SetStartTile();
+	void MoveUnit();
+	int ChangeImageFrame();
 	void RenderAstar(HDC hdc);
 
 	void PlayAstar();

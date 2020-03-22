@@ -30,7 +30,7 @@ HRESULT MainGame::Init()
 	//SCENEMANAGER->AddScene("aStar", new aStarScene);
 
 
-	SCENEMANAGER->ChangeScene("GameScene");
+	SCENEMANAGER->ChangeScene("MapTool");
 
 	return S_OK;
 }

@@ -47,6 +47,8 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	mainMap->Update();
 	PLAYERMANAGER->Update();
@@ -143,14 +145,6 @@ void GameScene::Update()
 		}
 	}
 
-	// 선택이 해제됐다면 벡터에서 지운다
-	for (int i = 0; i < selectVector.size(); i++)
-	{
-		if (selectVector[i]->GetIsClick() == false)
-		{
-			selectVector.erase(selectVector.begin() + i);
-		}
-	}
 
 	// 변태를 마치면 삭제 후 해처리 현재 라바 수 감소
 	for (int i = 0; i < unitVector.size(); i++)
@@ -190,20 +184,24 @@ void GameScene::Update()
 	COLLISIONMANAGER->SameVectorCollision(unitVector);
 	
 	// 명령이 종료되면 false로 세팅하는 함수
-	PLAYERMANAGER->SetInputCommand(false);
+	PLAYERMANAGER->SetInputCommandTransDrone(false);
+	PLAYERMANAGER->SetInputCommandMove(false);
 
 	// 드래그 명령문
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
 		dragRect.left = m_ptMouse.x;
 		dragRect.top = m_ptMouse.y;
-		for (int i = 0; i < buildingVector.size(); i++)
+		if (!PtInRect(&commandRect, m_ptMouse))
 		{
-			buildingVector[i]->SetIsClick(false);
-		}
-		for (int i = 0; i < unitVector.size(); i++)
-		{
-			unitVector[i]->SetIsClick(false);
+			for (int i = 0; i < buildingVector.size(); i++)
+			{
+				buildingVector[i]->SetIsClick(false);
+			}
+			for (int i = 0; i < unitVector.size(); i++)
+			{
+				unitVector[i]->SetIsClick(false);
+			}
 		}
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
@@ -227,14 +225,14 @@ void GameScene::Update()
 		}
 	}
 
-	// 유닛들이 선택중일시에는 건물선택을 false해준다.
-	if (selectVector.size() > 0) 
-	{
-		for (int i = 0; i < buildingVector.size(); i++)
-		{
-			buildingVector[i]->SetIsClick(false);
-		}
-	}
+	//// 유닛들이 선택중일시에는 건물선택을 false해준다.
+	//if (selectVector.size() > 0) 
+	//{
+	//	for (int i = 0; i < buildingVector.size(); i++)
+	//	{
+	//		buildingVector[i]->SetIsClick(false);
+	//	}
+	//}
 }
 
 void GameScene::Render()
@@ -258,13 +256,19 @@ void GameScene::Render()
 	// 모든 건물 렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		buildingVector[i]->Render(GetMemDC());
+		if (IntersectRect(&tempRect, &cameraRect, &buildingVector[i]->GetBuildingRect()))
+		{
+			buildingVector[i]->Render(GetMemDC());
+		}
 	}
 
 	// 모든 유닛 렌더링
 	for (int i = 0; i < unitVector.size(); i++)
 	{
-		unitVector[i]->Render(GetMemDC());
+		if (IntersectRect(&tempRect, &cameraRect, &unitVector[i]->GetUnitRect()))
+		{
+			unitVector[i]->Render(GetMemDC());
+		}
 	}
 
 	// 선택 드래그 렌더링
@@ -306,5 +310,4 @@ void GameScene::Render()
 	{
 		unitVector[i]->RenderUI(GetMemDC());
 	}
-
 }
