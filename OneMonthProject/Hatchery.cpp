@@ -33,11 +33,22 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildImage = IMAGEMANAGER->FindImage("Hatchery");
 	buildStatus.buildingSelectImage = IMAGEMANAGER->FindImage("4X3");
 	buildStatus.buildingWireFrame = IMAGEMANAGER->FindImage("HatcheryWirefram");
+	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZurgProgressFront");
+	buildStatus.buildingBackProgressImage = IMAGEMANAGER->FindImage("ZurgProgressBack");
 
 	buildStatus.buildRect = RectMakeCenter(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
 	buildStatus.buildRectX = buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2;
 	buildStatus.buildRectY = buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2;
 
+	buildStatus.buildingImageWidthHalf = buildStatus.buildImage->GetWidth() / 2;
+	buildStatus.buildingImageHeightHalf = buildStatus.buildImage->GetHeight() / 2;
+
+	buildStatus.buildingSelectImageWidth = buildStatus.buildingSelectImage->GetWidth() / 2;
+	buildStatus.buildingSelectImageHeight = buildStatus.buildingSelectImage->GetHeight() / 2;
+	
+	buildStatus.buildingProgressWidth = buildStatus.buildingBackProgressImage->GetWidth() / 2;
+	buildStatus.buildingProgressHeight = buildStatus.buildingBackProgressImage->GetHeight() / 2;
+	
 	buildStatus.frameCount = 0;
 	buildStatus.frameIndexX = 0;
 	buildStatus.frameIndexY = 0;
@@ -50,6 +61,12 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	SetCommandSlot(SLOT2, new SetRallyPoint);
 	SetCommandSlot(SLOT3, new EvolveBurrow);
 	SetCommandSlot(SLOT7, new LairRequires);
+
+	// 명령 이미지 설정
+	commandImage[SLOT1] = IMAGEMANAGER->FindImage("SelectLarva");
+	commandImage[SLOT2] = IMAGEMANAGER->FindImage("SetRallyPoint");
+	commandImage[SLOT3] = IMAGEMANAGER->FindImage("EvolveBurrow");
+	commandImage[SLOT7] = IMAGEMANAGER->FindImage("LairRequires");
 }
 
 HRESULT Hatchery::Init()
@@ -94,9 +111,9 @@ void Hatchery::Render(HDC hdc)
 	if (isClick)
 	{  
 		buildStatus.buildingSelectImage->Render
-		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImage->GetWidth() / 2, buildStatus.buildRectY - buildStatus.buildingSelectImage->GetHeight() / 2);
+		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImageWidth, buildStatus.buildRectY - buildStatus.buildingSelectImageHeight);
 		progressBar->Render
-		(hdc, buildStatus.buildRectX - IMAGEMANAGER->FindImage("ZurgProgressBack")->GetWidth() / 2, buildStatus.buildRect.bottom);
+		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom);
 	}
 
 	buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
@@ -115,10 +132,10 @@ void Hatchery::RenderUI(HDC hdc)
 				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
 			}
 		}
-		IMAGEMANAGER->FindImage("SelectLarva")->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
-		IMAGEMANAGER->FindImage("SetRallyPoint")->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
-		IMAGEMANAGER->FindImage("EvolveBurrow")->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
-		IMAGEMANAGER->FindImage("LairRequires")->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+		commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
+		commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
+		commandImage[SLOT3]-> Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+		commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 	}
 }
 

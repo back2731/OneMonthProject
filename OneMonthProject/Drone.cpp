@@ -125,7 +125,7 @@ void Drone::Update()
 
 void Drone::Render(HDC hdc)
 {
-	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,	unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
+	//unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,	unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
 	if (isClick)
 	{
 		unitStatus.unitSelectImage->Render
@@ -135,20 +135,6 @@ void Drone::Render(HDC hdc)
 	}
 	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
 		unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
-
-	if (KEYMANAGER->IsToggleKey(VK_TAB))
-	{
-		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (_tileMap[i].block == true)
-			{
-				Rectangle(hdc, _tileMap[i].rect.left, _tileMap[i].rect.top, _tileMap[i].rect.right, _tileMap[i].rect.bottom);
-				FillRect(hdc, &_tileMap[i].rect, brush);
-			}
-		}
-		DeleteObject(brush);
-	}
 }
 
 void Drone::RenderUI(HDC hdc)

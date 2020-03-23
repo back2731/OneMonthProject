@@ -37,10 +37,8 @@ HRESULT MapToolScene::Init()
 	_isDebug = true;
 	_currentCTRL = CTRL_DRAW;
 
-	openDoor = false;
-
 	SetMapTool();
-	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY);
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	return S_OK;
 }
@@ -51,7 +49,7 @@ void MapToolScene::Release()
 
 void MapToolScene::Update()
 {
-	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY);
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	ShowCursor(false);
 
@@ -170,23 +168,23 @@ void MapToolScene::DrawTileMap()
 			{
 				if (_isDebug)
 				{
-					if (j % 11 == 0)
-					{
-						DrawLineX(left, top);
-					}
-					if (i % 17 == 0)
-					{
-						DrawLineY(left, top);
-					}
+					//if (j % 11 == 0)
+					//{
+					//	DrawLineX(left, top);
+					//}
+					//if (i % 17 == 0)
+					//{
+					//	DrawLineY(left, top);
+					//}
 
-					if (j % 1 == 0)
-					{
-						DrawLineX(left, top);
-					}
-					if (i % 1 == 0)
-					{
-						DrawLineY(left, top);
-					}
+					//if (j % 1 == 0)
+					//{
+					//	DrawLineX(left, top);
+					//}
+					//if (i % 1 == 0)
+					//{
+					//	DrawLineY(left, top);
+					//}
 					SetTextColor(GetMemDC(), RGB(255, 0, 0));
 					sprintf_s(str, "(%d)", i*TILE_COUNT_X + j);
 					TextOut(GetMemDC(),

@@ -13,16 +13,17 @@ GameScene::~GameScene()
 
 HRESULT GameScene::Init()
 {
-	mainMap = new MainMap;
-	mainMap->Init();
+	//mainMap = new MainMap;
+	//mainMap->Init();
 	LoadMap(0);
 	buildingVector.reserve(1000);
 	unitVector.reserve(1000);
 	selectVector.reserve(50);
+
+	consoleImage = IMAGEMANAGER->FindImage("ZurgConsole");
+
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 + 500}));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 }));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 + 800}));
 	
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -41,7 +42,7 @@ HRESULT GameScene::Init()
 
 void GameScene::Release()
 {
-	SAFE_DELETE(mainMap);
+	//SAFE_DELETE(mainMap);
 }
 
 void GameScene::Update()
@@ -49,10 +50,10 @@ void GameScene::Update()
 	ShowCursor(false);
 
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
-	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
+	cameraRect1 = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
+	cameraRect2 = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY - 200);
 
-	mainMap->Update();
-	PLAYERMANAGER->Update();
+	//mainMap->Update();
 
 	// 모든 건물 업데이트
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -145,7 +146,6 @@ void GameScene::Update()
 			unitVector.push_back(PLAYERMANAGER->ReturnUnitVector());
 		}
 	}
-
 
 	// 변태를 마치면 삭제 후 해처리 현재 라바 수 감소
 	for (int i = 0; i < unitVector.size(); i++)
@@ -252,7 +252,35 @@ void GameScene::Update()
 
 void GameScene::Render()
 {
-	mainMap->Render(GetMemDC());
+	//mainMap->Render(GetMemDC());
+
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect1, &_tileMap[i].rect))
+		{
+			if (_tileMap[i].tileKind != TILEKIND_NONE)
+			{
+				switch (_tileMap[i].tileKind)
+				{
+				case TILEKIND_BASETERRAIN:
+					IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_TERRAIN:
+					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_CREEP:
+					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_STAIR:
+					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_STAIRBLOCK:
+					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				}
+			}
+		}
+	}
 
 	// 렉트 테스트용
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
@@ -271,7 +299,7 @@ void GameScene::Render()
 	// 모든 건물 렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		if (IntersectRect(&tempRect, &cameraRect, &buildingVector[i]->GetBuildingRect()))
+		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
 		{
 			buildingVector[i]->Render(GetMemDC());
 		}
@@ -280,7 +308,7 @@ void GameScene::Render()
 	// 모든 유닛 렌더링
 	for (int i = 0; i < unitVector.size(); i++)
 	{
-		if (IntersectRect(&tempRect, &cameraRect, &unitVector[i]->GetUnitRect()))
+		if (IntersectRect(&tempRect, &cameraRect2, &unitVector[i]->GetUnitRect()))
 		{
 			unitVector[i]->Render(GetMemDC());
 		}
@@ -314,16 +342,22 @@ void GameScene::Render()
 	}
 
 	// 유닛보다는 위에 있고 유닛 UI보다는 아래에 있는 콘솔 렌더링
-	IMAGEMANAGER->FindImage("ZurgConsole")->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+	consoleImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
 	
 	// 콘솔 위에 띄워질 UI렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		buildingVector[i]->RenderUI(GetMemDC());
+		if (buildingVector[i]->GetIsClick())
+		{
+			buildingVector[i]->RenderUI(GetMemDC());
+		}
 	}
 	for (int i = 0; i < unitVector.size(); i++)
 	{
-		unitVector[i]->RenderUI(GetMemDC());
+		if (unitVector[i]->GetIsClick())
+		{
+			unitVector[i]->RenderUI(GetMemDC());
+		}
 	}
 }
 

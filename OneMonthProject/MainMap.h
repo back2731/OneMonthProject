@@ -10,11 +10,6 @@ private:
 	int _center;
 	char str[128];
 
-	//int count = 0;
-
-	int loadData;
-	int resetData;
-
 	int currentX;
 	int currentY;
 
@@ -39,13 +34,5 @@ public:
 	void DrawTileMap(HDC hdc);
 	void Load(int loadCount);
 
-	void DrawLineX(HDC hdc, int left, int top);
-	void DrawLineY(HDC hdc, int left, int top);
-
-	//DWORD* getAttribute() { return _attribute; }
-	//tagTile* getMap() { return _map; }
-	//int getPosFirst() { return _pos[0]; }
-	//int getPosSecond() { return _pos[1]; }
-	//void attackBlock(int tileN);
 };
 

@@ -51,7 +51,7 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("larva", "images/Unit/larva.bmp", 180 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL * 16, 5, 16, true, RGB(0, 222, 0));
 	
 	// 드론 이미지
-	IMAGEMANAGER->AddFrameImage("drone", "images/Unit/drone.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("drone", "images/Unit/droneTest.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("droneShadow", "images/Unit/droneShadow.bmp", 1280 * IMAGESIZECONTROL, 1152 * IMAGESIZECONTROL, 10, 9, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("droneBirth", "images/Unit/droneBirth.bmp", 3072 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 32, 1, true, RGB(0, 222, 0));
 

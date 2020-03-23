@@ -60,6 +60,7 @@ protected:
 	bool			isClick;
 
 	CommandBase*	commandSlot[COMMANDMAX];
+	Image*			commandImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
 

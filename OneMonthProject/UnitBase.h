@@ -216,7 +216,6 @@ public:
 	void SetStartTile();
 	void MoveUnit();
 	int ChangeImageFrame();
-	void RenderAstar(HDC hdc);
 
 	void PlayAstar();
 

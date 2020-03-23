@@ -298,67 +298,6 @@ int UnitBase::ChangeImageFrame()
 	return saveNumber;
 }
 
-void UnitBase::RenderAstar(HDC hdc)
-{
-	if (KEYMANAGER->IsToggleKey(VK_TAB))
-	{
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (IntersectRect(&tempRect, &cameraRect, &_tileMap[i].rect))
-			{
-				if (_tileMap[i].block)
-				{
-					if (i == startTile)
-					{
-						startTile = -1;
-					}
-					if (i == endTile)
-					{
-						endTile = -1;
-					}
-					BeginSolidColor(hdc, &brush, RGB(0, 0, 255));
-				}
-				else if (i == startTile)
-				{
-					BeginSolidColor(hdc, &brush, RGB(0, 255, 0));
-				}
-				else if (i == endTile)
-				{
-					BeginSolidColor(hdc, &brush, RGB(255, 0, 0));
-				}
-				else if (_tileMap[i].showState == STATE_OPEN)
-				{
-					BeginSolidColor(hdc, &brush, RGB(128, 255, 255));
-				}
-				else if (_tileMap[i].showState == STATE_CLOSE)
-				{
-					BeginSolidColor(hdc, &brush, RGB(128, 255, 0));
-				}
-				else if (_tileMap[i].showState == STATE_PATH)
-				{
-					BeginSolidColor(hdc, &brush, RGB(255, 128, 128));
-				}
-				else
-				{
-					BeginSolidColor(hdc, &brush, RGB(255, 255, 255));
-				}
-				RectangleMake(hdc, _tileMap[i].rect);
-				RectangleMake(hdc, testRect[i]);
-
-				DeleteObject(brush);
-			}
-		}//end of for
-	}
-
-	BeginSolidColor(hdc, &brush, RGB(100, 100, 100));
-	Rectangle(hdc, playerRect.left, playerRect.top, playerRect.right, playerRect.bottom);
-	DeleteObject(brush);
-
-	//sprintf_s(str, "count :  %d", count);
-	//TextOut(hdc, 0, 0, str, strlen(str));
-
-}
-
 void UnitBase::PlayAstar()
 {	//int currentTile = startTile;
 
