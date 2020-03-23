@@ -50,7 +50,6 @@ void MainGame::Update()
 	ANIMATIONMANAGER->Update();
 	SCENEMANAGER->Update();
 
-	//ShowCursor(false);
 }
 
 void MainGame::Render(/*HDC hdc*/)

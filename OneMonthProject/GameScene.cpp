@@ -15,16 +15,15 @@ HRESULT GameScene::Init()
 {
 	mainMap = new MainMap;
 	mainMap->Init();
-	PLAYERMANAGER->Init();
+	LoadMap(0);
 	buildingVector.reserve(1000);
 	unitVector.reserve(1000);
 	selectVector.reserve(50);
-
 	// 초기 해처리 생성
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2 - 400, WINSIZEY / 2}));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2}));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2 + 400, WINSIZEY / 2}));
-
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 + 500}));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 + 800}));
+	
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
@@ -47,6 +46,8 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+	ShowCursor(false);
+
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
@@ -182,7 +183,7 @@ void GameScene::Update()
 
 	// 유닛간의 충돌처리 함수
 	COLLISIONMANAGER->SameVectorCollision(unitVector);
-	
+
 	// 명령이 종료되면 false로 세팅하는 함수
 	PLAYERMANAGER->SetInputCommandTransDrone(false);
 	PLAYERMANAGER->SetInputCommandMove(false);
@@ -233,11 +234,25 @@ void GameScene::Update()
 	//		buildingVector[i]->SetIsClick(false);
 	//	}
 	//}
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		for (int j = 0; j < buildingVector.size(); j++)
+		{
+			if (_tileMap[i].block == true) continue;
+			{
+				if (IntersectRect(&tempRect, &_tileMap[i].rect, &buildingVector[j]->GetBuildingRect()))
+				{
+					_tileMap[i].block = true;
+					PLAYERMANAGER->SetBlockTile(i);
+				}
+			}
+		}
+	}
 }
 
 void GameScene::Render()
 {
-	mainMap->Render();
+	mainMap->Render(GetMemDC());
 
 	// 렉트 테스트용
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
@@ -310,4 +325,13 @@ void GameScene::Render()
 	{
 		unitVector[i]->RenderUI(GetMemDC());
 	}
+}
+
+void GameScene::LoadMap(int loadCount)
+{
+	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
+
+	CloseHandle(file);
 }

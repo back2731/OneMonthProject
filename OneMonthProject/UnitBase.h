@@ -70,12 +70,23 @@ struct UnitStatus
 	Image*		unitShadowImage;		// 유닛 이미지
 	Animation*	unitAnimation;			// 유닛 애니메이션
 	Image*		unitSelectImage;		// 유닛 선택 테두리 이미지
-	Image*		unitFrontProgress;		// 유닛 체력바 (전면)
-	Image*		unitBackProgress;		// 유닛 체력바 (후면)
+	Image*		unitFrontProgressImage;	// 유닛 체력바 (전면)
+	Image*		unitBackProgressImage;	// 유닛 체력바 (후면)
 
 	RECT		unitRect;				// 유닛 렉트
 	float		unitRectX;				// 유닛 렉트 X
 	float		unitRectY;				// 유닛 렉트 Y
+	float		unitImageWidthHalf;		// 유닛 이미지 WidthHalf
+	float		unitImageHeightHalf;	// 유닛 이미지 HeightHalf
+
+	float		unitImageWidthQuarter;	// 유닛 이미지 WidthQuarter
+	float		unitImageHeightQuarter;	// 유닛 이미지 HeightQuarter
+
+	float		unitSelectImageWidth;	// 유닛 Select 이미지 Width
+	float		unitSelectImageHeight;	// 유닛 Select 이미지 Height
+	
+	float		unitProgressWidth;		// 유닛 프로그래스 Width
+	float		unitProgressHeight;		// 유닛 프로그래스 Height
 
 	int			frameCount;				// 애니메이션용 카운트 변수
 	int			frameIndexX;			// 애니메이션용 인덱스 변수 X
@@ -94,10 +105,10 @@ protected:
 	bool			isTransform;
 
 	CommandBase*	commandSlot[COMMANDMAX];
+	Image*			commandImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
 	// a스타용 변수들
-	//TAGTILE			tiles[TILESIZE];
 	TAGTILE			_tileMap[TILE_COUNT_X * TILE_COUNT_Y];
 
 	vector<int>		openList;
@@ -105,6 +116,8 @@ protected:
 	vector<int>::iterator iter;
 
 	vector<int>		saveRoad;
+
+	vector<int>		blockTile;
 
 	int				startTile;
 	int				endTile;
@@ -197,7 +210,7 @@ public:
 
 	void InitAstar();
 	void UpdateAstar(float unitX, float unitY);
-
+	void SetBlock();
 	void SetEndTile();
 	void SetAstarVector();
 	void SetStartTile();
@@ -208,5 +221,7 @@ public:
 	void PlayAstar();
 
 	void LoadMap(int loadCount);
+
+	void SetTileBlock(int num, bool test) { _tileMap[num].block = test; }
 };
 

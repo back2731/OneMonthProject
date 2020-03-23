@@ -79,22 +79,8 @@ void UnitBase::SetCommandRect()
 
 void UnitBase::InitAstar()
 {
-
 	LoadMap(0);
 
-		_tileMap[70].block = true;
-		_tileMap[71].block = true;
-		_tileMap[72].block = true;
-		_tileMap[73].block = true;
-		_tileMap[74].block = true;
-		_tileMap[75].block = true;
-		_tileMap[10].block = true;
-		_tileMap[20].block = true;
-		_tileMap[30].block = true;
-		_tileMap[40].block = true;
-		_tileMap[50].block = true;
-		_tileMap[268].block = true;
-	
 	isFind = false;
 	noPath = false;
 	startAstar = false;
@@ -130,10 +116,23 @@ void UnitBase::UpdateAstar(float unitX, float unitY)
 
 }
 
+void UnitBase::SetBlock()
+{
+	for (int i = 0; i < PLAYERMANAGER->GetBlockTileVector().size(); i++)
+	{
+		blockTile.push_back(PLAYERMANAGER->ReturnBlockTile(i));
+	}
+	for(int i = 0; i < blockTile.size(); i++)
+	{
+		_tileMap[blockTile[i]].block = true;
+	}
+}
+
 void UnitBase::SetEndTile()
 {
 	for (int i = 0; i < TILESIZE; i++)
 	{
+		if (PtInRect(&_tileMap[i].rect, m_ptMouse) == _tileMap[i].block) continue;
 		if (PtInRect(&_tileMap[i].rect, m_ptMouse))
 		{
 			{
@@ -517,6 +516,5 @@ void UnitBase::LoadMap(int loadCount)
 	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 
 	CloseHandle(file);
-
 }
 

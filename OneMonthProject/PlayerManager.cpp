@@ -14,7 +14,6 @@ PlayerManager::~PlayerManager()
 HRESULT PlayerManager::Init()
 {
 	selectLarva = false;
-
 	return S_OK;
 }
 
@@ -46,4 +45,10 @@ UnitBase * PlayerManager::ReturnUnitVector()
 	}
 
 	return tempUnitBase;
+}
+
+int PlayerManager::ReturnBlockTile(int i)
+{
+	blockTileNum = blockTile[i];
+	return blockTileNum;
 }

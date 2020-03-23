@@ -77,6 +77,7 @@ void SubWindow::Update()
 	{
 		currentScene->Update();
 	}
+	ShowCursor(true);
 }
 
 void SubWindow::Render()

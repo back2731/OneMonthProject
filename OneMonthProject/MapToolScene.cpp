@@ -40,6 +40,7 @@ HRESULT MapToolScene::Init()
 	openDoor = false;
 
 	SetMapTool();
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY);
 
 	return S_OK;
 }
@@ -50,15 +51,15 @@ void MapToolScene::Release()
 
 void MapToolScene::Update()
 {
+	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY);
+
+	ShowCursor(false);
+
 	// 서브윈도우 업데이트
 #ifdef SUBWINOPEN
 	SUBWIN->Update();
-#endif // SUBWINOPEN
 
-	if (KEYMANAGER->IsStayKeyDown('W')) { currentY += 10; }
-	if (KEYMANAGER->IsStayKeyDown('S')) { currentY -= 10; }
-	if (KEYMANAGER->IsStayKeyDown('A')) { currentX += 10; }
-	if (KEYMANAGER->IsStayKeyDown('D')) { currentX -= 10; }
+#endif // SUBWINOPEN
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_TAB))
 	{
@@ -92,7 +93,8 @@ void MapToolScene::Update()
 			_locationX = locationX;
 			_locationY = locationY;
 		}
-	}
+	}	
+
 }
 
 void MapToolScene::Render()
@@ -140,15 +142,23 @@ void MapToolScene::DrawTileMap()
 					switch (_tileMap[i*TILE_COUNT_X + j].tileKind)
 					{
 
-					case TILEKIND_TERRAIN:
+					case TILEKIND_BASETERRAIN:
 						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
 							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
-					case TILEKIND_TERRAIN2:
+					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
 							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
-					case TILEKIND_TERRAIN3:
+					case TILEKIND_CREEP:
+						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
+						break;
+					case TILEKIND_STAIR:
+						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
+						break;
+					case TILEKIND_STAIRBLOCK:
 						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
 							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
@@ -156,7 +166,7 @@ void MapToolScene::DrawTileMap()
 				}
 			}
 
-			if (IntersectRect(&temp, &debugRect, &_tileMap[i*TILE_COUNT_X + j].rect))
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i*TILE_COUNT_X + j].rect))
 			{
 				if (_isDebug)
 				{
@@ -246,6 +256,14 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 			//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
 			_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
 			_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = imageFrame;
+			if (_tileMap[locationX*TILE_COUNT_X + locationY].tileKind == TILEKIND_STAIRBLOCK)
+			{
+				_tileMap[locationX*TILE_COUNT_X + locationY].block = true;
+			}
+			if (_tileMap[locationX*TILE_COUNT_X + locationY].tileKind == TILEKIND_CREEP)
+			{
+				_tileMap[locationX*TILE_COUNT_X + locationY].creep = true;
+			}
 		}
 		else
 		{
@@ -258,7 +276,8 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 			//		_tileMap[locationX][locationY].index = TILE_MAX - 1;
 			//	}
 				//_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
-			{	_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
+			{	
+				_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = SelectKind(imageFrame.x, imageFrame.y);
 				_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = imageFrame;
 			}
 		}
@@ -272,6 +291,8 @@ void MapToolScene::SetMap(int locationX, int locationY, bool isAdd)
 			{
 				_tileMap[locationX*TILE_COUNT_X+locationY].tileKind = TILEKIND_NONE;
 				_tileMap[locationX*TILE_COUNT_X+locationY].tilePos = { 0 };
+				_tileMap[locationX*TILE_COUNT_X + locationY].block = false;
+				_tileMap[locationX*TILE_COUNT_X + locationY].creep = false;
 			}
 		//	index = -1;
 		//}
@@ -289,15 +310,81 @@ TILEKIND MapToolScene::SelectKind(int frameX, int frameY)
 	// 초기값이 이것때문에 문제 생기는 것 나중에 확인하고 수정해보자
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM1)
 	{
-		return TILEKIND_TERRAIN;
+		return TILEKIND_BASETERRAIN;
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM2)
 	{
-		return TILEKIND_TERRAIN2;
+		if (frameY == 16)
+		{
+			return TILEKIND_CREEP;
+		}
+		else
+		{
+			return TILEKIND_TERRAIN;
+		}
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)
-	{
-		return TILEKIND_TERRAIN3;
+	{		
+		if (frameY == 0 && (frameX == 1 || frameX == 3 || frameX == 4 || frameX == 6 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 1 && (frameX == 10 || frameX == 11 || frameX == 14 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 2 && (frameX == 9 || frameX == 11))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 3 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7 || frameX == 9 || frameX == 10 || frameX == 11 || frameX == 14 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 4 && (frameX == 12 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 5 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7 || frameX == 10 || frameX == 11 || frameX == 12 || frameX == 14 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 6 && (frameX == 0 || frameX >= 7))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 7 && (frameX == 0 || frameX == 3 || frameX == 5 || frameX == 6 || frameX >= 8))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 8 && (frameX == 0 || frameX == 1 || frameX == 8 || frameX == 9))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 9 && (frameX == 1 || frameX == 4 || frameX == 5 || frameX == 8 || frameX == 9 || frameX == 10 || frameX == 13 || frameX == 14))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 10 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 10 || frameX == 12 || frameX == 13))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 11 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 8 || frameX == 9 || frameX == 12 || frameX == 15))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 12 && (frameX == 4 || frameX == 5))
+		{
+			return TILEKIND_STAIR;
+		}
+		else if (frameY == 13 && (frameX == 0 || frameX == 3 || frameX == 4 || frameX == 5))
+		{
+			return TILEKIND_STAIR;
+		}
+		else
+		{
+			return TILEKIND_STAIRBLOCK;
+		}
 	}
 	return TILEKIND_NONE;
 

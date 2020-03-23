@@ -21,6 +21,9 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("MapTile2", "images/MapTile/MapTile2.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->AddFrameImage("test1", "images/MapTile/test1.bmp",
+		0, 0, 96 * 1 * 2, 96 * 1 * 2, 1, 1, true, RGB(255, 0, 255));
+
 	// UI ÀÌ¹ÌÁö
 	IMAGEMANAGER->AddImage("ZurgConsole", "images/UI/ZurgConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
 

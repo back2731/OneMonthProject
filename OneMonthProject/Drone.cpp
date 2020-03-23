@@ -30,20 +30,32 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("drone");
 	unitStatus.unitShadowImage = IMAGEMANAGER->FindImage("droneShadow");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
+	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressFront");
+	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressBack");
 
-	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth() /3, unitStatus.unitImage->GetFrameHeight()/3);
-	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) / 2;
-	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) / 2;
+	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth() * 0.25, unitStatus.unitImage->GetFrameHeight() * 0.25);
+	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) * 0.5;;
+	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) * 0.5;;
+	
+	unitStatus.unitImageWidthHalf = unitStatus.unitImage->GetFrameWidth() * 0.5;
+	unitStatus.unitImageHeightHalf = unitStatus.unitImage->GetFrameHeight() * 0.5;
+	unitStatus.unitImageWidthQuarter = unitStatus.unitImage->GetFrameWidth() * 0.25;
+	unitStatus.unitImageHeightQuarter = unitStatus.unitImage->GetFrameHeight() * 0.25;
+
+	unitStatus.unitSelectImageWidth = unitStatus.unitSelectImage->GetWidth() * 0.5;
+	unitStatus.unitSelectImageHeight = unitStatus.unitSelectImage->GetHeight() * 0.5;
+	
+	unitStatus.unitProgressWidth = unitStatus.unitBackProgressImage->GetWidth() * 0.5;
+	unitStatus.unitProgressHeight = unitStatus.unitBackProgressImage->GetHeight() * 0.5;
 
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = 5;
-	direction = 5;
-	isClick = false;
-	testNum = 4;
-	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 
+	isClick = false;
+	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
+		
 	InitAstar();
-	
+	SetBlock();
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new MoveCommand);
 	SetCommandSlot(SLOT2, new StopCommand);
@@ -52,7 +64,16 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	SetCommandSlot(SLOT7, new BaseBuilding);
 	SetCommandSlot(SLOT8, new HighBuilding);
 	SetCommandSlot(SLOT9, new Burrow);
-
+	
+	// 명령 이미지 설정
+	commandImage[SLOT1] = IMAGEMANAGER->FindImage("Move");
+	commandImage[SLOT2] = IMAGEMANAGER->FindImage("Stop");
+	commandImage[SLOT3] = IMAGEMANAGER->FindImage("Attack");
+	commandImage[SLOT5] = IMAGEMANAGER->FindImage("Gathering");
+	commandImage[SLOT7] = IMAGEMANAGER->FindImage("BaseBuilding");
+	commandImage[SLOT8] = IMAGEMANAGER->FindImage("HighBuilding");
+	commandImage[SLOT9] = IMAGEMANAGER->FindImage("EvolveBurrow");
+	
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 }
@@ -99,35 +120,34 @@ void Drone::Update()
 	PlayAnimation();
 
 	// 유닛 렉트를 재설정해준다.
-	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth() / 3, unitStatus.unitImage->GetFrameHeight() / 3);
+	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthQuarter, unitStatus.unitImageHeightQuarter);
 }
 
 void Drone::Render(HDC hdc)
 {
-	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, 
-		unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
+	unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,	unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
 	if (isClick)
 	{
 		unitStatus.unitSelectImage->Render
-		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImage->GetWidth() / 2, unitStatus.unitRectY - unitStatus.unitSelectImage->GetHeight() / 2);
+		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImageWidth, unitStatus.unitRectY - unitStatus.unitSelectImageHeight);
 		progressBar->Render
-		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRectY + 40);
+		(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 40);
 	}
-	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImage->GetFrameWidth() / 2, 
-		unitStatus.unitRectY - unitStatus.unitImage->GetFrameHeight() / 2, unitStatus.frameIndexX, unitStatus.frameIndexY);
-	for (int i = 0; i < TILESIZE; i++)
+	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
+		unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
-		if (KEYMANAGER->IsToggleKey(VK_TAB))
+		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+		for (int i = 0; i < TILESIZE; i++)
 		{
 			if (_tileMap[i].block == true)
 			{
 				Rectangle(hdc, _tileMap[i].rect.left, _tileMap[i].rect.top, _tileMap[i].rect.right, _tileMap[i].rect.bottom);
-				HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
 				FillRect(hdc, &_tileMap[i].rect, brush);
-				DeleteObject(brush);
-
 			}
 		}
+		DeleteObject(brush);
 	}
 }
 
@@ -147,15 +167,14 @@ void Drone::RenderUI(HDC hdc)
 			}
 		}
 
-		IMAGEMANAGER->FindImage("Move")->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
-		IMAGEMANAGER->FindImage("Stop")->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
-		IMAGEMANAGER->FindImage("Attack")->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
-		IMAGEMANAGER->FindImage("Gathering")->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
-		IMAGEMANAGER->FindImage("BaseBuilding")->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
-		IMAGEMANAGER->FindImage("HighBuilding")->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
-		IMAGEMANAGER->FindImage("EvolveBurrow")->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+		commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
+		commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
+		commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+		commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+		commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+		commandImage[SLOT8]->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
+		commandImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
 	}
-
 }
 
 void Drone::PlayAnimation()

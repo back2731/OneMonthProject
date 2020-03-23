@@ -10,3 +10,8 @@ MoveCommand::MoveCommand()
 MoveCommand::~MoveCommand()
 {
 }
+
+void MoveCommand::Update()
+{
+
+}

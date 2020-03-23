@@ -1,11 +1,35 @@
 #pragma once
 
+#define SPEED 5
+#define SPEED2 3
+
+//크기
+#define CELL_WIDTH	64
+#define CELL_HEIGHT 64
+
+//타일 갯수
+#define TILE_COUNT_X 64
+#define TILE_COUNT_Y 64
+
+//타일 이미지
+#define TILE_SIZE_X 16
+#define TILE_SIZE_Y 17
+
+#define TILE_MAX 1
+
+#define TILEX 64
+#define TILEY 64
+#define TILESIZE TILEX*TILEY
+
+
 enum TILEKIND
 {
 	TILEKIND_NONE,
+	TILEKIND_BASETERRAIN,
 	TILEKIND_TERRAIN,
-	TILEKIND_TERRAIN2,
-	TILEKIND_TERRAIN3
+	TILEKIND_STAIR,
+	TILEKIND_STAIRBLOCK,
+	TILEKIND_CREEP
 };
 
 struct TAGTILE
@@ -20,6 +44,8 @@ struct TAGTILE
 	TILEKIND tileKind; // 오브젝트, 타일 구분.
 	POINT tilePos; // 샘플타일에서 골라진녀석(frameX, frameY)
 	
+	bool creep;
+
 	bool block;
 
 	int node;

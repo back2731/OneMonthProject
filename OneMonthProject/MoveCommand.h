@@ -9,6 +9,7 @@ private:
 public:
 	MoveCommand();
 	~MoveCommand();
+	void Update();
 
 };
 

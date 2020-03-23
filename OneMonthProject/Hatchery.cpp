@@ -41,7 +41,6 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.frameCount = 0;
 	buildStatus.frameIndexX = 0;
 	buildStatus.frameIndexY = 0;
-	
 	isClick = false;
 
 	progressBar->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
@@ -65,6 +64,7 @@ void Hatchery::Release()
 
 void Hatchery::Update()
 {
+
 	// 해처리 애니메이션 프레임 업데이트
 	PlayAnimation();
 

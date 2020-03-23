@@ -23,7 +23,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	unitStatus.playerNumber = _playerNumber;
 
 	unitStatus.unitMaxHp = 25;
-	unitStatus.unitCurrentHp = 8;
+	unitStatus.unitCurrentHp = 8 + RND->GetInt(17);
 	unitStatus.unitAtk = 0;
 	unitStatus.unitDef = 10;
 	unitStatus.unitTime = 0;
@@ -33,10 +33,24 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("1X1");
+	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressFront");
+	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressBack");
 
 	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
 	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) / 2;
 	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) / 2;
+	
+	unitStatus.unitImageWidthHalf = unitStatus.unitImage->GetFrameWidth() * 0.5;
+	unitStatus.unitImageHeightHalf = unitStatus.unitImage->GetFrameHeight() * 0.5;
+	unitStatus.unitImageWidthQuarter = unitStatus.unitImage->GetFrameWidth() * 0.25;
+	unitStatus.unitImageHeightQuarter = unitStatus.unitImage->GetFrameHeight() * 0.25;
+
+	unitStatus.unitSelectImageWidth = unitStatus.unitSelectImage->GetWidth() * 0.5;
+	unitStatus.unitSelectImageHeight = unitStatus.unitSelectImage->GetHeight() * 0.5;
+
+	unitStatus.unitProgressWidth = unitStatus.unitBackProgressImage->GetWidth() * 0.5;
+	unitStatus.unitProgressHeight = unitStatus.unitBackProgressImage->GetHeight() * 0.5;
+
 
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = RND->GetInt(16);
@@ -61,6 +75,17 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	SetCommandSlot(SLOT8, new TransformUltralisk);
 	SetCommandSlot(SLOT9, new TransformDefiler);
 
+	// 명령 이미지 설정
+	commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
+	commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
+	commandImage[SLOT3] = IMAGEMANAGER->FindImage("TransformOverlord");
+	commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
+	commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
+	commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
+	commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+	commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
+	commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+
 	SetCommandRect();
 }
 
@@ -76,8 +101,6 @@ void Larva::Release()
 
 void Larva::Update()
 {
-
-
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
 	if (isClick)
@@ -89,7 +112,6 @@ void Larva::Update()
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				PLAYERMANAGER->SetInputCommandTransDrone(true);
-
 			}
 
 		}
@@ -99,9 +121,6 @@ void Larva::Update()
 			isTransDrone = true;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}
-
-		// 슬롯 위치 카메라 반영
-		SetCommandRect();
 	}
 
 	PlayAnimation();
@@ -111,10 +130,8 @@ void Larva::Render(HDC hdc)
 {
 	if (isClick)
 	{
-		unitStatus.unitSelectImage->Render
-		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImage->GetWidth() / 2, unitStatus.unitRectY - unitStatus.unitSelectImage->GetHeight() / 2);
-		progressBar->Render
-		(hdc, unitStatus.unitRectX - IMAGEMANAGER->FindImage("ZurgUnitProgressBack")->GetWidth() / 2, unitStatus.unitRectY + 20);
+		unitStatus.unitSelectImage->Render(hdc, unitStatus.unitRectX - unitStatus.unitSelectImageWidth, unitStatus.unitRectY - unitStatus.unitSelectImageHeight);
+		progressBar->Render(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 20);
 	}
 	if (isTransDrone)
 	{
@@ -127,7 +144,10 @@ void Larva::Render(HDC hdc)
 }
 
 void Larva::RenderUI(HDC hdc)
-{
+{	
+	// 슬롯 위치 카메라 반영
+	SetCommandRect();
+
 	if (isClick)
 	{
 		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
@@ -139,17 +159,16 @@ void Larva::RenderUI(HDC hdc)
 				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
 			}
 		}
-		IMAGEMANAGER->FindImage("TransformDrone")->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
-		IMAGEMANAGER->FindImage("TransformZergling")->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
-		IMAGEMANAGER->FindImage("TransformOverlord")->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
-		IMAGEMANAGER->FindImage("TransformHydralisk")->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
-		IMAGEMANAGER->FindImage("TransformMutalisk")->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
-		IMAGEMANAGER->FindImage("TransformScourge")->Render(hdc, commandRect[SLOT6].left, commandRect[SLOT6].top);
-		IMAGEMANAGER->FindImage("TransformQueen")->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
-		IMAGEMANAGER->FindImage("TransformUltralisk")->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
-		IMAGEMANAGER->FindImage("TransformDefiler")->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+		commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
+		commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
+		commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+		commandImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
+		commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+		commandImage[SLOT6]->Render(hdc, commandRect[SLOT6].left, commandRect[SLOT6].top);
+		commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+		commandImage[SLOT8]->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
+		commandImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
 	}
-
 }
 
 void Larva::PlayAnimation()

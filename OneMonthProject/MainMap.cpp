@@ -13,23 +13,8 @@ HRESULT MainMap::Init()
 {
 	_locationX = 0;
 	_locationY = 0;
-	_center = 0;
-	memset(_tileMap, 0, sizeof(_tileMap));
 
-	currentX = 0;
-	currentY = 0;
-
-	openDoor = true;
-
-	moveUp = false;
-	moveDown = false;
-	moveRight = false;
-	moveLeft = false;
-
-	stopCamera = true;
-	loadData = RND->GetInt(1);
-	load(0);
-	_isDebug = false;
+	Load(0);
 
 	return S_OK;
 }
@@ -43,12 +28,12 @@ void MainMap::Update()
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 }
 
-void MainMap::Render()
+void MainMap::Render(HDC hdc)
 {
-	DrawTileMap();
-	//Rectangle(GetMemDC(), cameraRect.left, cameraRect.top, cameraRect.right, cameraRect.bottom);
+	DrawTileMap(hdc);
+	//Rectangle(hdc, cameraRect.left, cameraRect.top, cameraRect.right, cameraRect.bottom);
 	//HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
-	//FillRect(GetMemDC(), &cameraRect, brush);
+	//FillRect(hdc, &cameraRect, brush);
 	//DeleteObject(brush);
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
@@ -58,16 +43,30 @@ void MainMap::Render()
 			{
 				if (IntersectRect(&temp, &cameraRect, &_tileMap[i*TILE_COUNT_X+j].rect))
 				{
-					SetTextColor(GetMemDC(), RGB(255, 0, 0));
+					SetTextColor(hdc, RGB(255, 0, 0));
 					sprintf_s(str, "(%d)", i*TILE_COUNT_X + j);
-					TextOut(GetMemDC(), _tileMap[i*TILE_COUNT_X+j].left + CELL_WIDTH / 2 - 20, _tileMap[i*TILE_COUNT_X+j].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+					TextOut(hdc, _tileMap[i*TILE_COUNT_X+j].left + CELL_WIDTH / 2 - 20, _tileMap[i*TILE_COUNT_X+j].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
 				}
 			}
 		}
 	}
+
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	{
+		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (_tileMap[i].block == true)
+			{
+				Rectangle(hdc, _tileMap[i].rect.left, _tileMap[i].rect.top, _tileMap[i].rect.right, _tileMap[i].rect.bottom);
+				FillRect(hdc, &_tileMap[i].rect, brush);
+			}
+		}
+		DeleteObject(brush);
+	}
 }
 
-void MainMap::DrawTileMap()
+void MainMap::DrawTileMap(HDC hdc)
 {
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -90,28 +89,34 @@ void MainMap::DrawTileMap()
 				{
 					switch (_tileMap[i*TILE_COUNT_X+j].tileKind)
 					{
-					case TILEKIND_TERRAIN:
-						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
+					case TILEKIND_BASETERRAIN:
+						IMAGEMANAGER->FrameRender("BaseMap", hdc,
 							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
 							break;
-					case TILEKIND_TERRAIN2:
-						IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(),
+					case TILEKIND_TERRAIN:
+						IMAGEMANAGER->FrameRender("MapTile1", hdc,
 							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
 						break;
-					case TILEKIND_TERRAIN3:
-						IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(),
+					case TILEKIND_CREEP:
+						IMAGEMANAGER->FrameRender("MapTile1", hdc,
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
+						break;
+					case TILEKIND_STAIR:
+						IMAGEMANAGER->FrameRender("MapTile2", hdc,
 							_tileMap[i*TILE_COUNT_X+j].left, _tileMap[i*TILE_COUNT_X+j].top, _tileMap[i*TILE_COUNT_X+j].tilePos.x, _tileMap[i*TILE_COUNT_X+j].tilePos.y);
+						break;
+					case TILEKIND_STAIRBLOCK:
+						IMAGEMANAGER->FrameRender("MapTile2", hdc,
+							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
 					}
 				}
 			}
 		}
 	}
-
-
 }
 
-void MainMap::load(int loadCount)
+void MainMap::Load(int loadCount)
 {
 	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -120,18 +125,18 @@ void MainMap::load(int loadCount)
 	CloseHandle(file);
 }
 
-void MainMap::DrawLineX(int left, int top)
+void MainMap::DrawLineX(HDC hdc, int left, int top)
 {
 	int centerX = left;
 	int centerY = top;
 
-	LineMake(GetMemDC(), centerX, centerY, centerX + CELL_WIDTH, centerY);
+	LineMake(hdc, centerX, centerY, centerX + CELL_WIDTH, centerY);
 }
 
-void MainMap::DrawLineY(int left, int top)
+void MainMap::DrawLineY(HDC hdc, int left, int top)
 {
 	int centerX = left;
 	int centerY = top;
 
-	LineMake(GetMemDC(), centerX, centerY, centerX, centerY + CELL_HEIGHT);
+	LineMake(hdc, centerX, centerY, centerX, centerY + CELL_HEIGHT);
 }

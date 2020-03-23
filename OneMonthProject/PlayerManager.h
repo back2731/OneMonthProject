@@ -12,6 +12,8 @@ private:
 
 	bool inputCommandMove;
 
+	vector<int>	blockTile;
+	int blockTileNum;
 	vector<UnitBase*> tempVector;
 	UnitBase* tempUnitBase;
 
@@ -42,5 +44,11 @@ public:
 	vector<UnitBase*> GetTempVector() { return tempVector; }
 	void GetUnitVector(UnitBase* unitClass) { tempVector.push_back(unitClass); }
 	UnitBase* ReturnUnitVector();
+	
+	vector<int> GetBlockTileVector() { return blockTile; }
+	void SetBlockTile(int num) { blockTile.push_back(num); }
+	
+	int ReturnBlockTile(int i);
+
 };
 
