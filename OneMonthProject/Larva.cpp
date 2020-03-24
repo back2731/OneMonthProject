@@ -33,8 +33,8 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("1X1");
-	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressFront");
-	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZurgUnitProgressBack");
+	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
+	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
 
 	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
 	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) / 2;
@@ -62,7 +62,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	//direction = RIGHTDOWN;
 
-	progressBar->Init("images/UI/ZurgUnitProgressFront.bmp", "images/UI/ZurgUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
+	progressBar->Init("images/UI/ZergUnitProgressFront.bmp", "images/UI/ZergUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new TransformDrone);
@@ -188,7 +188,7 @@ void Larva::PlayAnimation()
 				isTransDrone = false;
 				commandSlot[SLOT1]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
 				commandSlot[SLOT1]->Update();
-				unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
+				//unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 			}
 			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
 			unitStatus.frameIndexX++;

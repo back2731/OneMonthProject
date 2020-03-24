@@ -35,6 +35,7 @@ void MainMap::Render(HDC hdc)
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
 		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+
 		for (int i = 0; i < TILESIZE; i++)
 		{
 			if (IntersectRect(&temp, &cameraRect, &_tileMap[i].rect))
@@ -42,6 +43,7 @@ void MainMap::Render(HDC hdc)
 				if (_tileMap[i].block == true)
 				{
 					Rectangle(hdc, _tileMap[i].rect.left, _tileMap[i].rect.top, _tileMap[i].rect.right, _tileMap[i].rect.bottom);
+					
 					FillRect(hdc, &_tileMap[i].rect, brush);
 				}
 
@@ -50,6 +52,7 @@ void MainMap::Render(HDC hdc)
 				TextOut(hdc, _tileMap[i].left + CELL_WIDTH / 2 - 20, _tileMap[i].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
 			}
 		}
+		
 		DeleteObject(brush);
 	}
 }

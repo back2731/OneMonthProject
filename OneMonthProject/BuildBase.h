@@ -87,6 +87,11 @@ public:
 	int GetBuildingRectX() { return buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2; }
 	int GetBuildingRectY() { return buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2; }
 
+	float GetBuildingRectLeft() { return buildStatus.buildRect.left; }
+	float GetBuildingRectTop() { return buildStatus.buildRect.top; }
+	float GetBuildingRectRight() { return buildStatus.buildRect.right; }
+	float GetBuildingRectBottom() { return buildStatus.buildRect.bottom; }
+
 	int GetBuildingPlayerNumber() { return buildStatus.playerNumber; }
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }

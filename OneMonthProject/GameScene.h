@@ -46,6 +46,7 @@ public:
 	void Render();
 
 	void LoadMap(int loadCount);
+	void DrawTileMap();
 
 	//void SetUnitVector(UnitBase* UnitClass) { unitVector.push_back(UnitClass); }
 

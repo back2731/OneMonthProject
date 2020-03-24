@@ -1,6 +1,7 @@
 #pragma once
 #include"SingletonBase.h"
 #include "UnitBase.h"
+#include "BuildBase.h"
 #define KNOCKBACK 30
 
 class CollisionManager : public SingletonBase<CollisionManager>
@@ -15,6 +16,7 @@ public:
 	HRESULT Init();
 
 	// 같은 벡터의 에너미 충돌
-	void SameVectorCollision(vector<UnitBase*>& unitVector);
+	void CollisionSameVector(vector<UnitBase*>& unitVector);
+	void CollisionUnitToBuilding(vector<UnitBase*>& unitVector, vector<BuildBase*>& buildingVector);
 
 };

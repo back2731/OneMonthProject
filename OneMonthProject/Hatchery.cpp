@@ -33,10 +33,10 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildImage = IMAGEMANAGER->FindImage("Hatchery");
 	buildStatus.buildingSelectImage = IMAGEMANAGER->FindImage("4X3");
 	buildStatus.buildingWireFrame = IMAGEMANAGER->FindImage("HatcheryWirefram");
-	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZurgProgressFront");
-	buildStatus.buildingBackProgressImage = IMAGEMANAGER->FindImage("ZurgProgressBack");
+	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZergProgressFront");
+	buildStatus.buildingBackProgressImage = IMAGEMANAGER->FindImage("ZergProgressBack");
 
-	buildStatus.buildRect = RectMakeCenter(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
+	buildStatus.buildRect = RectMake(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
 	buildStatus.buildRectX = buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2;
 	buildStatus.buildRectY = buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2;
 
@@ -54,7 +54,7 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.frameIndexY = 0;
 	isClick = false;
 
-	progressBar->Init("images/UI/ZurgProgressFront.bmp", "images/UI/ZurgProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
+	progressBar->Init("images/UI/ZergProgressFront.bmp", "images/UI/ZergProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
 
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new SelectLarva);

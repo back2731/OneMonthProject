@@ -168,23 +168,23 @@ void MapToolScene::DrawTileMap()
 			{
 				if (_isDebug)
 				{
-					//if (j % 11 == 0)
-					//{
-					//	DrawLineX(left, top);
-					//}
-					//if (i % 17 == 0)
-					//{
-					//	DrawLineY(left, top);
-					//}
+					if (j % 11 == 0)
+					{
+						DrawLineX(left, top);
+					}
+					if (i % 17 == 0)
+					{
+						DrawLineY(left, top);
+					}
 
-					//if (j % 1 == 0)
-					//{
-					//	DrawLineX(left, top);
-					//}
-					//if (i % 1 == 0)
-					//{
-					//	DrawLineY(left, top);
-					//}
+					if (j % 1 == 0)
+					{
+						DrawLineX(left, top);
+					}
+					if (i % 1 == 0)
+					{
+						DrawLineY(left, top);
+					}
 					SetTextColor(GetMemDC(), RGB(255, 0, 0));
 					sprintf_s(str, "(%d)", i*TILE_COUNT_X + j);
 					TextOut(GetMemDC(),

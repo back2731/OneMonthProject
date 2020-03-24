@@ -25,7 +25,7 @@ HRESULT ResourceCollection::Init()
 		0, 0, 96 * 1 * 2, 96 * 1 * 2, 1, 1, true, RGB(255, 0, 255));
 
 	// UI 이미지
-	IMAGEMANAGER->AddImage("ZurgConsole", "images/UI/ZurgConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("ZergConsole", "images/UI/ZergConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
 
 	// 마우스 커서
 	IMAGEMANAGER->AddFrameImage("Cursor", "images/UI/Cursor.bmp", 100 * IMAGESIZECONTROL, 21 * IMAGESIZECONTROL, 5, 1, true, RGB(255, 0, 255));
@@ -37,14 +37,15 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("2X2", "images/UI/2X2.bmp", 80, 80, true, RGB(255, 0, 255));
 
 	// 프로그래스바
-	IMAGEMANAGER->AddImage("ZurgProgressBack", "images/UI/ZurgProgressBack.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("ZurgProgressFront", "images/UI/ZurgProgressFront.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ZergProgressBack", "images/UI/ZergProgressBack.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ZergProgressFront", "images/UI/ZergProgressFront.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	
-	IMAGEMANAGER->AddImage("ZurgUnitProgressBack", "images/UI/ZurgUnitProgressBack.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("ZurgUnitProgressFront", "images/UI/ZurgUnitProgressFront.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ZergUnitProgressBack", "images/UI/ZergUnitProgressBack.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ZergUnitProgressFront", "images/UI/ZergUnitProgressFront.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
 	// 해처리 이미지
-	IMAGEMANAGER->AddFrameImage("Hatchery", "images/Building/HatcheryTest.bmp", 714 * IMAGESIZECONTROL, 88 * IMAGESIZECONTROL, 6, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("Hatchery", "images/Building/Hatchery.bmp", 768 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 6, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("buildingBirthtest", "images/Building/buildingBirthtest.bmp", 3360 * IMAGESIZECONTROL, 133 * IMAGESIZECONTROL, 21, 1, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("HatcheryWirefram", "images/Building/HatcheryWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
 	// 라바 이미지
@@ -74,7 +75,7 @@ HRESULT ResourceCollection::Init()
 	// Base (대부분 들어가는 것들)
 	IMAGEMANAGER->AddImage("Attack", "images/UI/Icon/Base/Attack.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("Patrol", "images/UI/Icon/Base/Patrol.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("Pause", "images/UI/Icon/Base/Pause.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("Cancel", "images/UI/Icon/Base/Cancel.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("Hold", "images/UI/Icon/Base/Hold.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("Move", "images/UI/Icon/Base/Move.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("Stop", "images/UI/Icon/Base/Stop.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
@@ -85,22 +86,28 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("Gathering", "images/UI/Icon/Drone/Gathering.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	
 	// Base 건물
-	IMAGEMANAGER->AddImage("EvolutionChamber", "images/UI/Icon/Drone/BaseBuilding/EvolutionChamber.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("HydraliskDen", "images/UI/Icon/Drone/BaseBuilding/HydraliskDen.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("SpawningPool", "images/UI/Icon/Drone/BaseBuilding/SpawningPool.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("SunkenColony", "images/UI/Icon/Drone/BaseBuilding/SunkenColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("SporeColony", "images/UI/Icon/Drone/BaseBuilding/SporeColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("CreepColony", "images/UI/Icon/Drone/BaseBuilding/CreepColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("Extractor", "images/UI/Icon/Drone/BaseBuilding/Extractor.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("Hatchery", "images/UI/Icon/Drone/BaseBuilding/Hatchery.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("EvolutionChamberUI", "images/UI/Icon/Drone/BaseBuilding/EvolutionChamber.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("HydraliskDenUI", "images/UI/Icon/Drone/BaseBuilding/HydraliskDen.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("SpawningPoolUI", "images/UI/Icon/Drone/BaseBuilding/SpawningPool.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("SunkenColonyUI", "images/UI/Icon/Drone/BaseBuilding/SunkenColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("SporeColonyUI", "images/UI/Icon/Drone/BaseBuilding/SporeColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("CreepColonyUI", "images/UI/Icon/Drone/BaseBuilding/CreepColony.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ExtractorUI", "images/UI/Icon/Drone/BaseBuilding/Extractor.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("HatcheryUI", "images/UI/Icon/Drone/BaseBuilding/Hatchery.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
 	// High 건물
-	IMAGEMANAGER->AddImage("UltraliskCavern", "images/UI/Icon/Drone/HighBuilding/UltraliskCavern.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("DefilerMound", "images/UI/Icon/Drone/HighBuilding/DefilerMound.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("GreaterSpire", "images/UI/Icon/Drone/HighBuilding/GreaterSpire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("NydusCanal", "images/UI/Icon/Drone/HighBuilding/NydusCanal.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("QueensNest", "images/UI/Icon/Drone/HighBuilding/QueensNest.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	IMAGEMANAGER->AddImage("Spire", "images/UI/Icon/Drone/HighBuilding/Spire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("UltraliskCavernUI", "images/UI/Icon/Drone/HighBuilding/UltraliskCavern.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("DefilerMoundUI", "images/UI/Icon/Drone/HighBuilding/DefilerMound.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("GreaterSpireUI", "images/UI/Icon/Drone/HighBuilding/GreaterSpire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("NydusCanalUI", "images/UI/Icon/Drone/HighBuilding/NydusCanal.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("QueensNestUI", "images/UI/Icon/Drone/HighBuilding/QueensNest.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("SpireUI", "images/UI/Icon/Drone/HighBuilding/Spire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+
+
+	// 건물 빌드 시 뜨는 이미지들
+	IMAGEMANAGER->AddImage("Green", "images/UI/Icon/Drone/BaseBuilding/Green.bmp", 32 * IMAGESIZECONTROL, 32 * IMAGESIZECONTROL, true, RGB(0, 0, 0));
+	IMAGEMANAGER->AddImage("Red", "images/UI/Icon/Drone/BaseBuilding/Red.bmp", 32 * IMAGESIZECONTROL, 32 * IMAGESIZECONTROL, true, RGB(0, 0, 0));
+	IMAGEMANAGER->AddImage("mutateHatchery", "images/UI/Icon/Drone/BaseBuilding/mutateHatchery.bmp", 128 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 
 	return S_OK;
 }

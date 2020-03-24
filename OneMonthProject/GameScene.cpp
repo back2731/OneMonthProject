@@ -13,17 +13,16 @@ GameScene::~GameScene()
 
 HRESULT GameScene::Init()
 {
-	//mainMap = new MainMap;
-	//mainMap->Init();
 	LoadMap(0);
 	buildingVector.reserve(1000);
 	unitVector.reserve(1000);
 	selectVector.reserve(50);
 
-	consoleImage = IMAGEMANAGER->FindImage("ZurgConsole");
+	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
 
 	// 초기 해처리 생성
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ WINSIZEX / 2, WINSIZEY / 2 + 500}));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ 0, 0 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ 64*4, 0 }));
 	
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -42,7 +41,6 @@ HRESULT GameScene::Init()
 
 void GameScene::Release()
 {
-	//SAFE_DELETE(mainMap);
 }
 
 void GameScene::Update()
@@ -52,8 +50,6 @@ void GameScene::Update()
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
 	cameraRect1 = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 	cameraRect2 = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY - 200);
-
-	//mainMap->Update();
 
 	// 모든 건물 업데이트
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -167,6 +163,18 @@ void GameScene::Update()
 		}
 	}
 
+	// 변태를 마치면 드론 벡터 삭제
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		if (unitVector[i]->GetUnitKind() == DRONE)
+		{
+			if (unitVector[i]->GetIsTransform())
+			{
+				unitVector.erase(unitVector.begin() + i);
+			}
+		}
+	}
+
 	// 라바 자동 생산 기능
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
@@ -182,7 +190,8 @@ void GameScene::Update()
 	}
 
 	// 유닛간의 충돌처리 함수
-	COLLISIONMANAGER->SameVectorCollision(unitVector);
+	COLLISIONMANAGER->CollisionSameVector(unitVector);
+	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, buildingVector);
 
 	// 명령이 종료되면 false로 세팅하는 함수
 	PLAYERMANAGER->SetInputCommandTransDrone(false);
@@ -193,6 +202,9 @@ void GameScene::Update()
 	{
 		dragRect.left = m_ptMouse.x;
 		dragRect.top = m_ptMouse.y;
+		dragRect.right = m_ptMouse.x;
+		dragRect.bottom = m_ptMouse.y;
+
 		if (!PtInRect(&commandRect, m_ptMouse))
 		{
 			for (int i = 0; i < buildingVector.size(); i++)
@@ -226,14 +238,7 @@ void GameScene::Update()
 		}
 	}
 
-	//// 유닛들이 선택중일시에는 건물선택을 false해준다.
-	//if (selectVector.size() > 0) 
-	//{
-	//	for (int i = 0; i < buildingVector.size(); i++)
-	//	{
-	//		buildingVector[i]->SetIsClick(false);
-	//	}
-	//}
+	// 건물이 설치되면 해당 지역의 block 값을 false로 해주고 전달해준다.
 	for (int i = 0; i < TILESIZE; i++)
 	{
 		for (int j = 0; j < buildingVector.size(); j++)
@@ -252,35 +257,7 @@ void GameScene::Update()
 
 void GameScene::Render()
 {
-	//mainMap->Render(GetMemDC());
-
-	for (int i = 0; i < TILESIZE; i++)
-	{
-		if (IntersectRect(&tempRect, &cameraRect1, &_tileMap[i].rect))
-		{
-			if (_tileMap[i].tileKind != TILEKIND_NONE)
-			{
-				switch (_tileMap[i].tileKind)
-				{
-				case TILEKIND_BASETERRAIN:
-					IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
-					break;
-				case TILEKIND_TERRAIN:
-					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
-					break;
-				case TILEKIND_CREEP:
-					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
-					break;
-				case TILEKIND_STAIR:
-					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
-					break;
-				case TILEKIND_STAIRBLOCK:
-					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
-					break;
-				}
-			}
-		}
-	}
+	DrawTileMap();
 
 	// 렉트 테스트용
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
@@ -335,10 +312,40 @@ void GameScene::Render()
 	}
 	else
 	{
-		dragRect.left = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
-		dragRect.top = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
-		dragRect.right = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
-		dragRect.bottom = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
+
+		dragRect.left = m_ptMouse.x;
+		dragRect.top = m_ptMouse.y;
+		dragRect.right = m_ptMouse.x;
+		dragRect.bottom = m_ptMouse.y;
+		//dragRect.left = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
+		//dragRect.top = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
+		//dragRect.right = CAMERAMANAGER->GetCameraCenter().x + WINSIZEX;
+		//dragRect.bottom = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
+	}
+
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	{
+		HBRUSH myBrush, oldBrush;
+		HPEN myPen, oldPen;
+		
+		myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		oldBrush = (HBRUSH)SelectObject(GetMemDC(), myBrush);
+		myPen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0));
+		oldPen = (HPEN)SelectObject(GetMemDC(), myPen);
+
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (IntersectRect(&tempRect, &cameraRect2, &_tileMap[i].rect))
+			{
+				Rectangle(GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].right, _tileMap[i].bottom);
+			}
+		}
+
+		SelectObject(GetMemDC(), oldBrush);
+		DeleteObject(myBrush);
+		SelectObject(GetMemDC(), oldPen);
+		DeleteObject(myPen);
+
 	}
 
 	// 유닛보다는 위에 있고 유닛 UI보다는 아래에 있는 콘솔 렌더링
@@ -368,4 +375,35 @@ void GameScene::LoadMap(int loadCount)
 	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 
 	CloseHandle(file);
+}
+
+void GameScene::DrawTileMap()
+{
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect1, &_tileMap[i].rect))
+		{
+			if (_tileMap[i].tileKind != TILEKIND_NONE)
+			{
+				switch (_tileMap[i].tileKind)
+				{
+				case TILEKIND_BASETERRAIN:
+					IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_TERRAIN:
+					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_CREEP:
+					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_STAIR:
+					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				case TILEKIND_STAIRBLOCK:
+					IMAGEMANAGER->FrameRender("MapTile2", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					break;
+				}
+			}
+		}
+	}
 }

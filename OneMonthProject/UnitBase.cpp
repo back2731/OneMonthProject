@@ -144,6 +144,22 @@ void UnitBase::SetEndTile()
 	}
 }
 
+void UnitBase::SetEndTile(int num)
+{
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (PtInRect(&_tileMap[i].rect, m_ptMouse) == _tileMap[i].block) continue;
+		if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+		{
+			{
+				endTile = i + num;
+				endX = endTile % TILEX;
+				endY = endTile / TILEX;
+			}
+		}
+	}
+}
+
 void UnitBase::SetAstarVector()
 {
 	isFind = false;

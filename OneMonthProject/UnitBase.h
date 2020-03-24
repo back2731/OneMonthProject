@@ -212,6 +212,7 @@ public:
 	void UpdateAstar(float unitX, float unitY);
 	void SetBlock();
 	void SetEndTile();
+	void SetEndTile(int num);
 	void SetAstarVector();
 	void SetStartTile();
 	void MoveUnit();
