@@ -3,19 +3,15 @@
 class PlayerManager : public SingletonBase<PlayerManager>
 {
 private:
-	int saveX;
-	int saveY;
 	
-	bool selectLarva;
-	
-	bool inputCommandTransDrone;
+	bool	inputCommandMove;
+	bool	isSearch = false;
 
-	bool inputCommandMove;
+	int		changeState;
+	int		saveUnitPosition;
 
 	vector<int>	blockTile;
 	int blockTileNum;
-	vector<UnitBase*> tempVector;
-	UnitBase* tempUnitBase;
 
 public:
 	PlayerManager();
@@ -26,24 +22,19 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void SetSelectLarva(bool _isPush) { selectLarva = _isPush; }
-	bool GetSelectLarvaValue() { return selectLarva; }
-
 	// 명령 컨트롤
-	void SetInputCommandTransDrone(bool _inputCommand) { inputCommandTransDrone = _inputCommand; }
-	bool GetInputCommandTransDrone() { return inputCommandTransDrone; }
-
 	void SetInputCommandMove(bool _inputCommand) { inputCommandMove = _inputCommand; }
 	bool GetInputCommandMove() { return inputCommandMove; }
+	
+	void SetChangeState(int _changeState) { changeState = _changeState; }
+	int GetChangeState() { return changeState; }
 
+	void SetSaveUnitPosition(int _saveUnitPosition) { saveUnitPosition = _saveUnitPosition; }
+	int GetSaveUnitPosition() { return saveUnitPosition; }
 
-	void SetXY(int x, int y);
-	int GetSaveX() { return saveX; }
-	int GetSaveY() { return saveY; }
+	void SetIsSearch(int _isSearch) { isSearch = _isSearch; }
+	int GetIsSearch() { return isSearch; }
 
-	vector<UnitBase*> GetTempVector() { return tempVector; }
-	void GetUnitVector(UnitBase* unitClass) { tempVector.push_back(unitClass); }
-	UnitBase* ReturnUnitVector();
 	
 	vector<int> GetBlockTileVector() { return blockTile; }
 	void SetBlockTile(int num) { blockTile.push_back(num); }

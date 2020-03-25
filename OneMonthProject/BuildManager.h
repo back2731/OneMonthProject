@@ -31,6 +31,8 @@ enum PlayerNumber
 class BuildManager : public SingletonBase<BuildManager>
 {
 private:
+	vector<BuildBase*> tempVector;
+	BuildBase* tempBuildBase;
 
 public:
 	BuildManager();
@@ -41,6 +43,11 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	Hatchery* CreateHatchery(POINT XY);
+	Hatchery* CreateHatchery(int playerNumber, POINT XY);
+
+
+	vector<BuildBase*> GetTempVector() { return tempVector; }
+	void SetBuildingVector(BuildBase* buildClass) { tempVector.push_back(buildClass); }
+	BuildBase* ReturnBuildingVector();
 };
 

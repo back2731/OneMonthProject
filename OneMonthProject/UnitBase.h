@@ -32,7 +32,6 @@ enum STATE
 	STATE_PATH
 };
 
-
 enum DIRECTION
 {
 	DIRECTION_UP,
@@ -49,6 +48,14 @@ enum UNITKIND
 {
 	LARVA,
 	DRONE,
+	ZERGLING
+};
+
+enum UNITSTATE
+{
+	IDLE,
+	MOVE,
+	ATTACK
 };
 
 struct UnitStatus
@@ -66,14 +73,17 @@ struct UnitStatus
 	int			unitMineralPrice;		// 유닛 미네랄 가격
 	int			unitGasPrice;			// 유닛 가스 가격
 
+	int			unitState;				// 유닛 상태
+
 	Image*		unitImage;				// 유닛 이미지
-	Image*		unitShadowImage;		// 유닛 이미지
+	Image*		enemyUnitImage1;				// 유닛 이미지
 	Animation*	unitAnimation;			// 유닛 애니메이션
 	Image*		unitSelectImage;		// 유닛 선택 테두리 이미지
 	Image*		unitFrontProgressImage;	// 유닛 체력바 (전면)
 	Image*		unitBackProgressImage;	// 유닛 체력바 (후면)
 
 	RECT		unitRect;				// 유닛 렉트
+	RECT		unitSearchingRect;			// 유닛 어택 렉트
 	float		unitRectX;				// 유닛 렉트 X
 	float		unitRectY;				// 유닛 렉트 Y
 	float		unitImageWidthHalf;		// 유닛 이미지 WidthHalf
@@ -100,6 +110,8 @@ protected:
 	ProgressBar*	progressBar;
 	
 	int				direction;
+	int				saveUnitPosition;
+	int				currentTile;
 
 	bool			isClick;
 	bool			isTransform;
@@ -116,17 +128,18 @@ protected:
 	vector<int>::iterator iter;
 
 	vector<int>		saveRoad;
-
 	vector<int>		blockTile;
 
 	int				startTile;
 	int				endTile;
-	int				currentTile;
+	int				unitCurrentTile;
+
 	bool			isFind;
 	bool			noPath;
 	bool			startAstar;
 
 	bool			isArrive;
+	bool			isSearch;
 
 	RECT			rc[6];
 
@@ -142,7 +155,6 @@ protected:
 	int				playerY;
 
 	int				saveNumber = DIRECTION_RIGHTDOWN;
-
 
 	HBRUSH			brush;
 	HFONT			font, oldFont;
@@ -177,8 +189,11 @@ public:
 
 	void PlayAnimation();
 
-	RECT GetUnitRect() { return unitStatus.unitRect; }
+	void SetIsSearch(int _isSearch) { isSearch = _isSearch; }
 
+	RECT GetUnitRect() { return unitStatus.unitRect; }
+	RECT GetunitSearchingRect() { return unitStatus.unitSearchingRect; }
+	
 	float GetUnitRectX() { return unitStatus.unitRectX; }
 	float GetUnitRectY() { return unitStatus.unitRectY; }
 
@@ -199,6 +214,7 @@ public:
 
 	void SetIsClick(bool _isClick) { isClick = _isClick; }
 	bool GetIsClick() { return isClick; }
+
 	bool GetIsTransform() { return isTransform; }
 
 	void SetCommandSlot(int rectNumber, CommandBase* commandClass);
@@ -215,6 +231,7 @@ public:
 	void SetEndTile(int num);
 	void SetAstarVector();
 	void SetStartTile();
+	void SetStartTile(int num);
 	void MoveUnit();
 	int ChangeImageFrame();
 
@@ -223,5 +240,9 @@ public:
 	void LoadMap(int loadCount);
 
 	void SetTileBlock(int num, bool test) { _tileMap[num].block = test; }
+
+	// 공격 접근용 
+
+	void SetEndTileATK(int num);
 };
 

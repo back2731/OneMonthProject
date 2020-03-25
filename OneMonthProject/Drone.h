@@ -3,6 +3,9 @@
 #include "Gathering.h"
 #include "BaseBuilding.h"
 #include "HighBuilding.h"
+
+#include "BuildHatchery.h"
+
 #define BUILDINGTILEMAX 16
 
 struct MUTATERECT
@@ -14,6 +17,9 @@ struct MUTATERECT
 class Drone : public UnitBase
 {
 private:
+	CommandBase*	baseBuildingSlot[COMMANDMAX];
+	CommandBase*	highBuildingSlot[COMMANDMAX];
+
 	Image*			baseBuildingImage[COMMANDMAX];
 	Image*			highBuildingImage[COMMANDMAX];
 
@@ -26,8 +32,6 @@ private:
 	Image*			greenRectImage;
 	Image*			redRectImage;
 	MUTATERECT		mutateRect;
-
-	int				saveUnitPosition;
 	
 	RECT			buildRectRender;
 	bool			isPossible;

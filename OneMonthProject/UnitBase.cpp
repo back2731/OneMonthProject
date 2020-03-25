@@ -191,6 +191,14 @@ void UnitBase::SetStartTile()
 	openList.push_back(currentTile);
 }
 
+void UnitBase::SetStartTile(int num)
+{
+	startAstar = true;
+	currentTile = num;
+	//시작지점을 오픈리스트에 넣자
+	openList.push_back(currentTile);
+}
+
 void UnitBase::MoveUnit()
 {
 	if (!saveRoad.empty())
@@ -471,5 +479,12 @@ void UnitBase::LoadMap(int loadCount)
 	ReadFile(file, _tileMap, sizeof(TAGTILE) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 
 	CloseHandle(file);
+}
+
+void UnitBase::SetEndTileATK(int num)
+{
+	endTile = num;
+	endX = endTile % TILEX;
+	endY = endTile / TILEX;
 }
 

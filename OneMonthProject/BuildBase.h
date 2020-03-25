@@ -23,6 +23,7 @@ struct BuildStatus
 	int			buildingGasPrice;			// 건물 가스 가격
 	
 	Image*		buildImage;					// 건물 이미지
+	Image*		enemyBuildImage1;			// 적 건물 이미지
 	Animation*	buildAnimation;				// 건물 애니메이션
 	Image*		buildingSelectImage;		// 건물 선택 테두리 이미지
 	Image*		buildingFrontProgressImage;	// 건물 체력바 (전면)

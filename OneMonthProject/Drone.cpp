@@ -28,7 +28,6 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.unitGasPrice = 0;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("drone");
-	unitStatus.unitShadowImage = IMAGEMANAGER->FindImage("droneShadow");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
@@ -56,6 +55,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 		
 	InitAstar();
 	SetBlock();
+
 	// 명령 슬롯 생성
 	SetCommandSlot(SLOT1, new MoveCommand);
 	SetCommandSlot(SLOT2, new StopCommand);
@@ -89,6 +89,21 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
 	highBuildingImage[SLOT9] = IMAGEMANAGER->FindImage("Cancel");
 
+	baseBuildingSlot[SLOT1] = new BuildHatchery;
+	//baseBuildingSlot[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+	//baseBuildingSlot[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
+	//baseBuildingSlot[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
+	//baseBuildingSlot[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
+	//baseBuildingSlot[SLOT7] = IMAGEMANAGER->FindImage("HydraliskDenUI");
+	//baseBuildingSlot[SLOT9] = IMAGEMANAGER->FindImage("Cancel");
+
+	//highBuildingSlot[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+	//highBuildingSlot[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+	//highBuildingSlot[SLOT3] = IMAGEMANAGER->FindImage("NydusCanalUI");
+	//highBuildingSlot[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+	//highBuildingSlot[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+	//highBuildingSlot[SLOT9] = IMAGEMANAGER->FindImage("Cancel");
+
 	baseUIrender = true;
 	baseBuildingUIrender = false;
 	highBuildingUIrender = false;
@@ -115,7 +130,7 @@ void Drone::Update()
 {
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 		{
@@ -133,6 +148,7 @@ void Drone::Update()
 
 		if (baseUIrender)
 		{
+			// 기본 변태 슬롯으로 변경
 			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 			{
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
@@ -141,6 +157,13 @@ void Drone::Update()
 					baseBuildingUIrender = true;
 				}
 			}
+			if (KEYMANAGER->IsOnceKeyDown('B'))
+			{
+				baseUIrender = false;
+				baseBuildingUIrender = true;
+			}
+
+			// 상위 변태 슬롯으로 변경
 			if (PtInRect(&commandRect[SLOT8], m_ptMouse))
 			{
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
@@ -149,9 +172,15 @@ void Drone::Update()
 					highBuildingUIrender = true;
 				}
 			}
+			if (KEYMANAGER->IsOnceKeyDown('V'))
+			{
+				baseUIrender = false;
+				highBuildingUIrender = true;
+			}
 		}
 		if (baseBuildingUIrender)
 		{
+			// 해처리
 			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 			{
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
@@ -159,6 +188,11 @@ void Drone::Update()
 					mutateHatchery = true;
 				}
 			}
+			if (KEYMANAGER->IsOnceKeyDown('H'))
+			{
+				mutateHatchery = true;
+			}
+
 			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
 
@@ -179,19 +213,22 @@ void Drone::Update()
 			{
 
 			}
+
+			// 뒤로가기
 			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 				{
 					baseUIrender = true;
 					baseBuildingUIrender = false;
-					//mutateHatchery = false;
+					mutateHatchery = false;
 				}
 			}
 			if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
 			{
 				baseUIrender = true;
 				baseBuildingUIrender = false;
+				mutateHatchery = false;
 			}
 		}
 		if (highBuildingUIrender)
@@ -219,6 +256,7 @@ void Drone::Update()
 	}
 	if (mutateHatchery)
 	{
+		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
 			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
@@ -240,6 +278,7 @@ void Drone::Update()
 			}
 		}
 
+		// 설치모드 상태에서의 명령문
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
 			// 설치가 가능할 때
@@ -249,6 +288,7 @@ void Drone::Update()
 				SetAstarVector();
 				SetStartTile();
 
+				// 설치하는 해당 위치를 저장해준다.
 				for (int i = 0; i < TILESIZE; i++)
 				{
 					if (PtInRect(&_tileMap[i].rect, m_ptMouse))
@@ -256,20 +296,22 @@ void Drone::Update()
 						saveUnitPosition = i + TILEX + 1;
 					}
 				}
-				//PLAYERMANAGER->SetInputCommandMove(true);
 
 				mutateHatchery = false;
 				baseBuildingUIrender = false;
-				baseUIrender = true;
+				baseUIrender = false;
+				isClick = false;
 			}
 			// 설치가 불가할 때
 			else
 			{
 				mutateHatchery = true;
+				// 설치불가 메시지를 띄울지 결정
 			}
 		}
-
 	}
+
+	// 해처리 설치 장소에 도달했을 때 변태상태로 이미지를 바꿔준다.
 	if (IntersectRect(&temp, &_tileMap[saveUnitPosition].rect, &unitStatus.unitRect))
 	{
 		isTransHatchery = true;
@@ -278,6 +320,8 @@ void Drone::Update()
 
 	// 애니메이션의 프레임을 돌린다.
 	PlayAnimation();
+
+	// 변태상태가 아닐때 실행하는 부분.
 	if (!isTransHatchery)
 	{
 		// A*실행
@@ -298,17 +342,23 @@ void Drone::Update()
 
 void Drone::Render(HDC hdc)
 {
-	//unitStatus.unitShadowImage->AlphaFrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,	unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY, 125);
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitSelectImage->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImageWidth, unitStatus.unitRectY - unitStatus.unitSelectImageHeight);
 		progressBar->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 40);
 	}
-
-	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
-		unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	if (isTransHatchery)
+	{
+		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - 66].rect.left, _tileMap[saveUnitPosition - 66].rect.top, 
+			unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
+			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
 
 	if (mutateHatchery)
 	{
@@ -328,6 +378,7 @@ void Drone::Render(HDC hdc)
 			}
 		}
 
+		// 설치 가능 여부에 따라 색을 렌더해준다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
 			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
@@ -351,7 +402,7 @@ void Drone::RenderUI(HDC hdc)
 {	
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
@@ -402,13 +453,19 @@ void Drone::PlayAnimation()
 		unitStatus.frameIndexY = 0;
 		unitStatus.frameCount++;
 		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
-		if (unitStatus.frameCount % 3 == 0)
+		if (unitStatus.frameCount % 4 == 0)
 		{
 			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX == 15)
+			{
+				baseBuildingSlot[SLOT1]->GetBirthXY(_tileMap[saveUnitPosition - TILEX - 1].rect.left, _tileMap[saveUnitPosition - TILEX - 1].rect.top);
+				baseBuildingSlot[SLOT1]->Update();
+			}
 			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
 			{
 				unitStatus.frameIndexX = 0;
 				isTransform = true;
+				isTransHatchery = false;
 			}
 			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
 			unitStatus.frameIndexX++;

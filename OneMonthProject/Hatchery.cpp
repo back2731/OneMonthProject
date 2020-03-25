@@ -31,6 +31,7 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildingGasPrice = 0;
 
 	buildStatus.buildImage = IMAGEMANAGER->FindImage("Hatchery");
+	buildStatus.enemyBuildImage1 = IMAGEMANAGER->FindImage("EnemyHatchery");
 	buildStatus.buildingSelectImage = IMAGEMANAGER->FindImage("4X3");
 	buildStatus.buildingWireFrame = IMAGEMANAGER->FindImage("HatcheryWirefram");
 	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZergProgressFront");
@@ -86,16 +87,21 @@ void Hatchery::Update()
 	PlayAnimation();
 
 	// 해당 객체가 클릭 되었을 때
-	if (isClick)
+	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
-		// 명령 컨트롤 업데이트
+		// 셀렉트 라바
 		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
-				PLAYERMANAGER->SetSelectLarva(true);
-				PLAYERMANAGER->SetXY(buildStatus.buildRectX, buildStatus.buildRectY);
+				UNITMANAGER->SetSelectLarva(true);
+				UNITMANAGER->SetXY(buildStatus.buildRectX, buildStatus.buildRectY);
 			}						 
+		}
+		if (KEYMANAGER->IsOnceKeyDown('S'))
+		{
+			UNITMANAGER->SetSelectLarva(true);
+			UNITMANAGER->SetXY(buildStatus.buildRectX, buildStatus.buildRectY);
 		}
 	}
 
@@ -108,7 +114,7 @@ void Hatchery::Update()
 void Hatchery::Render(HDC hdc)
 {	
 	// 해당 객체가 클릭 되었을 때
-	if (isClick)
+	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{  
 		buildStatus.buildingSelectImage->Render
 		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImageWidth, buildStatus.buildRectY - buildStatus.buildingSelectImageHeight);
@@ -116,12 +122,19 @@ void Hatchery::Render(HDC hdc)
 		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom);
 	}
 
-	buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
+	if (buildStatus.playerNumber == PLAYER1)
+	{
+		buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
+	}
+	else if (buildStatus.playerNumber == PLAYER2)
+	{
+		buildStatus.enemyBuildImage1->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
+	}
 }
 
 void Hatchery::RenderUI(HDC hdc)
 {
-	if (isClick)
+	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
 		buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 

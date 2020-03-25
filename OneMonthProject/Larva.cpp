@@ -32,6 +32,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	unitStatus.unitGasPrice = 0;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
+	unitStatus.enemyUnitImage1 = IMAGEMANAGER->FindImage("enemyLarva");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("1X1");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
@@ -59,6 +60,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	isTransform = false;
 
 	isTransDrone = false;
+	isTransZergling = false;
 
 	//direction = RIGHTDOWN;
 
@@ -103,23 +105,50 @@ void Larva::Update()
 {
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
-		// 명령 컨트롤 업데이트
+		// 드론 생산
 		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 		{
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
-				PLAYERMANAGER->SetInputCommandTransDrone(true);
+				UNITMANAGER->SetInputCommandTransDrone(true);
 			}
 
 		}
-		if (PLAYERMANAGER->GetInputCommandTransDrone())
+		if (KEYMANAGER->IsOnceKeyDown('D'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransDrone(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransDrone())
 		{
 			isClick = false;
 			isTransDrone = true;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
+		}
+
+		// 저글링 생산
+		if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransZergling(true);
+			}
+
+		}
+		if (KEYMANAGER->IsOnceKeyDown('Z'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransZergling(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransZergling())
+		{
+			isClick = false;
+			isTransZergling = true;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
 		}
 	}
 
@@ -128,7 +157,7 @@ void Larva::Update()
 
 void Larva::Render(HDC hdc)
 {
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitSelectImage->Render(hdc, unitStatus.unitRectX - unitStatus.unitSelectImageWidth, unitStatus.unitRectY - unitStatus.unitSelectImageHeight);
 		progressBar->Render(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 20);
@@ -137,9 +166,20 @@ void Larva::Render(HDC hdc)
 	{
 		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left-60, unitStatus.unitRect.top-50, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}
+	else if (isTransZergling)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 50, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
 	else
 	{
-		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left, unitStatus.unitRect.top, unitStatus.frameIndexX, unitStatus.frameIndexY);
+		if (unitStatus.playerNumber == PLAYER1)
+		{
+			unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left, unitStatus.unitRect.top, unitStatus.frameIndexX, unitStatus.frameIndexY);
+		}
+		else if (unitStatus.playerNumber == PLAYER2)
+		{
+			unitStatus.enemyUnitImage1->FrameRender(hdc, unitStatus.unitRect.left, unitStatus.unitRect.top, unitStatus.frameIndexX, unitStatus.frameIndexY);
+		}
 	}
 }
 
@@ -148,7 +188,7 @@ void Larva::RenderUI(HDC hdc)
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 
-	if (isClick)
+	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
@@ -194,6 +234,26 @@ void Larva::PlayAnimation()
 			unitStatus.frameIndexX++;
 		}
 	}
+	else if (isTransZergling)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransZergling = false;
+				commandSlot[SLOT2]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT2]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
 	else
 	{
 		unitStatus.frameCount++;
@@ -210,3 +270,4 @@ void Larva::PlayAnimation()
 		}
 	}
 }
+

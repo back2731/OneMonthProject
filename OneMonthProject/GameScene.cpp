@@ -21,19 +21,30 @@ HRESULT GameScene::Init()
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
 
 	// 초기 해처리 생성
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ 0, 0 }));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery({ 64*4, 0 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64*7, 64*4 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64*2, 64*2 }));
 	
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
 		if (buildingVector[i]->GetBuildKind() == HATCHERY)
 		{
-			unitVector.push_back(UNITMANAGER->CreateLarva({ buildingVector[i]->GetBuildingRectX() - 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
-			unitVector.push_back(UNITMANAGER->CreateLarva({ buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 2));
-			unitVector.push_back(UNITMANAGER->CreateLarva({ buildingVector[i]->GetBuildingRectX() + 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 3));
-			
-			buildingVector[i]->SetCurrentLarva(LARVAMAX);
+			if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1)
+			{
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER1, { buildingVector[i]->GetBuildingRectX() - 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER1, { buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 2));
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER1, { buildingVector[i]->GetBuildingRectX() + 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 3));
+
+				buildingVector[i]->SetCurrentLarva(LARVAMAX);
+			}
+			else if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER2)
+			{
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() - 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 2));
+				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() + 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 3));
+
+				buildingVector[i]->SetCurrentLarva(LARVAMAX);
+			}
 		}
 	}
 	return S_OK;
@@ -76,7 +87,7 @@ void GameScene::Update()
 				{
 					buildingVector[j]->SetIsClick(false);
 					buildingVector[i]->SetIsClick(true);
-
+					
 					for (int k = 0; k < unitVector.size(); k++)
 					{
 						unitVector[k]->SetIsClick(false);
@@ -109,14 +120,14 @@ void GameScene::Update()
 				// 선택된 유닛을 셀렉트 벡터에 담는다
 				if (unitVector[i]->GetIsClick())
 				{
-					selectVector.push_back(unitVector[i]);
+					//selectVector.push_back(unitVector[i]);
 				}
 			}
 		}
 	}
 
 	// 해처리(레어, 하이브)에서 셀렉트 라바를 눌렀을 때
-	if (PLAYERMANAGER->GetSelectLarvaValue())
+	if (UNITMANAGER->GetSelectLarvaValue())
 	{
 		for (int i = 0; i < buildingVector.size(); i++)
 		{
@@ -125,21 +136,30 @@ void GameScene::Update()
 
 		for (int i = 0; i < unitVector.size(); i++)
 		{
-			if (unitVector[i]->GetHatcheryX() == PLAYERMANAGER->GetSaveX() && unitVector[i]->GetHatcheryY() == PLAYERMANAGER->GetSaveY())
+			if (unitVector[i]->GetHatcheryX() == UNITMANAGER->GetSaveX() && unitVector[i]->GetHatcheryY() == UNITMANAGER->GetSaveY())
 			{
 				unitVector[i]->SetIsClick(true);
-				selectVector.push_back(unitVector[i]);
+				//selectVector.push_back(unitVector[i]);
 			}
 		}
-		PLAYERMANAGER->SetSelectLarva(false);
+		UNITMANAGER->SetSelectLarva(false);
 	}
 
 	// 생산된 유닛을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
-	if (PLAYERMANAGER->GetTempVector().size() > 0)
+	if (UNITMANAGER->GetTempVector().size() > 0)
 	{
-		while (PLAYERMANAGER->GetTempVector().size() > 0)
+		while (UNITMANAGER->GetTempVector().size() > 0)
 		{
-			unitVector.push_back(PLAYERMANAGER->ReturnUnitVector());
+			unitVector.push_back(UNITMANAGER->ReturnUnitVector());
+		}
+	}
+
+	// 생산된 건물을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
+	if (BUILDMANAGER->GetTempVector().size() > 0)
+	{
+		while (BUILDMANAGER->GetTempVector().size() > 0)
+		{
+			buildingVector.push_back(BUILDMANAGER->ReturnBuildingVector());
 		}
 	}
 
@@ -150,6 +170,7 @@ void GameScene::Update()
 		{
 			if (unitVector[i]->GetIsTransform())
 			{
+				unitVector[i]->SetIsClick(false);
 				for (int j = 0; j < buildingVector.size(); j++)
 				{
 					if (unitVector[i]->GetHatcheryX() == buildingVector[j]->GetBuildingRectX() &&
@@ -176,15 +197,31 @@ void GameScene::Update()
 	}
 
 	// 라바 자동 생산 기능
+	count++;
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
+		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1)
 		{
-			count++;
-			if (count % 200 == 0)
+			if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
 			{
-				unitVector.push_back(UNITMANAGER->CreateLarva({ buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
-				buildingVector[i]->SetCurrentLarva(+1);
+				if (count % 200 == 0)
+				{
+					unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER1, { buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+					buildingVector[i]->SetCurrentLarva(+1);
+					count = 0;
+				}
+			}
+		}
+		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER2)
+		{
+			if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
+			{
+				if (count % 200 == 0)
+				{
+					unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+					buildingVector[i]->SetCurrentLarva(+1);
+					count = 0;
+				}
 			}
 		}
 	}
@@ -194,7 +231,8 @@ void GameScene::Update()
 	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, buildingVector);
 
 	// 명령이 종료되면 false로 세팅하는 함수
-	PLAYERMANAGER->SetInputCommandTransDrone(false);
+	UNITMANAGER->SetInputCommandTransDrone(false);
+	UNITMANAGER->SetInputCommandTransZergling(false);
 	PLAYERMANAGER->SetInputCommandMove(false);
 
 	// 드래그 명령문
@@ -205,22 +243,20 @@ void GameScene::Update()
 		dragRect.right = m_ptMouse.x;
 		dragRect.bottom = m_ptMouse.y;
 
-		if (!PtInRect(&commandRect, m_ptMouse))
+		for (int i = 0; i < buildingVector.size(); i++)
 		{
-			for (int i = 0; i < buildingVector.size(); i++)
-			{
-				buildingVector[i]->SetIsClick(false);
-			}
-			for (int i = 0; i < unitVector.size(); i++)
-			{
-				unitVector[i]->SetIsClick(false);
-			}
+			buildingVector[i]->SetIsClick(false);
 		}
+		for (int i = 0; i < unitVector.size(); i++)
+		{
+			unitVector[i]->SetIsClick(false);
+		}
+
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 	{
 		dragRect.right = m_ptMouse.x;
-		dragRect.bottom = m_ptMouse.y;
+		dragRect.bottom = m_ptMouse.y;			
 	}
 	if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 	{
@@ -228,13 +264,17 @@ void GameScene::Update()
 		dragRect.bottom = m_ptMouse.y;
 	}
 
+
 	// 드래그된 유닛 선택 명령문
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		if (IntersectRect(&tempRect, &dragRect, &unitVector[i]->GetUnitRect()))
 		{
-			unitVector[i]->SetIsClick(true);
-			selectVector.push_back(unitVector[i]);
+	 		unitVector[i]->SetIsClick(true);
+			for (int i = 0; i < buildingVector.size(); i++)
+			{
+				buildingVector[i]->SetIsClick(false);
+			}
 		}
 	}
 
@@ -249,6 +289,35 @@ void GameScene::Update()
 				{
 					_tileMap[i].block = true;
 					PLAYERMANAGER->SetBlockTile(i);
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		for (int j = 0; j < unitVector.size(); j++)
+		{
+			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
+			{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
+				{
+					unitVector[i]->SetIsSearch(true);
+				}
+				else
+				{
+					unitVector[i]->SetIsSearch(false);
+				}
+			}
+		}
+
+		for (int k = 0; k < buildingVector.size(); k++)
+		{
+			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
+			{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
+				{
+
 				}
 			}
 		}

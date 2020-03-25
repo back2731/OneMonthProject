@@ -13,6 +13,7 @@ BuildHatchery::~BuildHatchery()
 
 void BuildHatchery::Update()
 {
+	BUILDMANAGER->SetBuildingVector(BUILDMANAGER->CreateHatchery(PLAYER1, { mutateX, mutateY }));
 }
 
 void BuildHatchery::GetBirthXY(int X, int Y)

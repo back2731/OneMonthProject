@@ -34,8 +34,6 @@ private:
 	DWORD			write;
 	DWORD			read;
 
-	POINT			start;
-	POINT			end;
 public:
 	GameScene();
 	~GameScene();
@@ -47,8 +45,5 @@ public:
 
 	void LoadMap(int loadCount);
 	void DrawTileMap();
-
-	//void SetUnitVector(UnitBase* UnitClass) { unitVector.push_back(UnitClass); }
-
 };
 

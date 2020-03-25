@@ -24,6 +24,8 @@ private:
 	int rndNum;
 
 	bool isTransDrone;
+	bool isTransZergling;
+
 public:
 	Larva();
 	~Larva();
@@ -42,6 +44,7 @@ public:
 	int GetLarvaNumber() { return larvaNumber; }
 
 	void PlayAnimation();
+
 
 };
 
