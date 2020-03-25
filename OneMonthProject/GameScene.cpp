@@ -21,8 +21,10 @@ HRESULT GameScene::Init()
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
 
 	// 초기 해처리 생성
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64*7, 64*4 }));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64*2, 64*2 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+
+	buildingVector.push_back(BUILDMANAGER->CreateSpawningPool(PLAYER1, { 64 * 4, 64 * 10}));
 	
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -200,7 +202,7 @@ void GameScene::Update()
 	count++;
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1)
+		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1 && buildingVector[i]->GetBuildKind() == HATCHERY)
 		{
 			if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
 			{

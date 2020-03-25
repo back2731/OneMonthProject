@@ -92,7 +92,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	baseBuildingSlot[SLOT1] = new BuildHatchery;
 	//baseBuildingSlot[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
 	//baseBuildingSlot[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
-	//baseBuildingSlot[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
+	baseBuildingSlot[SLOT4] = new BuildSpawningPool;
 	//baseBuildingSlot[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
 	//baseBuildingSlot[SLOT7] = IMAGEMANAGER->FindImage("HydraliskDenUI");
 	//baseBuildingSlot[SLOT9] = IMAGEMANAGER->FindImage("Cancel");
@@ -112,6 +112,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	redRectImage = IMAGEMANAGER->FindImage("Red");
 
 	mutateHatcheryImage = IMAGEMANAGER->FindImage("mutateHatchery");
+	mutateSpawningPoolImage = IMAGEMANAGER->FindImage("mutateSpawningPool");
 
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
@@ -193,14 +194,31 @@ void Drone::Update()
 				mutateHatchery = true;
 			}
 
+			// 스포어 콜로니
 			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
 
 			}
+
+			// 익스트렉터
 			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
 			{
 
 			}
+
+			// 스포닝풀
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				{
+					mutateSpawningPool = true;
+				}				
+			}
+			if (KEYMANAGER->IsOnceKeyDown('S'))
+			{
+				mutateSpawningPool = true;
+			}
+
 			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
 			{
 
@@ -254,8 +272,10 @@ void Drone::Update()
 		baseBuildingUIrender = false;
 		highBuildingUIrender = false;
 	}
+
 	if (mutateHatchery)
 	{
+		mutateSpawningPool = false;
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -301,28 +321,107 @@ void Drone::Update()
 				baseBuildingUIrender = false;
 				baseUIrender = false;
 				isClick = false;
+				isArriveHatchery = true;
 			}
 			// 설치가 불가할 때
 			else
 			{
 				mutateHatchery = true;
+				isClick = true;
 				// 설치불가 메시지를 띄울지 결정
 			}
 		}
 	}
 
-	// 해처리 설치 장소에 도달했을 때 변태상태로 이미지를 바꿔준다.
+	if (mutateSpawningPool)
+	{
+		mutateHatchery = false;
+
+		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				for (int j = 0; j < TILESIZE; j++)
+				{
+					if (IntersectRect(&temp, &mutateRect.buildRect[i], &_tileMap[j].rect))
+					{
+						if (i == 3) continue;
+						if (i == 7) continue;
+						if (i == 8) continue;
+						if (i == 9) continue;
+						if (i == 10) continue;
+						if (i == 11) continue;
+						if (_tileMap[j].block)
+						{
+							mutateRect.choiceColor[i] = true;
+						}
+						else
+						{
+							mutateRect.choiceColor[i] = false;
+						}
+					}
+				}
+			}
+		}
+
+		// 설치모드 상태에서의 명령문
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+		{
+			// 설치가 가능할 때
+			if (CheckCollision())
+			{
+				SetEndTile(TILEX + 1);
+				SetAstarVector();
+				SetStartTile();
+
+				// 설치하는 해당 위치를 저장해준다.
+				for (int i = 0; i < TILESIZE; i++)
+				{
+					if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+					{
+						saveUnitPosition = i + TILEX + 1;
+					}
+				}
+
+				mutateSpawningPool = false;
+				baseBuildingUIrender = false;
+				baseUIrender = false;
+				isClick = false;
+				isArriveSpawningPool = true;
+			}
+			// 설치가 불가할 때
+			else
+			{
+				mutateSpawningPool = true;
+				isClick = true;
+				// 설치불가 메시지를 띄울지 결정
+			}
+		}
+	}
+
+	// 설치 장소에 도달했을 때 변태상태로 이미지를 바꿔준다.
 	if (IntersectRect(&temp, &_tileMap[saveUnitPosition].rect, &unitStatus.unitRect))
 	{
-		isTransHatchery = true;
-		unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthtest");
+		if (isArriveHatchery)
+		{
+			isTransHatchery = true;
+			isArriveHatchery = false;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
+		}
+		if (isArriveSpawningPool)
+		{
+			isTransSpawningPool = true;
+			isArriveSpawningPool = false;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
+		}
 	}
 
 	// 애니메이션의 프레임을 돌린다.
 	PlayAnimation();
 
 	// 변태상태가 아닐때 실행하는 부분.
-	if (!isTransHatchery)
+	if (!isTransHatchery && !isTransSpawningPool)
 	{
 		// A*실행
 		UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
@@ -351,7 +450,12 @@ void Drone::Render(HDC hdc)
 	}
 	if (isTransHatchery)
 	{
-		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - 66].rect.left, _tileMap[saveUnitPosition - 66].rect.top, 
+		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX * 2].rect.left, _tileMap[saveUnitPosition - 2].rect.top,
+			unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if(isTransSpawningPool)
+	{
+		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX * 2].rect.left, _tileMap[saveUnitPosition - 3].rect.top,
 			unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}
 	else
@@ -383,6 +487,47 @@ void Drone::Render(HDC hdc)
 		{
 			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
 			{
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, 100);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, 100);
+				}
+			}
+		}
+	}
+
+	if (mutateSpawningPool)
+	{
+		// 마우스 포인트에 스포닝풀 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateSpawningPoolImage->Render(hdc, _tileMap[i].left, _tileMap[i].top);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
 				if (mutateRect.choiceColor[i])
 				{
 					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, 100);
@@ -466,6 +611,29 @@ void Drone::PlayAnimation()
 				unitStatus.frameIndexX = 0;
 				isTransform = true;
 				isTransHatchery = false;
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransSpawningPool)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX == 15)
+			{
+				baseBuildingSlot[SLOT4]->GetBirthXY(_tileMap[saveUnitPosition - TILEX - 1].rect.left, _tileMap[saveUnitPosition - TILEX - 1].rect.top);
+				baseBuildingSlot[SLOT4]->Update();
+			}
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransSpawningPool = false;
 			}
 			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
 			unitStatus.frameIndexX++;

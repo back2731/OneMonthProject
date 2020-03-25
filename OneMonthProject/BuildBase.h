@@ -5,6 +5,7 @@
 enum BUILDKIND
 {
 	HATCHERY,
+	SPAWNINGPOOL,
 };
 
 struct BuildStatus

@@ -37,6 +37,11 @@ Hatchery* BuildManager::CreateHatchery(int playerNumber, POINT XY)
 	return new Hatchery(playerNumber, XY);
 }
 
+SpawningPool* BuildManager::CreateSpawningPool(int playerNumber, POINT XY)
+{
+	return new SpawningPool(playerNumber, XY);
+}
+
 BuildBase * BuildManager::ReturnBuildingVector()
 {
 	if (tempVector.size() > 0)

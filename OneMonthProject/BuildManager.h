@@ -44,6 +44,7 @@ public:
 	void Render(HDC hdc);
 
 	Hatchery* CreateHatchery(int playerNumber, POINT XY);
+	SpawningPool* CreateSpawningPool(int playerNumber, POINT XY);
 
 
 	vector<BuildBase*> GetTempVector() { return tempVector; }

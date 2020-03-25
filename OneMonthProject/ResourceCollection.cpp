@@ -35,6 +35,7 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("4X3", "images/UI/4X3.bmp", 300, 300, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("1X1", "images/UI/1X1.bmp", 40, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("2X2", "images/UI/2X2.bmp", 80, 80, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("3X2", "images/UI/3X2.bmp", 230, 230, true, RGB(255, 0, 255));
 
 	// 프로그래스바
 	IMAGEMANAGER->AddImage("ZergProgressBack", "images/UI/ZergProgressBack.bmp", 107 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
@@ -43,11 +44,19 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("ZergUnitProgressBack", "images/UI/ZergUnitProgressBack.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("ZergUnitProgressFront", "images/UI/ZergUnitProgressFront.bmp", 29 * IMAGESIZECONTROL, 9 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
+	// 건물 생산 이미지
+	IMAGEMANAGER->AddFrameImage("buildingBirthSamll", "images/Building/buildingBirthSamll.bmp", 2400 * IMAGESIZECONTROL, 133 * IMAGESIZECONTROL, 15, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("buildingBirthMiddle", "images/Building/buildingBirthMiddle.bmp", 3360 * IMAGESIZECONTROL, 133 * IMAGESIZECONTROL, 21, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("buildingBirthBig", "images/Building/buildingBirthBig.bmp", 2880 * IMAGESIZECONTROL, 150 * IMAGESIZECONTROL, 18, 1, true, RGB(0, 222, 0));
+	
 	// 해처리 이미지
 	IMAGEMANAGER->AddFrameImage("Hatchery", "images/Building/Hatchery.bmp", 768 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 6, 1, true, RGB(0, 222, 0));
-	IMAGEMANAGER->AddFrameImage("buildingBirthtest", "images/Building/buildingBirthtest.bmp", 3360 * IMAGESIZECONTROL, 133 * IMAGESIZECONTROL, 21, 1, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("HatcheryWirefram", "images/Building/HatcheryWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("EnemyHatchery", "images/Building/EnemyHatchery.bmp", 768 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 6, 1, true, RGB(0, 222, 0));
+
+	// 스포닝풀 이미지
+	IMAGEMANAGER->AddFrameImage("SpawningPool", "images/Building/SpawningPool.bmp", 384 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, 4, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("SpawningPoolWirefram", "images/Building/SpawningPoolWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
 	// 라바 이미지
 	IMAGEMANAGER->AddFrameImage("larva", "images/Unit/larva.bmp", 180 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL * 16, 5, 16, true, RGB(0, 222, 0));
@@ -113,6 +122,7 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("Green", "images/UI/Icon/Drone/BaseBuilding/Green.bmp", 32 * IMAGESIZECONTROL, 32 * IMAGESIZECONTROL, true, RGB(0, 0, 0));
 	IMAGEMANAGER->AddImage("Red", "images/UI/Icon/Drone/BaseBuilding/Red.bmp", 32 * IMAGESIZECONTROL, 32 * IMAGESIZECONTROL, true, RGB(0, 0, 0));
 	IMAGEMANAGER->AddImage("mutateHatchery", "images/UI/Icon/Drone/BaseBuilding/mutateHatchery.bmp", 128 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("mutateSpawningPool", "images/UI/Icon/Drone/BaseBuilding/mutateSpawningPool.bmp", 96 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 
 	return S_OK;
 }

@@ -5,6 +5,7 @@
 #include "HighBuilding.h"
 
 #include "BuildHatchery.h"
+#include "BuildSpawningPool.h"
 
 #define BUILDINGTILEMAX 16
 
@@ -36,12 +37,18 @@ private:
 	RECT			buildRectRender;
 	bool			isPossible;
 
+	bool			isTransHatchery;
+	bool			isArriveHatchery;
 	bool			mutateHatchery;
 	Image*			mutateHatcheryImage;
 
+	bool			isTransSpawningPool;
+	bool			isArriveSpawningPool;
+	bool			mutateSpawningPool;
+	Image*			mutateSpawningPoolImage;
+
 	RECT			temp;
 
-	bool			isTransHatchery;
 
 
 public:
