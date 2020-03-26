@@ -23,7 +23,7 @@ HRESULT GameScene::Init()
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
 	//buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
-	buildingVector.push_back(BUILDMANAGER->CreateQueensNest(PLAYER1, { 64 * 2, 64 * 4 }));
+	buildingVector.push_back(BUILDMANAGER->CreateDefilerMound(PLAYER1, { 64 * 2, 64 * 4 }));
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
 	for (int i = 0; i < TILESIZE; i++)
@@ -71,7 +71,7 @@ void GameScene::Update()
 	
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
 	cameraRect1 = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
-	cameraRect2 = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY - 200);
+	cameraRect2 = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY);
 
 	// 모든 건물 업데이트
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -289,50 +289,35 @@ void GameScene::Update()
 		}
 	}
 
-	// 건물이 설치되면 해당 지역의 block 값을 false로 해주고 전달해준다.
-	for (int i = 0; i < TILESIZE; i++)
-	{
-		for (int j = 0; j < buildingVector.size(); j++)
-		{
-			if (_tileMap[i].block == true) continue;
-			{
-				if (IntersectRect(&tempRect, &_tileMap[i].rect, &buildingVector[j]->GetBuildingRect()))
-				{
-					_tileMap[i].block = true;
-					PLAYERMANAGER->SetBlockTile(i);
-				}
-			}
-		}
-	}
+	// 공격 하려던 흔적
+	//for (int i = 0; i < unitVector.size(); i++)
+	//{
+	//	for (int j = 0; j < unitVector.size(); j++)
+	//	{
+	//		if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
+	//		{
+	//			if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
+	//			{
+	//				unitVector[i]->SetIsSearch(true);
+	//			}
+	//			else
+	//			{
+	//				unitVector[i]->SetIsSearch(false);
+	//			}
+	//		}
+	//	}
 
-	for (int i = 0; i < unitVector.size(); i++)
-	{
-		for (int j = 0; j < unitVector.size(); j++)
-		{
-			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
-			{
-				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
-				{
-					unitVector[i]->SetIsSearch(true);
-				}
-				else
-				{
-					unitVector[i]->SetIsSearch(false);
-				}
-			}
-		}
+	//	for (int k = 0; k < buildingVector.size(); k++)
+	//	{
+	//		if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
+	//		{
+	//			if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
+	//			{
 
-		for (int k = 0; k < buildingVector.size(); k++)
-		{
-			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
-			{
-				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
-				{
-
-				}
-			}
-		}
-	}
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void GameScene::Render()
@@ -353,15 +338,6 @@ void GameScene::Render()
 		}
 	}
 
-	// 모든 건물 렌더링
-	for (int i = 0; i < buildingVector.size(); i++)
-	{
-		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
-		{
-			buildingVector[i]->Render(GetMemDC());
-		}
-	}
-
 	// 모든 유닛 렌더링
 	for (int i = 0; i < unitVector.size(); i++)
 	{
@@ -371,6 +347,14 @@ void GameScene::Render()
 		}
 	}
 
+	// 모든 건물 렌더링
+	for (int i = 0; i < buildingVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
+		{
+			buildingVector[i]->Render(GetMemDC());
+		}
+	}
 
 	// 선택 드래그 렌더링
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))

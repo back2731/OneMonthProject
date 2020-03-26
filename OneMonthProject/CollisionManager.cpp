@@ -83,7 +83,7 @@ void CollisionManager::CollisionUnitToBuilding(vector<UnitBase*>& unitVector, ve
 				{
 					for (int j = 0; j < buildingVector.size(); j++)
 					{
-						if (IntersectRect(&temp, &unitVector[i]->GetUnitRect(), &buildingVector[j]->GetBuildingRect()))
+						if (IntersectRect(&temp, &unitVector[i]->GetUnitRect(), &buildingVector[j]->GetBuildingCollisionRect()))
 						{
 
 							// temp의 Width와 Height 선언
@@ -95,16 +95,16 @@ void CollisionManager::CollisionUnitToBuilding(vector<UnitBase*>& unitVector, ve
 								// 위쪽 충돌시 아래쪽으로 밀어줌
 								if (temp.top == unitVector[i]->GetUnitRectTop())
 								{
-									unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() + tempH / KNOCKBACK);
-									unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() + tempH / KNOCKBACK);
-									unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() + tempH / KNOCKBACK);
+									unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() + tempH / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() + tempH / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() + tempH / BUILDKNOCKBACK);
 								}
 								// 아래쪽 충돌시 위쪽으로 밀어줌
 								else if (temp.bottom == unitVector[i]->GetUnitRectBottom())
 								{
-									unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() - tempH / KNOCKBACK);
-									unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() - tempH / KNOCKBACK);
-									unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() - tempH / KNOCKBACK);
+									unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() - tempH / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() - tempH / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() - tempH / BUILDKNOCKBACK);
 								}
 							}
 							else
@@ -112,16 +112,16 @@ void CollisionManager::CollisionUnitToBuilding(vector<UnitBase*>& unitVector, ve
 								// 왼쪽 충돌시 오른쪽으로 밀어줌
 								if (temp.left == unitVector[i]->GetUnitRectLeft())
 								{
-									unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() + tempW / KNOCKBACK);
-									unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() + tempW / KNOCKBACK);
-									unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() + tempW / KNOCKBACK);
+									unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() + tempW / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() + tempW / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() + tempW / BUILDKNOCKBACK);
 								}
 								// 오른쪽 충돌시 왼쪽으로 밀어줌
 								else if (temp.right == unitVector[i]->GetUnitRectRight())
 								{
-									unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() - tempW / KNOCKBACK);
-									unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() - tempW / KNOCKBACK);
-									unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() - tempW / KNOCKBACK);
+									unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() - tempW / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() - tempW / BUILDKNOCKBACK);
+									unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() - tempW / BUILDKNOCKBACK);
 
 								}
 							}

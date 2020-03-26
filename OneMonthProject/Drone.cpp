@@ -100,8 +100,8 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	highBuildingSlot[SLOT1] = new BuildSpire;
 	highBuildingSlot[SLOT2] = new BuildQueensNest;
 	//highBuildingSlot[SLOT3] = IMAGEMANAGER->FindImage("NydusCanalUI");
-	//highBuildingSlot[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
-	//highBuildingSlot[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+	highBuildingSlot[SLOT4] = new BuildUltraliskCavern;
+	highBuildingSlot[SLOT5] = new BuildDefilerMound;
 	//highBuildingSlot[SLOT9] = IMAGEMANAGER->FindImage("Cancel");
 
 	baseUIrender = true;
@@ -120,6 +120,8 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	
 	mutateSpireImage = IMAGEMANAGER->FindImage("mutateSpire");
 	mutateQueensNestImage = IMAGEMANAGER->FindImage("mutateQueensNest");
+	mutateUltraliskCavernImage = IMAGEMANAGER->FindImage("mutateUltraliskCavern");
+	mutateDefilerMoundImage = IMAGEMANAGER->FindImage("mutateDefilerMound");
 
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
@@ -378,6 +380,8 @@ void Drone::Update()
 					mutateSpire = true;
 
 					mutateQueensNest = false;
+					mutateUltraliskCavern = false;
+					mutateDefilerMound = false;
 				}
 			}
 			if (KEYMANAGER->IsOnceKeyDown('S'))
@@ -385,6 +389,8 @@ void Drone::Update()
 				mutateSpire = true;
 
 				mutateQueensNest = false;
+				mutateUltraliskCavern = false;
+				mutateDefilerMound = false;
 			}
 
 			// 퀸즈네스트
@@ -395,6 +401,8 @@ void Drone::Update()
 					mutateQueensNest = true;
 
 					mutateSpire = false;
+					mutateUltraliskCavern = false;
+					mutateDefilerMound = false;
 				}
 			}
 			if (KEYMANAGER->IsOnceKeyDown('Q'))
@@ -402,6 +410,50 @@ void Drone::Update()
 				mutateQueensNest = true;
 
 				mutateSpire = false;
+				mutateUltraliskCavern = false;
+				mutateDefilerMound = false;
+			}
+
+			// 울트라리스크 캐번
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				{
+					mutateUltraliskCavern = true;
+
+					mutateSpire = false;
+					mutateQueensNest = false;
+					mutateDefilerMound = false;
+				}
+			}
+			if (KEYMANAGER->IsOnceKeyDown('U'))
+			{
+				mutateUltraliskCavern = true;
+
+				mutateSpire = false;
+				mutateQueensNest = false;
+				mutateDefilerMound = false;
+			}
+
+			// 디파일러 마운드
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				{
+					mutateDefilerMound = true;
+
+					mutateSpire = false;
+					mutateQueensNest = false;
+					mutateUltraliskCavern = false;
+				}
+			}
+			if (KEYMANAGER->IsOnceKeyDown('D'))
+			{
+				mutateDefilerMound = true;
+
+				mutateSpire = false;
+				mutateQueensNest = false;
+				mutateUltraliskCavern = false;
 			}
 
 			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
@@ -413,14 +465,19 @@ void Drone::Update()
 
 					mutateSpire = false;
 					mutateQueensNest = false;
+					mutateUltraliskCavern = false;
+					mutateDefilerMound = false;
 				}
 			}
 			if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
 			{
 				baseUIrender = true;
 				highBuildingUIrender = false;
+				
 				mutateSpire = false;
 				mutateQueensNest = false;
+				mutateUltraliskCavern = false;
+				mutateDefilerMound = false;
 			}
 		}
 	}
@@ -440,6 +497,7 @@ void Drone::Update()
 		mutateExtractor = false;
 		mutateSpire = false;
 		mutateQueensNest = false;
+		mutateUltraliskCavern = false;
 
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
@@ -497,17 +555,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateSpawningPool)
+	else if (mutateSpawningPool)
 	{
-		mutateHatchery = false;
-		mutateHydraliskDen = false;
-		mutateEvolutionChamber = false;
-		mutateCreepColony = false;
-		mutateExtractor = false;
-		mutateSpire = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -570,17 +619,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateHydraliskDen)
+	else if (mutateHydraliskDen)
 	{
-		mutateHatchery = false;
-		mutateSpawningPool = false;
-		mutateEvolutionChamber = false;
-		mutateCreepColony = false;
-		mutateExtractor = false;
-		mutateSpire = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -643,17 +683,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateEvolutionChamber)
+	else if (mutateEvolutionChamber)
 	{
-		mutateHatchery = false;
-		mutateSpawningPool = false;
-		mutateHydraliskDen = false;
-		mutateCreepColony = false;
-		mutateExtractor = false;
-		mutateSpire = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -716,17 +747,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateCreepColony)
+	else if (mutateCreepColony)
 	{
-		mutateHatchery = false;
-		mutateSpawningPool = false;
-		mutateHydraliskDen = false;
-		mutateEvolutionChamber = false;
-		mutateExtractor = false;
-		mutateSpire = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -791,17 +813,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateExtractor)
+	else if (mutateExtractor)
 	{
-		mutateHatchery = false;
-		mutateSpawningPool = false;
-		mutateHydraliskDen = false;
-		mutateEvolutionChamber = false;
-		mutateCreepColony = false;
-		mutateSpire = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -862,17 +875,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateSpire)
+	else if (mutateSpire)
 	{
-		mutateHatchery = false;
-		mutateSpawningPool = false;
-		mutateHydraliskDen = false;
-		mutateEvolutionChamber = false;
-		mutateCreepColony = false;
-		mutateExtractor = false;
-		mutateQueensNest = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -937,17 +941,8 @@ void Drone::Update()
 			}
 		}
 	}
-
-	if (mutateQueensNest)
+	else if (mutateQueensNest)
 	{
-		mutateHatchery = false;
-		mutateHydraliskDen = false;
-		mutateEvolutionChamber = false;
-		mutateCreepColony = false;
-		mutateExtractor = false;
-		mutateSpire = false;
-		mutateSpawningPool = false;
-
 		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
 		for (int i = 0; i < BUILDINGTILEMAX; i++)
 		{
@@ -1010,6 +1005,132 @@ void Drone::Update()
 			}
 		}
 	}
+	else if (mutateUltraliskCavern)
+	{
+		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				for (int j = 0; j < TILESIZE; j++)
+				{
+					if (IntersectRect(&temp, &mutateRect.buildRect[i], &_tileMap[j].rect))
+					{
+						if (i == 3) continue;
+						if (i == 7) continue;
+						if (i == 8) continue;
+						if (i == 9) continue;
+						if (i == 10) continue;
+						if (i == 11) continue;
+						if (_tileMap[j].block)
+						{
+							mutateRect.choiceColor[i] = true;
+						}
+						else
+						{
+							mutateRect.choiceColor[i] = false;
+						}
+					}
+				}
+			}
+		}
+
+		// 설치모드 상태에서의 명령문
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+		{
+			// 설치가 가능할 때
+			if (CheckCollision())
+			{
+				SetEndTile(TILEX + 1);
+				SetAstarVector();
+				SetStartTile();
+
+				// 설치하는 해당 위치를 저장해준다.
+				for (int i = 0; i < TILESIZE; i++)
+				{
+					if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+					{
+						saveUnitPosition = i + TILEX + 1;
+					}
+				}
+
+				mutateUltraliskCavern = false;
+				highBuildingUIrender = false;
+				baseUIrender = false;
+				isClick = false;
+				isArriveUltraliskCavern = true;
+			}
+			// 설치가 불가할 때
+			else
+			{
+				mutateUltraliskCavern = true;
+				isClick = true;
+				// 설치불가 메시지를 띄울지 결정
+			}
+		}
+	}
+	else if (mutateDefilerMound)
+	{
+		// 해당 장소가 설치 가능한 장소인지를 타일의 Block값으로 판별해 저장해둔다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				for (int j = 0; j < TILESIZE; j++)
+				{
+					if (IntersectRect(&temp, &mutateRect.buildRect[i], &_tileMap[j].rect))
+					{
+						if (i == 8) continue;
+						if (i == 9) continue;
+						if (i == 10) continue;
+						if (i == 11) continue;
+						if (_tileMap[j].block)
+						{
+							mutateRect.choiceColor[i] = true;
+						}
+						else
+						{
+							mutateRect.choiceColor[i] = false;
+						}
+					}
+				}
+			}
+		}
+
+		// 설치모드 상태에서의 명령문
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+		{
+			// 설치가 가능할 때
+			if (CheckCollision())
+			{
+				SetEndTile(TILEX + 1);
+				SetAstarVector();
+				SetStartTile();
+
+				// 설치하는 해당 위치를 저장해준다.
+				for (int i = 0; i < TILESIZE; i++)
+				{
+					if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+					{
+						saveUnitPosition = i + TILEX + 1;
+					}
+				}
+
+				mutateDefilerMound = false;
+				highBuildingUIrender = false;
+				baseUIrender = false;
+				isClick = false;
+				isArriveDefilerMound = true;
+			}
+			// 설치가 불가할 때
+			else
+			{
+				mutateDefilerMound = true;
+				isClick = true;
+				// 설치불가 메시지를 띄울지 결정
+			}
+		}
+	}
 
 	// 설치 장소에 도달했을 때 변태상태로 이미지를 바꿔준다.
 	if (IntersectRect(&temp, &_tileMap[saveUnitPosition].rect, &unitStatus.unitRect))
@@ -1020,48 +1141,61 @@ void Drone::Update()
 			isArriveHatchery = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
-		if (isArriveSpawningPool)
+		else if (isArriveSpawningPool)
 		{
 			isTransSpawningPool = true;
 			isArriveSpawningPool = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
-		if (isArriveHydraliskDen)
+		else if (isArriveHydraliskDen)
 		{
 			isTransHydraliskDen = true;
 			isArriveHydraliskDen = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
-		if (isArriveEvolutionChamber)
+		else if (isArriveEvolutionChamber)
 		{
 			isTransEvolutionChamber = true;
 			isArriveEvolutionChamber = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
-		if (isArriveCreepColony)
+		else if (isArriveCreepColony)
 		{
 			isTransCreepColony = true;
 			isArriveCreepColony = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthSmall");
 		}
-		if (isArriveExtractor)
+		else if (isArriveExtractor)
 		{
 			isTransExtractor = true;
 			isArriveExtractor = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthBig");
 		}
-		if (isArriveSpire)
+		else if (isArriveSpire)
 		{
 			isTransSpire = true;
 			isArriveSpire = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
-		if (isArriveQueensNest)
+		else if (isArriveQueensNest)
 		{
 			isTransQueensNest = true;
 			isArriveQueensNest = false;
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
 		}
+		else if (isArriveUltraliskCavern)
+		{
+			isTransUltraliskCavern = true;
+			isArriveUltraliskCavern = false;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
+		}
+		else if (isArriveDefilerMound)
+		{
+			isTransDefilerMound = true;
+			isArriveDefilerMound = false;
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("buildingBirthMiddle");
+		}
+
 	}
 
 	// 애니메이션의 프레임을 돌린다.
@@ -1095,6 +1229,7 @@ void Drone::Render(HDC hdc)
 		progressBar->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 40);
 	}
+
 	if (isTransHatchery)
 	{
 		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX * 2].rect.left + 40, _tileMap[saveUnitPosition - 2].rect.top,
@@ -1135,344 +1270,20 @@ void Drone::Render(HDC hdc)
 		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX * 2].rect.left, _tileMap[saveUnitPosition - 2].rect.top - 30,
 			unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}	
+	else if (isTransUltraliskCavern)
+	{
+		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX * 2].rect.left, _tileMap[saveUnitPosition - 2].rect.top - 30,
+			unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (isTransDefilerMound)
+	{
+		unitStatus.unitImage->FrameRender(hdc, _tileMap[saveUnitPosition - TILEX].rect.left - 30, _tileMap[saveUnitPosition - 2].rect.top - 30,
+			unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
 	else
 	{
 		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
 			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
-	}
-
-	if (mutateHatchery)
-	{
-		// 마우스 포인트에 해처리 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateHatcheryImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j*4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-
-	if (mutateSpawningPool)
-	{
-		// 마우스 포인트에 스포닝풀 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateSpawningPoolImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 3) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-
-	if (mutateHydraliskDen)
-	{
-		// 마우스 포인트에 히드라리스크덴 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateHydraliskDenImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 40, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 3) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-
-	if (mutateEvolutionChamber)
-	{
-		// 마우스 포인트에 에볼루션 챔버 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateEvolutionChamberImage->AlphaRender(hdc, _tileMap[i].left - 30, _tileMap[i].top - 40, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 3) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-	
-	if (mutateCreepColony)
-	{
-		// 마우스 포인트에 크립 콜로니 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateCreepColonyImage->AlphaRender(hdc, _tileMap[i].left - 20, _tileMap[i].top, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 2) continue;
-				if (i == 3) continue;
-				if (i == 6) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-	
-	if (mutateExtractor)
-	{
-		// 마우스 포인트에 익스트렉터 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-
-				mutateExtractorImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 128, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}	
-		}
-
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (_tileMap[i].gas)
-			{
-				mutateExtractorImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 128, ALPHA);
-				break;
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-
-	if (mutateSpire)
-	{
-		// 마우스 포인트에 스파이어 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateSpireImage->AlphaRender(hdc, _tileMap[i].left - 64, _tileMap[i].top - 80, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 2) continue;
-				if (i == 3) continue;
-				if (i == 6) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
-	}
-
-	if (mutateQueensNest)
-	{
-		// 마우스 포인트에 퀸즈네스트 이미지
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
-			{
-				mutateQueensNestImage->AlphaRender(hdc, _tileMap[i].left-30, _tileMap[i].top - 60, ALPHA);
-				for (int j = 0; j < 3; j++)
-				{
-					for (int k = 0; k < 4; k++)
-					{
-						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-					}
-				}
-			}
-		}
-
-		// 설치 가능 여부에 따라 색을 렌더해준다.
-		for (int i = 0; i < BUILDINGTILEMAX; i++)
-		{
-			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
-			{
-				if (i == 3) continue;
-				if (i == 7) continue;
-				if (i == 8) continue;
-				if (i == 9) continue;
-				if (i == 10) continue;
-				if (i == 11) continue;
-				if (mutateRect.choiceColor[i])
-				{
-					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-				else
-				{
-					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
-				}
-			}
-		}
 	}
 
 	//Rectangle(hdc, buildRectRender.left, buildRectRender.top, buildRectRender.right, buildRectRender.bottom);
@@ -1523,6 +1334,412 @@ void Drone::RenderUI(HDC hdc)
 			highBuildingImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
 			highBuildingImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
 		}						
+	}
+
+
+	if (mutateHatchery)
+	{
+		// 마우스 포인트에 해처리 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateHatcheryImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateSpawningPool)
+	{
+		// 마우스 포인트에 스포닝풀 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateSpawningPoolImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateHydraliskDen)
+	{
+		// 마우스 포인트에 히드라리스크덴 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateHydraliskDenImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 40, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateEvolutionChamber)
+	{
+		// 마우스 포인트에 에볼루션 챔버 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateEvolutionChamberImage->AlphaRender(hdc, _tileMap[i].left - 30, _tileMap[i].top - 40, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateCreepColony)
+	{
+		// 마우스 포인트에 크립 콜로니 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateCreepColonyImage->AlphaRender(hdc, _tileMap[i].left - 20, _tileMap[i].top, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 2) continue;
+				if (i == 3) continue;
+				if (i == 6) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateExtractor)
+	{
+		// 마우스 포인트에 익스트렉터 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+
+				mutateExtractorImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 128, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (_tileMap[i].gas)
+			{
+				mutateExtractorImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 128, ALPHA);
+				break;
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateSpire)
+	{
+		// 마우스 포인트에 스파이어 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateSpireImage->AlphaRender(hdc, _tileMap[i].left - 64, _tileMap[i].top - 80, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 2) continue;
+				if (i == 3) continue;
+				if (i == 6) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateQueensNest)
+	{
+		// 마우스 포인트에 퀸즈네스트 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateQueensNestImage->AlphaRender(hdc, _tileMap[i].left - 30, _tileMap[i].top - 60, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateUltraliskCavern)
+	{
+		// 마우스 포인트에 울트라리스크 캐번 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateUltraliskCavernImage->AlphaRender(hdc, _tileMap[i].left - 30, _tileMap[i].top - 60, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 3) continue;
+				if (i == 7) continue;
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
+	}
+	else if (mutateDefilerMound)
+	{
+		// 마우스 포인트에 울트라리스크 캐번 이미지
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (PtInRect(&_tileMap[i].rect, m_ptMouse))
+			{
+				mutateDefilerMoundImage->AlphaRender(hdc, _tileMap[i].left, _tileMap[i].top - 64, ALPHA);
+				for (int j = 0; j < 3; j++)
+				{
+					for (int k = 0; k < 4; k++)
+					{
+						mutateRect.buildRect[(j * 4) + k] = RectMake(_tileMap[i].left + k * CELL_WIDTH, _tileMap[i].top + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					}
+				}
+			}
+		}
+
+		// 설치 가능 여부에 따라 색을 렌더해준다.
+		for (int i = 0; i < BUILDINGTILEMAX; i++)
+		{
+			if (IntersectRect(&temp, &mutateRect.buildRect[i], &buildRectRender))
+			{
+				if (i == 8) continue;
+				if (i == 9) continue;
+				if (i == 10) continue;
+				if (i == 11) continue;
+				if (mutateRect.choiceColor[i])
+				{
+					redRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+				else
+				{
+					greenRectImage->AlphaRender(hdc, mutateRect.buildRect[i].left, mutateRect.buildRect[i].top, ALPHA);
+				}
+			}
+		}
 	}
 }
 
@@ -1712,6 +1929,52 @@ void Drone::PlayAnimation()
 			unitStatus.frameIndexX++;
 		}
 	}
+	else if (isTransUltraliskCavern)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX == 15)
+			{
+				highBuildingSlot[SLOT4]->GetBirthXY(_tileMap[saveUnitPosition - TILEX - 1].rect.left, _tileMap[saveUnitPosition - TILEX - 1].rect.top);
+				highBuildingSlot[SLOT4]->Update();
+			}
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransUltraliskCavern = false;
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransDefilerMound)
+		{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX == 15)
+			{
+				highBuildingSlot[SLOT5]->GetBirthXY(_tileMap[saveUnitPosition - TILEX - 1].rect.left, _tileMap[saveUnitPosition - TILEX - 1].rect.top);
+				highBuildingSlot[SLOT5]->Update();
+			}
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransDefilerMound = false;
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
 
 	else
 	{
@@ -1749,6 +2012,8 @@ bool Drone::CheckMutate()
 	if (isTransExtractor) return false;
 	if (isTransSpire) return false;
 	if (isTransQueensNest) return false;
+	if (isTransUltraliskCavern) return false;
+	if (isTransDefilerMound) return false;
 	
 	return true;
 }

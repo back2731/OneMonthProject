@@ -50,8 +50,11 @@ public:
 	EvolutionChamber* CreateEvolutionChamber(int playerNumber, POINT XY);
 	CreepColony* CreateCreepColony(int playerNumber, POINT XY);
 	Extractor* CreateExtractor(int playerNumber, POINT XY);
+	
 	Spire* CreateSpire(int playerNumber, POINT XY);
 	QueensNest* CreateQueensNest(int playerNumber, POINT XY);
+	UltraliskCavern* CreateUltraliskCavern(int playerNumber, POINT XY);
+	DefilerMound* CreateDefilerMound(int playerNumber, POINT XY);
 
 
 	vector<BuildBase*> GetTempVector() { return tempVector; }

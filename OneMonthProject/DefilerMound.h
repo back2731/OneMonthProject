@@ -6,10 +6,13 @@ class DefilerMound : public BuildBase
 public:
 	DefilerMound();
 	~DefilerMound();
+	
+	DefilerMound(int _playerNumber, POINT buildXY);
 
-	HRESULT Init();
-	void Release();
-	void Update();
-	void Render(HDC hdc);
+	HRESULT Init() override;
+	void Release() override;
+	void Update() override;
+	void Render(HDC hdc) override;
+	void RenderUI(HDC hdc) override;
 };
 

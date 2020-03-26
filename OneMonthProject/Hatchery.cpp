@@ -37,7 +37,17 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZergProgressFront");
 	buildStatus.buildingBackProgressImage = IMAGEMANAGER->FindImage("ZergProgressBack");
 
-	buildStatus.buildRect = RectMake(buildXY.x, buildXY.y, buildStatus.buildImage->GetFrameWidth(), buildStatus.buildImage->GetFrameHeight());
+	buildStatus.buildRect = RectMake(buildXY.x, buildXY.y, 64 * 4, 64 * 3);
+	buildStatus.buildCollisionRect = RectMake(buildXY.x, buildXY.y + 64, 64 * 4, 64 * 2);
+
+	// 지어진 건물 위치 블록처리 for 문의 i 값은 가로 최대 수치 내부의 SetBlockTile은 세로를 설정해준다.
+	for (int i = 0; i < 4; i++)
+	{
+		PLAYERMANAGER->SetBlockTile(buildXY.x + buildXY.y / TILEX + TILEX * i);
+		PLAYERMANAGER->SetBlockTile(buildXY.x + buildXY.y / TILEX + TILEX * i + 1);
+		PLAYERMANAGER->SetBlockTile(buildXY.x + buildXY.y / TILEX + TILEX * i + 2);
+	}
+
 	buildStatus.buildRectX = buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2;
 	buildStatus.buildRectY = buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2;
 

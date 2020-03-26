@@ -76,10 +76,18 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("Spire", "images/Building/Spire.bmp", 360 * IMAGESIZECONTROL, 104 * IMAGESIZECONTROL, 3, 1, true, RGB(0, 222, 0));
 	//IMAGEMANAGER->AddImage("SpawningPoolWirefram", "images/Building/SpawningPoolWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 
-	// 스파이어 이미지
+	// 퀸즈네스트 이미지
 	IMAGEMANAGER->AddFrameImage("QueensNest", "images/Building/QueensNest.bmp", 360 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 3, 1, true, RGB(0, 222, 0));
 	//IMAGEMANAGER->AddImage("SpawningPoolWirefram", "images/Building/SpawningPoolWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
-	   
+	 
+	// 울트라리스크 캐번 이미지
+	IMAGEMANAGER->AddFrameImage("UltraliskCavern", "images/Building/UltraliskCavern.bmp", 360 * IMAGESIZECONTROL, 104 * IMAGESIZECONTROL, 3, 1, true, RGB(0, 222, 0));
+	//IMAGEMANAGER->AddImage("SpawningPoolWirefram", "images/Building/SpawningPoolWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+
+	// 디파일러 마운드 캐번 이미지
+	IMAGEMANAGER->AddFrameImage("DefilerMound", "images/Building/DefilerMound.bmp", 360 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 3, 1, true, RGB(0, 222, 0));
+	//IMAGEMANAGER->AddImage("SpawningPoolWirefram", "images/Building/SpawningPoolWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+
 	// 라바 이미지
 	IMAGEMANAGER->AddFrameImage("larva", "images/Unit/larva.bmp", 180 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL * 16, 5, 16, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("enemyLarva", "images/Unit/enemyLarva.bmp", 180 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL * 16, 5, 16, true, RGB(0, 222, 0));
@@ -153,6 +161,8 @@ HRESULT ResourceCollection::Init()
 	
 	IMAGEMANAGER->AddImage("mutateSpire", "images/UI/Icon/Drone/HighBuilding/mutateSpire.bmp", 120 * IMAGESIZECONTROL, 104 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("mutateQueensNest", "images/UI/Icon/Drone/HighBuilding/mutateQueensNest.bmp", 120 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("mutateUltraliskCavern", "images/UI/Icon/Drone/HighBuilding/mutateUltraliskCavern.bmp", 120 * IMAGESIZECONTROL, 104 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("mutateDefilerMound", "images/UI/Icon/Drone/HighBuilding/mutateDefilerMound.bmp", 120 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 
 	return S_OK;
 }

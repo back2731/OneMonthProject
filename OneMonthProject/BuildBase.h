@@ -12,6 +12,8 @@ enum BUILDKIND
 	EXTRACTOR,
 	SPIRE,
 	QUEENSNEST,
+	ULTRALISKCAVERN,
+
 
 };
 
@@ -39,6 +41,7 @@ struct BuildStatus
 	Image*		buildingWireFrame;			// 건물 와이어프레임
 
 	RECT		buildRect;					// 건물 렉트
+	RECT		buildCollisionRect;
 	float		buildRectX;					// 건물 렉트 X
 	float		buildRectY;					// 건물 렉트 Y
 
@@ -93,6 +96,7 @@ public:
 	void PlayAnimation();
 
 	RECT GetBuildingRect() { return buildStatus.buildRect; }
+	RECT GetBuildingCollisionRect() { return buildStatus.buildCollisionRect; }
 	int GetBuildingRectX() { return buildStatus.buildRect.left + (buildStatus.buildRect.right - buildStatus.buildRect.left) / 2; }
 	int GetBuildingRectY() { return buildStatus.buildRect.top + (buildStatus.buildRect.bottom - buildStatus.buildRect.top) / 2; }
 

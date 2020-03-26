@@ -72,6 +72,17 @@ QueensNest* BuildManager::CreateQueensNest(int playerNumber, POINT XY)
 	return new QueensNest(playerNumber, XY);
 }
 
+UltraliskCavern* BuildManager::CreateUltraliskCavern(int playerNumber, POINT XY)
+{
+	return new UltraliskCavern(playerNumber, XY);
+}
+
+DefilerMound * BuildManager::CreateDefilerMound(int playerNumber, POINT XY)
+{
+	return new DefilerMound(playerNumber, XY);
+}
+
+
 BuildBase * BuildManager::ReturnBuildingVector()
 {
 	if (tempVector.size() > 0)

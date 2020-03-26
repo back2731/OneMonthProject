@@ -12,6 +12,8 @@
 #include "BuildExtractor.h"
 #include "BuildSpire.h"
 #include "BuildQueensNest.h"
+#include "BuildUltraliskCavern.h"
+#include "BuildDefilerMound.h"
 
 #define BUILDINGTILEMAX 16
 #define ALPHA 75
@@ -83,6 +85,16 @@ private:
 	bool			isArriveQueensNest;
 	bool			mutateQueensNest;
 	Image*			mutateQueensNestImage;
+
+	bool			isTransUltraliskCavern;
+	bool			isArriveUltraliskCavern;
+	bool			mutateUltraliskCavern;
+	Image*			mutateUltraliskCavernImage;
+
+	bool			isTransDefilerMound;
+	bool			isArriveDefilerMound;
+	bool			mutateDefilerMound;
+	Image*			mutateDefilerMoundImage;
 
 	RECT			temp;
 

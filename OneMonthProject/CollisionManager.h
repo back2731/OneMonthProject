@@ -3,6 +3,7 @@
 #include "UnitBase.h"
 #include "BuildBase.h"
 #define KNOCKBACK 30
+#define BUILDKNOCKBACK 10
 
 class CollisionManager : public SingletonBase<CollisionManager>
 {
