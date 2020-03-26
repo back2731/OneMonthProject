@@ -4,6 +4,7 @@
 #include "CreepColony.h"
 #include "SunkenColony.h"
 #include "SporeColony.h"
+#include "Extractor.h"
 #include "SpawningPool.h"
 #include "EvolutionChamber.h"
 #include "HydraliskDen.h"
@@ -45,6 +46,12 @@ public:
 
 	Hatchery* CreateHatchery(int playerNumber, POINT XY);
 	SpawningPool* CreateSpawningPool(int playerNumber, POINT XY);
+	HydraliskDen* CreateHydraliskDen(int playerNumber, POINT XY);
+	EvolutionChamber* CreateEvolutionChamber(int playerNumber, POINT XY);
+	CreepColony* CreateCreepColony(int playerNumber, POINT XY);
+	Extractor* CreateExtractor(int playerNumber, POINT XY);
+	Spire* CreateSpire(int playerNumber, POINT XY);
+	QueensNest* CreateQueensNest(int playerNumber, POINT XY);
 
 
 	vector<BuildBase*> GetTempVector() { return tempVector; }

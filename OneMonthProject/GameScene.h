@@ -20,6 +20,8 @@ private:
 	RECT				cameraRect2;
 	RECT				commandRect;
 
+	RECT				gas;
+
 	int					count;
 	char				str[128];
 

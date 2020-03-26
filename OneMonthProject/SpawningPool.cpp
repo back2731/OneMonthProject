@@ -81,7 +81,7 @@ void SpawningPool::Release()
 
 void SpawningPool::Update()
 {	
-	// 스포닝풀 애니메이션 프레임 업데이트
+	// 애니메이션 프레임 업데이트
 	PlayAnimation();
 
 	// 해당 객체가 클릭 되었을 때

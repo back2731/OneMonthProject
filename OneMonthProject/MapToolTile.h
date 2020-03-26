@@ -48,6 +48,8 @@ struct TAGTILE
 
 	bool block;
 
+	bool gas;
+
 	int node;
 
 	int showState;

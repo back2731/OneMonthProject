@@ -42,6 +42,36 @@ SpawningPool* BuildManager::CreateSpawningPool(int playerNumber, POINT XY)
 	return new SpawningPool(playerNumber, XY);
 }
 
+HydraliskDen* BuildManager::CreateHydraliskDen(int playerNumber, POINT XY)
+{
+	return new HydraliskDen(playerNumber, XY);
+}
+
+EvolutionChamber* BuildManager::CreateEvolutionChamber(int playerNumber, POINT XY)
+{
+	return new EvolutionChamber(playerNumber, XY);
+}
+
+CreepColony* BuildManager::CreateCreepColony(int playerNumber, POINT XY)
+{
+	return new CreepColony(playerNumber, XY);
+}
+
+Extractor* BuildManager::CreateExtractor(int playerNumber, POINT XY)
+{
+	return new Extractor(playerNumber, XY);
+}
+
+Spire* BuildManager::CreateSpire(int playerNumber, POINT XY)
+{
+	return new Spire(playerNumber, XY);
+}
+
+QueensNest* BuildManager::CreateQueensNest(int playerNumber, POINT XY)
+{
+	return new QueensNest(playerNumber, XY);
+}
+
 BuildBase * BuildManager::ReturnBuildingVector()
 {
 	if (tempVector.size() > 0)

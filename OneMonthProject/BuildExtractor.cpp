@@ -10,3 +10,14 @@ BuildExtractor::BuildExtractor()
 BuildExtractor::~BuildExtractor()
 {
 }
+
+void BuildExtractor::Update()
+{
+	BUILDMANAGER->SetBuildingVector(BUILDMANAGER->CreateExtractor(PLAYER1, { mutateX, mutateY }));
+}
+
+void BuildExtractor::GetBirthXY(int X, int Y)
+{
+	mutateX = X;
+	mutateY = Y;
+}

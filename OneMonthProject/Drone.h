@@ -6,8 +6,15 @@
 
 #include "BuildHatchery.h"
 #include "BuildSpawningPool.h"
+#include "BuildHydraliskDen.h"
+#include "BuildEvolutionChamber.h"
+#include "BuildCreepColony.h"
+#include "BuildExtractor.h"
+#include "BuildSpire.h"
+#include "BuildQueensNest.h"
 
 #define BUILDINGTILEMAX 16
+#define ALPHA 75
 
 struct MUTATERECT
 {
@@ -47,6 +54,36 @@ private:
 	bool			mutateSpawningPool;
 	Image*			mutateSpawningPoolImage;
 
+	bool			isTransHydraliskDen;
+	bool			isArriveHydraliskDen;
+	bool			mutateHydraliskDen;
+	Image*			mutateHydraliskDenImage;
+
+	bool			isTransEvolutionChamber;
+	bool			isArriveEvolutionChamber;
+	bool			mutateEvolutionChamber;
+	Image*			mutateEvolutionChamberImage;
+
+	bool			isTransCreepColony;
+	bool			isArriveCreepColony;
+	bool			mutateCreepColony;
+	Image*			mutateCreepColonyImage;
+
+	bool			isTransExtractor;
+	bool			isArriveExtractor;
+	bool			mutateExtractor;
+	Image*			mutateExtractorImage;
+
+	bool			isTransSpire;
+	bool			isArriveSpire;
+	bool			mutateSpire;
+	Image*			mutateSpireImage;
+
+	bool			isTransQueensNest;
+	bool			isArriveQueensNest;
+	bool			mutateQueensNest;
+	Image*			mutateQueensNestImage;
+
 	RECT			temp;
 
 
@@ -66,5 +103,6 @@ public:
 	void PlayAnimation();
 
 	bool CheckCollision();
+	bool CheckMutate();
 };
 

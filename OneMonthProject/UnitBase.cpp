@@ -126,6 +126,15 @@ void UnitBase::SetBlock()
 	{
 		_tileMap[blockTile[i]].block = true;
 	}
+	for (int i = 0; i < PLAYERMANAGER->GetGasTileVector().size(); i++)
+	{
+		gasTile.push_back(PLAYERMANAGER->ReturnGasTile(i));
+	}
+	for (int i = 0; i < gasTile.size(); i++)
+	{
+		//_tileMap[gasTile[i]].block = true;
+		_tileMap[gasTile[i]].gas = true;
+	}
 }
 
 void UnitBase::SetEndTile()

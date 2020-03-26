@@ -34,3 +34,9 @@ int PlayerManager::ReturnBlockTile(int i)
 	blockTileNum = blockTile[i];
 	return blockTileNum;
 }
+
+int PlayerManager::ReturnGasTile(int i)
+{
+	gasTileNum = gasTile[i];
+	return gasTileNum;
+}

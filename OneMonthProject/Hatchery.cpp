@@ -83,7 +83,7 @@ void Hatchery::Release()
 void Hatchery::Update()
 {
 
-	// 해처리 애니메이션 프레임 업데이트
+	// 애니메이션 프레임 업데이트
 	PlayAnimation();
 
 	// 해당 객체가 클릭 되었을 때
@@ -117,9 +117,9 @@ void Hatchery::Render(HDC hdc)
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{  
 		buildStatus.buildingSelectImage->Render
-		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImageWidth, buildStatus.buildRectY - buildStatus.buildingSelectImageHeight);
+		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImageWidth, buildStatus.buildRectY - buildStatus.buildingSelectImageHeight + 15);
 		progressBar->Render
-		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom);
+		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom + 10);
 	}
 
 	if (buildStatus.playerNumber == PLAYER1)

@@ -22,10 +22,19 @@ HRESULT GameScene::Init()
 
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	//buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	buildingVector.push_back(BUILDMANAGER->CreateQueensNest(PLAYER1, { 64 * 2, 64 * 4 }));
 
-	buildingVector.push_back(BUILDMANAGER->CreateSpawningPool(PLAYER1, { 64 * 4, 64 * 10}));
-	
+	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
+	for (int i = 0; i < TILESIZE; i++)
+	{
+		if (IntersectRect(&tempRect, &_tileMap[i].rect, &gas))
+		{
+			_tileMap[i].gas = true;
+			PLAYERMANAGER->SetGasTile(i);
+		}
+	}
+
 	// 해당 건물이 해처리라면 라바를 세팅해준다
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
@@ -59,7 +68,7 @@ void GameScene::Release()
 void GameScene::Update()
 {
 	ShowCursor(false);
-
+	
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
 	cameraRect1 = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 	cameraRect2 = RectMake(CAMERAMANAGER->GetCameraXY().x, CAMERAMANAGER->GetCameraXY().y, WINSIZEX, WINSIZEY - 200);
@@ -362,6 +371,7 @@ void GameScene::Render()
 		}
 	}
 
+
 	// 선택 드래그 렌더링
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 	{
@@ -383,7 +393,6 @@ void GameScene::Render()
 	}
 	else
 	{
-
 		dragRect.left = m_ptMouse.x;
 		dragRect.top = m_ptMouse.y;
 		dragRect.right = m_ptMouse.x;
@@ -437,6 +446,8 @@ void GameScene::Render()
 			unitVector[i]->RenderUI(GetMemDC());
 		}
 	}
+
+	//Rectangle(GetMemDC(), gas.left, gas.top, gas.right, gas.bottom);
 }
 
 void GameScene::LoadMap(int loadCount)

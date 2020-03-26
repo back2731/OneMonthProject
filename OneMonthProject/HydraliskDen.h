@@ -7,9 +7,12 @@ public:
 	HydraliskDen();
 	~HydraliskDen();
 
-	HRESULT Init();
-	void Release();
-	void Update();
-	void Render(HDC hdc);
+	HydraliskDen(int _playerNumber, POINT buildXY);
+
+	HRESULT Init() override;
+	void Release() override;
+	void Update() override;
+	void Render(HDC hdc) override;
+	void RenderUI(HDC hdc) override;
 };
 

@@ -13,6 +13,10 @@ private:
 	vector<int>	blockTile;
 	int blockTileNum;
 
+	vector<int>	gasTile;
+	int gasTileNum;
+
+
 public:
 	PlayerManager();
 	~PlayerManager();
@@ -34,12 +38,14 @@ public:
 
 	void SetIsSearch(int _isSearch) { isSearch = _isSearch; }
 	int GetIsSearch() { return isSearch; }
-
-	
+		
 	vector<int> GetBlockTileVector() { return blockTile; }
 	void SetBlockTile(int num) { blockTile.push_back(num); }
-	
 	int ReturnBlockTile(int i);
+
+	vector<int> GetGasTileVector() { return gasTile; }
+	void SetGasTile(int num) { gasTile.push_back(num); }
+	int ReturnGasTile(int i);
 
 };
 

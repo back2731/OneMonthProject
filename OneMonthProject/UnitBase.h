@@ -129,6 +129,7 @@ protected:
 
 	vector<int>		saveRoad;
 	vector<int>		blockTile;
+	vector<int>		gasTile;
 
 	int				startTile;
 	int				endTile;
