@@ -13,7 +13,7 @@ TransformDrone::~TransformDrone()
 
 void TransformDrone::Update()
 {
-	UNITMANAGER->SetUnitVector(UNITMANAGER->CreateDrone({ birthX ,birthY }));
+	UNITMANAGER->SetUnitVector(UNITMANAGER->CreateDrone(PLAYER1, { birthX ,birthY }));
 }
 
 void TransformDrone::GetBirthXY(int X, int Y)

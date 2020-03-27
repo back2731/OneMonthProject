@@ -1,13 +1,12 @@
 #pragma once
 #include "GameNode.h"
-//#include "MainMap.h"
 
 class GameScene : public GameNode
 {
 private:
-	//MainMap*			mainMap;
 	vector<BuildBase*>	buildingVector;
 	vector<UnitBase*>	unitVector;
+	vector<UnitBase*>	airUnitVector;
 	vector<UnitBase*>	selectVector;
 	
 	TAGTILE				_tileMap[TILE_COUNT_X*TILE_COUNT_Y];

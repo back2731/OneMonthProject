@@ -16,6 +16,7 @@ HRESULT GameScene::Init()
 	LoadMap(0);
 	buildingVector.reserve(1000);
 	unitVector.reserve(1000);
+	airUnitVector.reserve(1000);
 	selectVector.reserve(50);
 
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
@@ -24,6 +25,10 @@ HRESULT GameScene::Init()
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
 	//buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
 	buildingVector.push_back(BUILDMANAGER->CreateDefilerMound(PLAYER1, { 64 * 2, 64 * 4 }));
+	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
+	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
+	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
+
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
 	for (int i = 0; i < TILESIZE; i++)
@@ -78,10 +83,15 @@ void GameScene::Update()
 	{
 		buildingVector[i]->Update();
 	}
-	// 모든 유닛 업데이트
+	// 지상 유닛 업데이트
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		unitVector[i]->Update();
+	}
+	// 공중 유닛 업데이트
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		airUnitVector[i]->Update();
 	}
 
 	// 해당 건물을 클릭 했을 때 상태를 변경해주는 부분
@@ -108,7 +118,7 @@ void GameScene::Update()
 		}
 	}
 
-	// 해당 유닛을 클릭 했을 때 상태를 변경해주는 부분
+	// 해당 지상 유닛을 클릭 했을 때 상태를 변경해주는 부분
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		if (PtInRect(&unitVector[i]->GetUnitRect(), m_ptMouse))
@@ -127,9 +137,46 @@ void GameScene::Update()
 					{
 						buildingVector[k]->SetIsClick(false);
 					}
+					for (int k = 0; k < airUnitVector.size(); k++)
+					{
+						airUnitVector[k]->SetIsClick(false);
+					}
 				}
 				// 선택된 유닛을 셀렉트 벡터에 담는다
 				if (unitVector[i]->GetIsClick())
+				{
+					//selectVector.push_back(unitVector[i]);
+				}
+			}
+		}
+	}
+
+	// 해당 공중 유닛을 클릭 했을 때 상태를 변경해주는 부분
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		if (PtInRect(&airUnitVector[i]->GetUnitRect(), m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				dragRect.left = m_ptMouse.x;
+				dragRect.top = m_ptMouse.y;
+
+				for (int j = 0; j < airUnitVector.size(); j++)
+				{
+					airUnitVector[j]->SetIsClick(false);
+					airUnitVector[i]->SetIsClick(true);
+
+					for (int k = 0; k < buildingVector.size(); k++)
+					{
+						buildingVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < unitVector.size(); k++)
+					{
+						unitVector[k]->SetIsClick(false);
+					}
+				}
+				// 선택된 유닛을 셀렉트 벡터에 담는다
+				if (airUnitVector[i]->GetIsClick())
 				{
 					//selectVector.push_back(unitVector[i]);
 				}
@@ -156,12 +203,21 @@ void GameScene::Update()
 		UNITMANAGER->SetSelectLarva(false);
 	}
 
-	// 생산된 유닛을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
+	// 생산된 지상 유닛을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
 	if (UNITMANAGER->GetTempVector().size() > 0)
 	{
 		while (UNITMANAGER->GetTempVector().size() > 0)
 		{
 			unitVector.push_back(UNITMANAGER->ReturnUnitVector());
+		}
+	}
+
+	// 생산된 공중 유닛을 담은 벡터가 0보다 클때 함수를 통해 가져온다.
+	if (UNITMANAGER->GetAirUnitVector().size() > 0)
+	{
+		while (UNITMANAGER->GetAirUnitVector().size() > 0)
+		{
+			airUnitVector.push_back(UNITMANAGER->ReturnAirUnitVector());
 		}
 	}
 
@@ -238,12 +294,21 @@ void GameScene::Update()
 	}
 
 	// 유닛간의 충돌처리 함수
-	COLLISIONMANAGER->CollisionSameVector(unitVector);
+	COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK * 0.2);
+	COLLISIONMANAGER->CollisionSameVector(airUnitVector, KNOCKBACK * 2);
 	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, buildingVector);
 
 	// 명령이 종료되면 false로 세팅하는 함수
 	UNITMANAGER->SetInputCommandTransDrone(false);
 	UNITMANAGER->SetInputCommandTransZergling(false);
+	UNITMANAGER->SetInputCommandTransOverlord(false);
+	UNITMANAGER->SetInputCommandTransHydralisk(false);
+	UNITMANAGER->SetInputCommandTransMutalisk(false);
+	UNITMANAGER->SetInputCommandTransScourge(false);
+	UNITMANAGER->SetInputCommandTransQueen(false);
+	UNITMANAGER->SetInputCommandTransUltralisk(false);
+	UNITMANAGER->SetInputCommandTransDefiler(false);
+
 	PLAYERMANAGER->SetInputCommandMove(false);
 
 	// 드래그 명령문
@@ -262,6 +327,10 @@ void GameScene::Update()
 		{
 			unitVector[i]->SetIsClick(false);
 		}
+		for (int i = 0; i < airUnitVector.size(); i++)
+		{
+			airUnitVector[i]->SetIsClick(false);
+		}
 
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
@@ -275,8 +344,7 @@ void GameScene::Update()
 		dragRect.bottom = m_ptMouse.y;
 	}
 
-
-	// 드래그된 유닛 선택 명령문
+	// 드래그된 지상 유닛 선택 명령문
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		if (IntersectRect(&tempRect, &dragRect, &unitVector[i]->GetUnitRect()))
@@ -288,7 +356,19 @@ void GameScene::Update()
 			}
 		}
 	}
-
+	// 드래그된 공중 유닛 선택 명령문
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &dragRect, &airUnitVector[i]->GetUnitRect()))
+		{
+			airUnitVector[i]->SetIsClick(true);
+			for (int i = 0; i < buildingVector.size(); i++)
+			{
+				buildingVector[i]->SetIsClick(false);
+			}
+		}
+	}
+	
 	// 공격 하려던 흔적
 	//for (int i = 0; i < unitVector.size(); i++)
 	//{
@@ -336,9 +416,14 @@ void GameScene::Render()
 		{
 			Rectangle(GetMemDC(), unitVector[i]->GetUnitRect().left, unitVector[i]->GetUnitRect().top, unitVector[i]->GetUnitRect().right, unitVector[i]->GetUnitRect().bottom);
 		}
+
+		for (int i = 0; i < airUnitVector.size(); i++)
+		{
+			Rectangle(GetMemDC(), airUnitVector[i]->GetUnitRect().left, airUnitVector[i]->GetUnitRect().top, airUnitVector[i]->GetUnitRect().right, airUnitVector[i]->GetUnitRect().bottom);
+		}
 	}
 
-	// 모든 유닛 렌더링
+	// 지상 유닛 렌더링
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		if (IntersectRect(&tempRect, &cameraRect2, &unitVector[i]->GetUnitRect()))
@@ -353,6 +438,33 @@ void GameScene::Render()
 		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
 		{
 			buildingVector[i]->Render(GetMemDC());
+		}
+	}
+
+	// 공중유닛 생산 렌더링
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		if (unitVector[i]->GetUnitKind() == LARVA)
+		{
+			unitVector[i]->RenderAirUint(GetMemDC());
+		}
+	}
+
+	// 공중 유닛 그림자 렌더링
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &airUnitVector[i]->GetUnitRect()))
+		{
+			airUnitVector[i]->RenderShadow(GetMemDC());
+		}
+	}
+
+	// 공중 유닛 렌더링
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &airUnitVector[i]->GetUnitRect()))
+		{
+			airUnitVector[i]->Render(GetMemDC());
 		}
 	}
 
@@ -387,6 +499,7 @@ void GameScene::Render()
 		//dragRect.bottom = CAMERAMANAGER->GetCameraCenter().y + WINSIZEY;
 	}
 
+	// 디버깅용 타일 그리기
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
 		HBRUSH myBrush, oldBrush;
@@ -428,6 +541,13 @@ void GameScene::Render()
 		if (unitVector[i]->GetIsClick())
 		{
 			unitVector[i]->RenderUI(GetMemDC());
+		}
+	}
+	for (int i = 0; i < airUnitVector.size(); i++)
+	{
+		if (airUnitVector[i]->GetIsClick())
+		{
+			airUnitVector[i]->RenderUI(GetMemDC());
 		}
 	}
 

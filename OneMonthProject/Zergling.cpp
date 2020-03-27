@@ -64,18 +64,12 @@ Zergling::Zergling(int _playerNumber, POINT birthXY)
 	SetCommandSlot(SLOT1, new MoveCommand);
 	SetCommandSlot(SLOT2, new StopCommand);
 	SetCommandSlot(SLOT3, new AttackCommand);
-	SetCommandSlot(SLOT5, new Gathering);
-	SetCommandSlot(SLOT7, new BaseBuilding);
-	SetCommandSlot(SLOT8, new HighBuilding);
 	SetCommandSlot(SLOT9, new Burrow);
 
 	// 명령 이미지 설정
 	commandImage[SLOT1] = IMAGEMANAGER->FindImage("Move");
 	commandImage[SLOT2] = IMAGEMANAGER->FindImage("Stop");
 	commandImage[SLOT3] = IMAGEMANAGER->FindImage("Attack");
-	commandImage[SLOT5] = IMAGEMANAGER->FindImage("Gathering");
-	commandImage[SLOT7] = IMAGEMANAGER->FindImage("BaseBuilding");
-	commandImage[SLOT8] = IMAGEMANAGER->FindImage("HighBuilding");
 	commandImage[SLOT9] = IMAGEMANAGER->FindImage("EvolveBurrow");
 
 	// 슬롯 위치 카메라 반영
@@ -177,7 +171,8 @@ void Zergling::Render(HDC hdc)
 }
 
 void Zergling::RenderUI(HDC hdc)
-{	// 슬롯 위치 카메라 반영
+{	
+	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
@@ -195,7 +190,6 @@ void Zergling::RenderUI(HDC hdc)
 
 void Zergling::PlayAnimation()
 {
-
 	if (unitStatus.unitState == IDLE)
 	{
 		unitStatus.frameIndexX = 5;

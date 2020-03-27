@@ -14,7 +14,7 @@ HRESULT CollisionManager::Init()
 	return S_OK;
 }
 
-void CollisionManager::CollisionSameVector(vector<UnitBase*>& unitVector)
+void CollisionManager::CollisionSameVector(vector<UnitBase*>& unitVector, int knockBack)
 {
 	if (!unitVector.empty())
 	{
@@ -22,47 +22,50 @@ void CollisionManager::CollisionSameVector(vector<UnitBase*>& unitVector)
 		{
 			for (int j = 0; j < unitVector.size(); j++)
 			{
-				if (IntersectRect(&temp, &unitVector[i]->GetUnitRect(), &unitVector[j]->GetUnitRect()))
+				if (unitVector[i]->GetUnitKind() != LARVA && unitVector[j]->GetUnitKind() != LARVA)
 				{
-					if (i == j) continue;
-
-					// temp의 Width와 Height 선언
-					int tempW = temp.right - temp.left;
-					int tempH = temp.bottom - temp.top;
-
-					if (tempH < tempW)
+					if (IntersectRect(&temp, &unitVector[i]->GetUnitRect(), &unitVector[j]->GetUnitRect()))
 					{
-						// 위쪽 충돌시 아래쪽으로 밀어줌
-						if (temp.top == unitVector[i]->GetUnitRectTop())
-						{
-							unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() + tempH / KNOCKBACK);
-							unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() + tempH / KNOCKBACK);
-							unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() + tempH / KNOCKBACK);
-						}
-						// 아래쪽 충돌시 위쪽으로 밀어줌
-						else if (temp.bottom == unitVector[i]->GetUnitRectBottom())
-						{
-							unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() - tempH / KNOCKBACK);
-							unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() - tempH / KNOCKBACK);
-							unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() - tempH / KNOCKBACK);
-						}
-					}
-					else
-					{
-						// 왼쪽 충돌시 오른쪽으로 밀어줌
-						if (temp.left == unitVector[i]->GetUnitRectLeft())
-						{
-							unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() + tempW / KNOCKBACK);
-							unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() + tempW / KNOCKBACK);
-							unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() + tempW / KNOCKBACK);
-						}
-						// 오른쪽 충돌시 왼쪽으로 밀어줌
-						else if (temp.right == unitVector[i]->GetUnitRectRight())
-						{
-							unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() - tempW / KNOCKBACK);
-							unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() - tempW / KNOCKBACK);
-							unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() - tempW / KNOCKBACK);
+						if (i == j) continue;
 
+						// temp의 Width와 Height 선언
+						int tempW = temp.right - temp.left;
+						int tempH = temp.bottom - temp.top;
+
+						if (tempH < tempW)
+						{
+							// 위쪽 충돌시 아래쪽으로 밀어줌
+							if (temp.top == unitVector[i]->GetUnitRectTop())
+							{
+								unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() + tempH / knockBack);
+								unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() + tempH / knockBack);
+								unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() + tempH / knockBack);
+							}
+							// 아래쪽 충돌시 위쪽으로 밀어줌
+							else if (temp.bottom == unitVector[i]->GetUnitRectBottom())
+							{
+								unitVector[i]->SetUnitRectTop(unitVector[i]->GetUnitRectTop() - tempH / knockBack);
+								unitVector[i]->SetUnitRectBottom(unitVector[i]->GetUnitRectBottom() - tempH / knockBack);
+								unitVector[i]->SetUnitRectY(unitVector[i]->GetUnitRectY() - tempH / knockBack);
+							}
+						}
+						else
+						{
+							// 왼쪽 충돌시 오른쪽으로 밀어줌
+							if (temp.left == unitVector[i]->GetUnitRectLeft())
+							{
+								unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() + tempW / knockBack);
+								unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() + tempW / knockBack);
+								unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() + tempW / knockBack);
+							}
+							// 오른쪽 충돌시 왼쪽으로 밀어줌
+							else if (temp.right == unitVector[i]->GetUnitRectRight())
+							{
+								unitVector[i]->SetUnitRectLeft(unitVector[i]->GetUnitRectLeft() - tempW / knockBack);
+								unitVector[i]->SetUnitRectRight(unitVector[i]->GetUnitRectRight() - tempW / knockBack);
+								unitVector[i]->SetUnitRectX(unitVector[i]->GetUnitRectX() - tempW / knockBack);
+
+							}
 						}
 					}
 				}

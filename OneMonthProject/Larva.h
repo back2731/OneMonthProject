@@ -25,6 +25,13 @@ private:
 
 	bool isTransDrone;
 	bool isTransZergling;
+	bool isTransOverlord;
+	bool isTransHydralisk;
+	bool isTransMutalisk;
+	bool isTransScourge;
+	bool isTransQueen;
+	bool isTransUltralisk;
+	bool isTransDefiler;
 
 public:
 	Larva();
@@ -38,6 +45,7 @@ public:
 	void Render(HDC hdc) override;
 
 	void RenderUI(HDC hdc) override;
+	void RenderAirUint(HDC hdc) override;
 
 	int GetHatcheryX() { return hatcheryX; }
 	int GetHatcheryY() { return hatcheryY; }

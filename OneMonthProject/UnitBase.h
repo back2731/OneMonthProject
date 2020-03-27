@@ -48,7 +48,14 @@ enum UNITKIND
 {
 	LARVA,
 	DRONE,
-	ZERGLING
+	ZERGLING,
+	OVERLORD,
+	HYDRALISK,
+	MUTALISK,
+	SCOURGE,
+	QUEEN,
+	ULTRALISK,
+	DEFILER
 };
 
 enum UNITSTATE
@@ -76,7 +83,8 @@ struct UnitStatus
 	int			unitState;				// 유닛 상태
 
 	Image*		unitImage;				// 유닛 이미지
-	Image*		enemyUnitImage1;				// 유닛 이미지
+	Image*		unitShadowImage;		// 유닛 그림자 이미지
+	Image*		enemyUnitImage1;		// 유닛 이미지
 	Animation*	unitAnimation;			// 유닛 애니메이션
 	Image*		unitSelectImage;		// 유닛 선택 테두리 이미지
 	Image*		unitFrontProgressImage;	// 유닛 체력바 (전면)
@@ -183,6 +191,8 @@ public:
 	virtual void Render(HDC hdc);
 
 	virtual void RenderUI(HDC hdc);
+	virtual void RenderAirUint(HDC hdc);
+	virtual void RenderShadow(HDC hdc);
 
 	virtual int GetHatcheryX();
 	virtual int GetHatcheryY();

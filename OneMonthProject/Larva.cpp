@@ -125,7 +125,9 @@ void Larva::Update()
 		if (UNITMANAGER->GetInputCommandTransDrone())
 		{
 			isClick = false;
+
 			isTransDrone = true;
+
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}
 
@@ -147,8 +149,175 @@ void Larva::Update()
 		if (UNITMANAGER->GetInputCommandTransZergling())
 		{
 			isClick = false;
+
 			isTransZergling = true;
+			
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
+		}
+
+		// 오버로드 생산
+		if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransOverlord(true);
+			}
+
+		}
+		if (KEYMANAGER->IsOnceKeyDown('O'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransOverlord(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransOverlord())
+		{
+			isClick = false;
+
+			isTransOverlord = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("overlordBirth");
+		}
+
+		// 히드라 생산
+		if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransHydralisk(true);
+			}
+
+		}
+		if (KEYMANAGER->IsOnceKeyDown('H'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransHydralisk(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransHydralisk())
+		{
+			isClick = false;
+
+			isTransHydralisk = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("hydraBirth");
+		}
+
+		// 뮤탈리스크 생산
+		if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransMutalisk(true);
+			}
+
+		}
+		if (KEYMANAGER->IsOnceKeyDown('M'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransMutalisk(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransMutalisk())
+		{
+			isClick = false;
+
+			isTransMutalisk = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("mutaliskBirth");
+		}
+
+		// 스커지 생산
+		if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransScourge(true);
+			}
+
+		}
+		if (KEYMANAGER->IsOnceKeyDown('S'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransScourge(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransScourge())
+		{
+			isClick = false;
+
+			isTransScourge = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("scourgeBirth");
+		}
+		
+		// 스커지 생산
+		if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransQueen(true);
+			}
+		}
+		if (KEYMANAGER->IsOnceKeyDown('Q'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransQueen(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransQueen())
+		{
+			isClick = false;
+
+			isTransQueen = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("queenBirth");
+		}
+		
+		// 울트라리스크 생산
+		if (PtInRect(&commandRect[SLOT8], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransUltralisk(true);
+			}
+		}
+		if (KEYMANAGER->IsOnceKeyDown('U'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransUltralisk(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransUltralisk())
+		{
+			isClick = false;
+
+			isTransUltralisk = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("ultraBirth");
+		}
+
+		// 디파일러 생산
+		if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransDefiler(true);
+			}
+		}
+		if (KEYMANAGER->IsOnceKeyDown('F'))
+		{
+			// 눌렸다는 명령을 true 해주는 것을 만든다.
+			UNITMANAGER->SetInputCommandTransDefiler(true);
+		}
+		if (UNITMANAGER->GetInputCommandTransDefiler())
+		{
+			isClick = false;
+
+			isTransDefiler = true;
+
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("defilerBirth");
 		}
 	}
 
@@ -169,6 +338,34 @@ void Larva::Render(HDC hdc)
 	else if (isTransZergling)
 	{
 		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 50, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (isTransOverlord)
+	{
+		// 빈 if문으로 이 부분의 렌더를 피하게 함
+	}
+	else if (isTransHydralisk)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 50, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (isTransMutalisk)
+	{
+		// 빈 if문으로 이 부분의 렌더를 피하게 함
+	}
+	else if (isTransScourge)
+	{
+		// 빈 if문으로 이 부분의 렌더를 피하게 함
+	}
+	else if (isTransQueen)
+	{
+		// 빈 if문으로 이 부분의 렌더를 피하게 함
+	}
+	else if (isTransUltralisk)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 110, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}	
+	else if (isTransDefiler)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 110, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}
 	else
 	{
@@ -211,6 +408,26 @@ void Larva::RenderUI(HDC hdc)
 	}
 }
 
+void Larva::RenderAirUint(HDC hdc)
+{
+	if (isTransOverlord)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top-120, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (isTransMutalisk)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 120, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (isTransScourge)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 120, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}	
+	else if (isTransQueen)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRect.left - 60, unitStatus.unitRect.top - 120, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+}
+
 void Larva::PlayAnimation()
 {
 	if (isTransDrone)
@@ -228,7 +445,6 @@ void Larva::PlayAnimation()
 				isTransDrone = false;
 				commandSlot[SLOT1]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
 				commandSlot[SLOT1]->Update();
-				//unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
 			}
 			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
 			unitStatus.frameIndexX++;
@@ -249,6 +465,146 @@ void Larva::PlayAnimation()
 				isTransZergling = false;
 				commandSlot[SLOT2]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
 				commandSlot[SLOT2]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransOverlord)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransOverlord = false;
+				commandSlot[SLOT3]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT3]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransHydralisk)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransHydralisk = false;
+				commandSlot[SLOT4]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT4]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransMutalisk)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransMutalisk = false;
+				commandSlot[SLOT5]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT5]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransScourge)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransScourge = false;
+				commandSlot[SLOT6]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT6]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransQueen)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransQueen = false;
+				commandSlot[SLOT7]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT7]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransUltralisk)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX()-1)
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransUltralisk = false;
+				commandSlot[SLOT8]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT8]->Update();
+			}
+			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
+			unitStatus.frameIndexX++;
+		}
+	}
+	else if (isTransDefiler)
+	{
+		unitStatus.frameIndexY = 0;
+		unitStatus.frameCount++;
+		unitStatus.unitImage->SetFrameY(unitStatus.frameIndexY);
+		if (unitStatus.frameCount % 4 == 0)
+		{
+			unitStatus.frameCount = 0;
+			if (unitStatus.frameIndexX >= unitStatus.unitImage->GetMaxFrameX())
+			{
+				unitStatus.frameIndexX = 0;
+				isTransform = true;
+				isTransDefiler = false;
+				commandSlot[SLOT9]->GetBirthXY(unitStatus.unitRectX, unitStatus.unitRectY);
+				commandSlot[SLOT9]->Update();
 			}
 			unitStatus.unitImage->SetFrameX(unitStatus.frameIndexX);
 			unitStatus.frameIndexX++;

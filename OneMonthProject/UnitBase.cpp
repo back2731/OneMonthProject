@@ -30,6 +30,14 @@ void UnitBase::RenderUI(HDC hdc)
 {
 }
 
+void UnitBase::RenderAirUint(HDC hdc)
+{
+}
+
+void UnitBase::RenderShadow(HDC hdc)
+{
+}
+
 int UnitBase::GetHatcheryX()
 {
 	return 0;

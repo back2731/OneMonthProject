@@ -97,8 +97,40 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("droneBirth", "images/Unit/droneBirth.bmp", 3072 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 32, 1, true, RGB(0, 222, 0));
 
 	// 저글링 이미지
-	IMAGEMANAGER->AddFrameImage("zergling", "images/Unit/zerglingTest.bmp", 1536 * 3 / IMAGESIZECONTROL, 1152 * 3 / IMAGESIZECONTROL, 12, 9, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("zergling", "images/Unit/zergling.bmp", 1536 * 3 / IMAGESIZECONTROL, 1152 * 3 / IMAGESIZECONTROL, 12, 9, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("zerglingBirth", "images/Unit/zerglingBirth.bmp", 2976 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+
+	// 오버로드 이미지
+	IMAGEMANAGER->AddFrameImage("overlord", "images/Unit/overlord.bmp", 1008 * IMAGESIZECONTROL, 672 * IMAGESIZECONTROL, 12, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("overlordShadow", "images/Unit/overlordShadow.bmp", 1008 * IMAGESIZECONTROL, 672 * IMAGESIZECONTROL, 12, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("overlordBirth", "images/Unit/overlordBirth.bmp", 2976 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+	
+	// 히드라 이미지
+	IMAGEMANAGER->AddFrameImage("hydra", "images/Unit/hydra.bmp", 1536 * IMAGESIZECONTROL, 1024 * IMAGESIZECONTROL, 12, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("hydraBirth", "images/Unit/hydraBirth.bmp", 2976 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+
+	// 뮤탈리스크 이미지
+	IMAGEMANAGER->AddFrameImage("mutalisk", "images/Unit/mutalisk.bmp", 640 * IMAGESIZECONTROL, 1012 * IMAGESIZECONTROL, 5, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("mutaliskShadow", "images/Unit/mutaliskShadow.bmp", 640 * IMAGESIZECONTROL, 1012 * IMAGESIZECONTROL, 5, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("mutaliskBirth", "images/Unit/mutaliskBirth.bmp", 2976 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+
+	// 스커지 이미지
+	IMAGEMANAGER->AddFrameImage("scourge", "images/Unit/scourge.bmp", 240 * IMAGESIZECONTROL, 384* IMAGESIZECONTROL, 5, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("scourgeShadow", "images/Unit/scourgeShadow.bmp", 240 * IMAGESIZECONTROL, 384* IMAGESIZECONTROL, 5, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("scourgeBirth", "images/Unit/scourgeBirth.bmp", 2976 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+
+	// 퀸 이미지
+	IMAGEMANAGER->AddFrameImage("queen", "images/Unit/queen.bmp", 1408 * 3 / IMAGESIZECONTROL, 1024 * 3 / IMAGESIZECONTROL, 11, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("queenShadow", "images/Unit/queenShadow.bmp", 1408 * 3 / IMAGESIZECONTROL, 1024 * 3 / IMAGESIZECONTROL, 11, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("queenBirth", "images/Unit/queenBirth.bmp", 2976 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
+	
+	// 울트라리스크 이미지
+	IMAGEMANAGER->AddFrameImage("Ultralisk", "images/Unit/Ultralisk.bmp", 1920 * IMAGESIZECONTROL, 1024 * IMAGESIZECONTROL, 15, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("ultraBirth", "images/Unit/ultraBirth.bmp", 2880 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 30, 1, true, RGB(0, 222, 0));
+	
+	// 디파일러 이미지
+	IMAGEMANAGER->AddFrameImage("defiler", "images/Unit/defiler.bmp", 640 * IMAGESIZECONTROL, 640* IMAGESIZECONTROL, 8, 8, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("defilerBirth", "images/Unit/defilerBirth.bmp", 2880 * IMAGESIZECONTROL, 125 * IMAGESIZECONTROL, 30, 1, true, RGB(0, 222, 0));
 
 	// 아이콘
 	IMAGEMANAGER->AddImage("SelectLarva", "images/UI/Icon/Hatchery/SelectLarva.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
