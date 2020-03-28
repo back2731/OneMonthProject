@@ -24,11 +24,6 @@ HRESULT GameScene::Init()
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
 	//buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
-	buildingVector.push_back(BUILDMANAGER->CreateDefilerMound(PLAYER1, { 64 * 2, 64 * 4 }));
-	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
-	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
-	unitVector.push_back(UNITMANAGER->CreateDefiler(PLAYER1, { 550, 550 }));
-
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
 	for (int i = 0; i < TILESIZE; i++)
@@ -72,6 +67,68 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+	BUILDMANAGER->SetHaveHatchery(false);
+	BUILDMANAGER->SetHaveLair(false);
+	BUILDMANAGER->SetHaveHive(false);
+	BUILDMANAGER->SetHaveSpawningpool(false);
+	BUILDMANAGER->SetHaveHydraliskden(false);
+	BUILDMANAGER->SetHaveEvolutionchamber(false);
+	BUILDMANAGER->SetHaveCreepcolony(false);
+	BUILDMANAGER->SetHaveSpire(false);
+	BUILDMANAGER->SetHaveQueensnest(false);
+	BUILDMANAGER->SetHaveUltraliskcavern(false);
+
+	for (int i = 0; i < buildingVector.size(); i++)
+	{
+		if (buildingVector[i]->GetBuildKind() == HATCHERY)
+		{
+			BUILDMANAGER->SetHaveHatchery(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == LAIR)
+		{
+			BUILDMANAGER->SetHaveHatchery(true);
+			BUILDMANAGER->SetHaveLair(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == HIVE)
+		{
+			BUILDMANAGER->SetHaveHatchery(true);
+			BUILDMANAGER->SetHaveLair(true);
+			BUILDMANAGER->SetHaveHive(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == SPAWNINGPOOL)
+		{
+			BUILDMANAGER->SetHaveSpawningpool(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == HYDRALISKDEN)
+		{
+			BUILDMANAGER->SetHaveHydraliskden(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == EVOLUTIONCHAMBER)
+		{
+			BUILDMANAGER->SetHaveEvolutionchamber(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == CREEPCOLONY)
+		{
+			BUILDMANAGER->SetHaveCreepcolony(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == SPIRE)
+		{
+			BUILDMANAGER->SetHaveSpire(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == QUEENSNEST)
+		{
+			BUILDMANAGER->SetHaveQueensnest(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == ULTRALISKCAVERN)
+		{
+			BUILDMANAGER->SetHaveUltraliskcavern(true);
+		}
+		if (buildingVector[i]->GetBuildKind() == DEFILERMOUND)
+		{
+			BUILDMANAGER->SetHaveDefilerMound(true);
+		}
+	}
+
 	ShowCursor(false);
 	
 	commandRect = RectMake(CAMERAMANAGER->GetCameraCenter().x + 335, CAMERAMANAGER->GetCameraCenter().y + 225, 250, 250);
@@ -267,7 +324,10 @@ void GameScene::Update()
 	count++;
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
-		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1 && buildingVector[i]->GetBuildKind() == HATCHERY)
+		if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER1 && 
+			(buildingVector[i]->GetBuildKind() == HATCHERY || 
+				buildingVector[i]->GetBuildKind() == LAIR || 
+				buildingVector[i]->GetBuildKind() == HIVE))
 		{
 			if (buildingVector[i]->GetCurrentLarva() < LARVAMAX)
 			{
@@ -319,19 +379,21 @@ void GameScene::Update()
 		dragRect.right = m_ptMouse.x;
 		dragRect.bottom = m_ptMouse.y;
 
-		for (int i = 0; i < buildingVector.size(); i++)
+		if (!PtInRect(&commandRect, m_ptMouse))
 		{
-			buildingVector[i]->SetIsClick(false);
+			for (int i = 0; i < buildingVector.size(); i++)
+			{
+				buildingVector[i]->SetIsClick(false);
+			}
+			for (int i = 0; i < unitVector.size(); i++)
+			{
+				unitVector[i]->SetIsClick(false);
+			}
+			for (int i = 0; i < airUnitVector.size(); i++)
+			{
+				airUnitVector[i]->SetIsClick(false);
+			}
 		}
-		for (int i = 0; i < unitVector.size(); i++)
-		{
-			unitVector[i]->SetIsClick(false);
-		}
-		for (int i = 0; i < airUnitVector.size(); i++)
-		{
-			airUnitVector[i]->SetIsClick(false);
-		}
-
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 	{
@@ -527,13 +589,15 @@ void GameScene::Render()
 
 	// 유닛보다는 위에 있고 유닛 UI보다는 아래에 있는 콘솔 렌더링
 	consoleImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
-	
+	//Rectangle(GetMemDC(), commandRect.left, commandRect.top, commandRect.right, commandRect.bottom);
+
 	// 콘솔 위에 띄워질 UI렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
 		if (buildingVector[i]->GetIsClick())
 		{
 			buildingVector[i]->RenderUI(GetMemDC());
+			break;
 		}
 	}
 	for (int i = 0; i < unitVector.size(); i++)
@@ -541,6 +605,7 @@ void GameScene::Render()
 		if (unitVector[i]->GetIsClick())
 		{
 			unitVector[i]->RenderUI(GetMemDC());
+			break;
 		}
 	}
 	for (int i = 0; i < airUnitVector.size(); i++)
@@ -548,10 +613,10 @@ void GameScene::Render()
 		if (airUnitVector[i]->GetIsClick())
 		{
 			airUnitVector[i]->RenderUI(GetMemDC());
+			break;
 		}
 	}
 
-	//Rectangle(GetMemDC(), gas.left, gas.top, gas.right, gas.bottom);
 }
 
 void GameScene::LoadMap(int loadCount)

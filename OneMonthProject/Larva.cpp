@@ -103,24 +103,48 @@ void Larva::Release()
 
 void Larva::Update()
 {
+	if (CheckTrans())
+	{
+		isClick = false;
+	}
+
 	progressBar->SetGauge(unitStatus.unitCurrentHp, unitStatus.unitMaxHp);
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
+		commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
+
 		// 드론 생산
 		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 		{
+			if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+			{
+				commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
+			}
 			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransDrone(true);
+				commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
+			}
+			if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+			{
+				commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
 			}
 
+		}
+		if (KEYMANAGER->IsStayKeyDown('D'))
+		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
 		}
 		if (KEYMANAGER->IsOnceKeyDown('D'))
 		{
 			// 눌렸다는 명령을 true 해주는 것을 만든다.
 			UNITMANAGER->SetInputCommandTransDrone(true);
+		}
+		if (KEYMANAGER->IsOnceKeyUp('D'))
+		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
 		}
 		if (UNITMANAGER->GetInputCommandTransDrone())
 		{
@@ -132,43 +156,71 @@ void Larva::Update()
 		}
 
 		// 저글링 생산
-		if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+		if (BUILDMANAGER->GetHaveSpawningpool())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
+
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransZergling(true);
+					commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('Z'))
+			{
+				commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('Z'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransZergling(true);
+				commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
 			}
+			if (UNITMANAGER->GetInputCommandTransZergling())
+			{
+				isClick = false;
 
-		}
-		if (KEYMANAGER->IsOnceKeyDown('Z'))
-		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransZergling(true);
-		}
-		if (UNITMANAGER->GetInputCommandTransZergling())
-		{
-			isClick = false;
+				isTransZergling = true;
 
-			isTransZergling = true;
-			
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
+			}
+		}
+		else
+		{
+			commandImage[SLOT2] = IMAGEMANAGER->FindImage("DisabledZergling");
 		}
 
 		// 오버로드 생산
 		if (PtInRect(&commandRect[SLOT3], m_ptMouse))
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+			{
+				commandImage[SLOT3] = IMAGEMANAGER->FindImage("ClickOverlord");
+			}
+			if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransOverlord(true);
+				commandImage[SLOT3] = IMAGEMANAGER->FindImage("TransformOverlord");
 			}
 
 		}
-		if (KEYMANAGER->IsOnceKeyDown('O'))
+		if (KEYMANAGER->IsStayKeyDown('O'))
+		{
+			commandImage[SLOT3] = IMAGEMANAGER->FindImage("ClickOverlord");
+		}
+		if (KEYMANAGER->IsOnceKeyUp('O'))
 		{
 			// 눌렸다는 명령을 true 해주는 것을 만든다.
 			UNITMANAGER->SetInputCommandTransOverlord(true);
+			commandImage[SLOT3] = IMAGEMANAGER->FindImage("TransformOverlord");
 		}
 		if (UNITMANAGER->GetInputCommandTransOverlord())
 		{
@@ -178,146 +230,262 @@ void Larva::Update()
 
 			unitStatus.unitImage = IMAGEMANAGER->FindImage("overlordBirth");
 		}
-
+		
 		// 히드라 생산
-		if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+		if (BUILDMANAGER->GetHaveHydraliskden())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
+
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickHydralisk");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransHydralisk(true);
+					commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
+				}
+
+			}
+			if (KEYMANAGER->IsStayKeyDown('H'))
+			{
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickHydralisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('H'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransHydralisk(true);
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
 			}
+			if (UNITMANAGER->GetInputCommandTransHydralisk())
+			{
+				isClick = false;
 
+				isTransHydralisk = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("hydraBirth");
+			}
 		}
-		if (KEYMANAGER->IsOnceKeyDown('H'))
+		else
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransHydralisk(true);
-		}
-		if (UNITMANAGER->GetInputCommandTransHydralisk())
-		{
-			isClick = false;
-
-			isTransHydralisk = true;
-
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("hydraBirth");
+			commandImage[SLOT4] = IMAGEMANAGER->FindImage("DisabledHydralisk");
 		}
 
 		// 뮤탈리스크 생산
-		if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+		if (BUILDMANAGER->GetHaveSpire())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
+			commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
+
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickMutalisk");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransMutalisk(true);
+					commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
+				}
+
+			}
+			if (KEYMANAGER->IsStayKeyDown('M'))
+			{
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickMutalisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('M'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransMutalisk(true);
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
+			}
+			if (UNITMANAGER->GetInputCommandTransMutalisk())
+			{
+				isClick = false;
+
+				isTransMutalisk = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("mutaliskBirth");
 			}
 
-		}
-		if (KEYMANAGER->IsOnceKeyDown('M'))
-		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransMutalisk(true);
-		}
-		if (UNITMANAGER->GetInputCommandTransMutalisk())
-		{
-			isClick = false;
+			// 스커지 생산
+			if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
+				}
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransScourge(true);
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
+				}
 
-			isTransMutalisk = true;
-
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("mutaliskBirth");
-		}
-
-		// 스커지 생산
-		if (PtInRect(&commandRect[SLOT6], m_ptMouse))
-		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			}
+			if (KEYMANAGER->IsStayKeyDown('S'))
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
+			}
+			if (KEYMANAGER->IsOnceKeyDown('S'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransScourge(true);
 			}
+			if (KEYMANAGER->IsOnceKeyUp('S'))
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
+			}
+
+			if (UNITMANAGER->GetInputCommandTransScourge())
+			{
+				isClick = false;
+
+				isTransScourge = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("scourgeBirth");
+			}
 
 		}
-		if (KEYMANAGER->IsOnceKeyDown('S'))
+		else
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransScourge(true);
+			commandImage[SLOT5] = IMAGEMANAGER->FindImage("DisabledMutalisk");
+			commandImage[SLOT6] = IMAGEMANAGER->FindImage("DisabledScourge");
 		}
-		if (UNITMANAGER->GetInputCommandTransScourge())
-		{
-			isClick = false;
 
-			isTransScourge = true;
-
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("scourgeBirth");
-		}
-		
-		// 스커지 생산
-		if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+		// 퀸 생산
+		if (BUILDMANAGER->GetHaveQueensnest())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT7] = IMAGEMANAGER->FindImage("ClickQueen");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransQueen(true);			
+					commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('Q'))
+			{
+				commandImage[SLOT7] = IMAGEMANAGER->FindImage("ClickQueen");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('Q'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransQueen(true);
+				commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+			}
+			if (UNITMANAGER->GetInputCommandTransQueen())
+			{
+				isClick = false;
+
+				isTransQueen = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("queenBirth");
 			}
 		}
-		if (KEYMANAGER->IsOnceKeyDown('Q'))
+		else
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransQueen(true);
+			commandImage[SLOT7] = IMAGEMANAGER->FindImage("DisabledQueen");
 		}
-		if (UNITMANAGER->GetInputCommandTransQueen())
-		{
-			isClick = false;
 
-			isTransQueen = true;
 
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("queenBirth");
-		}
-		
 		// 울트라리스크 생산
-		if (PtInRect(&commandRect[SLOT8], m_ptMouse))
+		if (BUILDMANAGER->GetHaveUltraliskcavern())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
+
+			if (PtInRect(&commandRect[SLOT8], m_ptMouse))
+			{
+				if(KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT8] = IMAGEMANAGER->FindImage("ClickUltralisk");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransUltralisk(true);
+					commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
+				}
+			}				
+			if (KEYMANAGER->IsStayKeyDown('U'))
+			{
+				commandImage[SLOT8] = IMAGEMANAGER->FindImage("ClickUltralisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('U'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransUltralisk(true);
+				commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
+			}
+			if (UNITMANAGER->GetInputCommandTransUltralisk())
+			{
+				isClick = false;
+
+				isTransUltralisk = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("ultraBirth");
 			}
 		}
-		if (KEYMANAGER->IsOnceKeyDown('U'))
+		else
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransUltralisk(true);
-		}
-		if (UNITMANAGER->GetInputCommandTransUltralisk())
-		{
-			isClick = false;
-
-			isTransUltralisk = true;
-
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("ultraBirth");
+			commandImage[SLOT8] = IMAGEMANAGER->FindImage("DisabledUltralisk");
 		}
 
 		// 디파일러 생산
-		if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+		if (BUILDMANAGER->GetHaveDefilerMound())
 		{
-			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+
+			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					commandImage[SLOT9] = IMAGEMANAGER->FindImage("ClickDefiler");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransDefiler(true);
+					commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+				}
+			}				
+			if (KEYMANAGER->IsStayKeyDown('F'))
+			{
+				commandImage[SLOT9] = IMAGEMANAGER->FindImage("ClickDefiler");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('F'))
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransDefiler(true);
+				commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+			}
+			if (UNITMANAGER->GetInputCommandTransDefiler())
+			{
+				isClick = false;
+
+				isTransDefiler = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("defilerBirth");
 			}
 		}
-		if (KEYMANAGER->IsOnceKeyDown('F'))
+		else
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransDefiler(true);
-		}
-		if (UNITMANAGER->GetInputCommandTransDefiler())
-		{
-			isClick = false;
-
-			isTransDefiler = true;
-
-			unitStatus.unitImage = IMAGEMANAGER->FindImage("defilerBirth");
+			commandImage[SLOT9] = IMAGEMANAGER->FindImage("DisabledDefiler");
 		}
 	}
 
@@ -625,5 +793,20 @@ void Larva::PlayAnimation()
 			unitStatus.frameIndexX++;
 		}
 	}
+}
+
+bool Larva::CheckTrans()
+{
+	if (isTransDrone) return true;
+	if (isTransZergling) return true;
+	if (isTransOverlord) return true;
+	if (isTransHydralisk) return true;
+	if (isTransMutalisk) return true;
+	if (isTransScourge) return true;
+	if (isTransQueen) return true;
+	if (isTransUltralisk) return true;
+	if (isTransDefiler) return true;
+	
+	return false;
 }
 

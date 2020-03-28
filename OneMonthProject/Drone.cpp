@@ -190,10 +190,18 @@ void Drone::Update()
 		}
 		if (baseBuildingUIrender)
 		{
+			baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
+			baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+			baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
+
 			// 해처리
 			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickHatchery");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 				{
 					mutateHatchery = true;
 
@@ -202,9 +210,14 @@ void Drone::Update()
 					mutateSpawningPool = false;
 					mutateCreepColony = false;
 					mutateExtractor = false;
+					baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('H'))
+			if (KEYMANAGER->IsStayKeyDown('H'))
+			{
+				baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickHatchery");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('H'))
 			{
 				mutateHatchery = true;
 
@@ -213,11 +226,16 @@ void Drone::Update()
 				mutateSpawningPool = false;
 				mutateCreepColony = false;
 				mutateExtractor = false;
+				baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
 			}
 
 			// 크립 콜로니
 			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("ClickCreepColony");
+				}
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 				{
 					mutateCreepColony = true;
@@ -226,8 +244,13 @@ void Drone::Update()
 					mutateSpawningPool = false;
 					mutateHydraliskDen = false;
 					mutateEvolutionChamber = false;
-					mutateExtractor = false;
+					mutateExtractor = false;			
+					baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
 				}
+			}				
+			if (KEYMANAGER->IsStayKeyDown('C'))
+			{
+				baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("ClickCreepColony");
 			}
 			if (KEYMANAGER->IsOnceKeyDown('C'))
 			{
@@ -238,11 +261,16 @@ void Drone::Update()
 				mutateHydraliskDen = false;
 				mutateEvolutionChamber = false;
 				mutateExtractor = false;
+				baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
 			}
 
 			// 익스트렉터
 			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
 			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+				{
+					baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ClickExtractor");
+				}
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 				{
 					mutateExtractor = true;
@@ -252,7 +280,12 @@ void Drone::Update()
 					mutateHydraliskDen = false;
 					mutateEvolutionChamber = false;
 					mutateCreepColony = false;
+					baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
 				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('E'))
+			{
+				baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ClickExtractor");
 			}
 			if (KEYMANAGER->IsOnceKeyDown('E'))
 			{
@@ -263,12 +296,37 @@ void Drone::Update()
 				mutateHydraliskDen = false;
 				mutateEvolutionChamber = false;
 				mutateCreepColony = false;
+				baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
 			}
-
+			
 			// 스포닝풀
-			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			if (BUILDMANAGER->GetHaveHatchery())
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
+
+				if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+				{
+					if(KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{ 
+						baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickSpawningPool");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						mutateSpawningPool = true;
+
+						mutateHatchery = false;
+						mutateEvolutionChamber = false;
+						mutateHydraliskDen = false;
+						mutateCreepColony = false;
+						mutateExtractor = false;
+						baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('S'))
+				{
+					baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickSpawningPool");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('S'))
 				{
 					mutateSpawningPool = true;
 
@@ -277,24 +335,42 @@ void Drone::Update()
 					mutateHydraliskDen = false;
 					mutateCreepColony = false;
 					mutateExtractor = false;
+					baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('S'))
+			else
 			{
-				mutateSpawningPool = true;				
-				
-				mutateHatchery = false;
-				mutateEvolutionChamber = false;
-				mutateHydraliskDen = false;
-				mutateCreepColony = false;
-				mutateExtractor = false;
-
+				baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("DisabledSpawningPool");				
 			}
-
+			
 			// 에볼루션챔버
-			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			if (BUILDMANAGER->GetHaveHatchery())
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
+
+				if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolutionChamber");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						mutateEvolutionChamber = true;
+
+						mutateHatchery = false;
+						mutateSpawningPool = false;
+						mutateHydraliskDen = false;
+						mutateCreepColony = false;
+						mutateExtractor = false;
+						baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('V'))
+				{
+					baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolutionChamber");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('V'))
 				{
 					mutateEvolutionChamber = true;
 
@@ -303,44 +379,64 @@ void Drone::Update()
 					mutateHydraliskDen = false;
 					mutateCreepColony = false;
 					mutateExtractor = false;
+					baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('V'))
+			else
 			{
-				mutateEvolutionChamber = true;
-
-				mutateHatchery = false;
-				mutateSpawningPool = false;
-				mutateHydraliskDen = false;
-				mutateCreepColony = false;
-				mutateExtractor = false;
+				baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DisabledEvolutionChamber");
 			}
 
 			// 히드라리스크덴
-			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			if (BUILDMANAGER->GetHaveSpawningpool())
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("HydraliskDenUI");
+
+				if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("ClickHydraliskDen");
+					}
+					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+					{
+						mutateHydraliskDen = true;
+
+						mutateHatchery = false;
+						mutateSpawningPool = false;
+						mutateEvolutionChamber = false;
+						mutateCreepColony = false;
+						mutateExtractor = false;				
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("HydraliskDenUI");
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('D'))
+				{
+					baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("ClickHydraliskDen");
+				}
+				if (KEYMANAGER->IsOnceKeyDown('D'))
 				{
 					mutateHydraliskDen = true;
-					
+
 					mutateHatchery = false;
 					mutateSpawningPool = false;
 					mutateEvolutionChamber = false;
 					mutateCreepColony = false;
 					mutateExtractor = false;
+				}					
+				if (KEYMANAGER->IsOnceKeyUp('D'))
+				{
+					baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("HydraliskDenUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('D'))
+			else
 			{
-				mutateHydraliskDen = true;
-
-				mutateHatchery = false;
-				mutateSpawningPool = false;
-				mutateEvolutionChamber = false;
-				mutateCreepColony = false;
-				mutateExtractor = false;
+				baseBuildingImage[SLOT7] = IMAGEMANAGER->FindImage("DisabledHydraliskDen");
 			}
-
+			
 			// 뒤로가기
 			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
 			{
@@ -373,87 +469,159 @@ void Drone::Update()
 		if (highBuildingUIrender)
 		{
 			// 스파이어
-			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			if (BUILDMANAGER->GetHaveLair())
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+				highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+
+				if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickSpire");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						mutateSpire = true;
+
+						mutateQueensNest = false;
+						mutateUltraliskCavern = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('S'))
+				{
+					highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickSpire");
+				}
+				if (KEYMANAGER->IsOnceKeyDown('S'))
 				{
 					mutateSpire = true;
 
 					mutateQueensNest = false;
 					mutateUltraliskCavern = false;
 					mutateDefilerMound = false;
+					highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+				}					
+
+				// 퀸즈네스트
+				if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("ClickQueensNest");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						mutateQueensNest = true;
+
+						mutateSpire = false;
+						mutateUltraliskCavern = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+
+					}
 				}
-			}
-			if (KEYMANAGER->IsOnceKeyDown('S'))
-			{
-				mutateSpire = true;
-
-				mutateQueensNest = false;
-				mutateUltraliskCavern = false;
-				mutateDefilerMound = false;
-			}
-
-			// 퀸즈네스트
-			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
-			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				if (KEYMANAGER->IsStayKeyDown('Q'))
+				{
+					highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("ClickQueensNest");
+				}
+				if (KEYMANAGER->IsOnceKeyDown('Q'))
 				{
 					mutateQueensNest = true;
 
 					mutateSpire = false;
 					mutateUltraliskCavern = false;
 					mutateDefilerMound = false;
+					highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('Q'))
+			else
 			{
-				mutateQueensNest = true;
-
-				mutateSpire = false;
-				mutateUltraliskCavern = false;
-				mutateDefilerMound = false;
+				highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("DisabledSpire");
+				highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("DisabledQueensNest");
 			}
 
 			// 울트라리스크 캐번
-			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			if (BUILDMANAGER->GetHaveHive())
 			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				highBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("NydusCanalUI");
+				highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+				highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+
+				if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickUltraliskCavern");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						mutateUltraliskCavern = true;
+
+						mutateSpire = false;
+						mutateQueensNest = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+					}
+				}					
+				if (KEYMANAGER->IsStayKeyDown('U'))
+				{
+					highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickUltraliskCavern");
+				}
+				if (KEYMANAGER->IsOnceKeyDown('U'))
 				{
 					mutateUltraliskCavern = true;
 
 					mutateSpire = false;
 					mutateQueensNest = false;
 					mutateDefilerMound = false;
+					highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
 				}
-			}
-			if (KEYMANAGER->IsOnceKeyDown('U'))
-			{
-				mutateUltraliskCavern = true;
 
-				mutateSpire = false;
-				mutateQueensNest = false;
-				mutateDefilerMound = false;
-			}
+				// 디파일러 마운드
+				if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickDefilerMound");
+					}
+					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+					{
+						mutateDefilerMound = true;
 
-			// 디파일러 마운드
-			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
-			{
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+						mutateSpire = false;
+						mutateQueensNest = false;
+						mutateUltraliskCavern = false;
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('D'))
+				{
+					highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickDefilerMound");
+				}
+				if (KEYMANAGER->IsOnceKeyDown('D'))
 				{
 					mutateDefilerMound = true;
 
 					mutateSpire = false;
 					mutateQueensNest = false;
 					mutateUltraliskCavern = false;
+					highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
 				}
 			}
-			if (KEYMANAGER->IsOnceKeyDown('D'))
+			else
 			{
-				mutateDefilerMound = true;
-
-				mutateSpire = false;
-				mutateQueensNest = false;
-				mutateUltraliskCavern = false;
+				highBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("DisabledNydusCanal");
+				highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("DisabledUltraliskCavern");
+				highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DisabledDefilerMound");
 			}
 
 			if (PtInRect(&commandRect[SLOT9], m_ptMouse))

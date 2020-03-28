@@ -9,6 +9,13 @@ class Hatchery : public BuildBase
 {
 private:
 
+	bool isTransLair;
+	bool isTransHive;
+
+	bool hatchery;
+	bool lair;
+	bool hive;
+
 public:
 	Hatchery();
 	~Hatchery();
@@ -23,5 +30,7 @@ public:
 	
 	int GetCurrentLarva() { return currentLarva; }
 	void SetCurrentLarva(int _currentLarva) { currentLarva += _currentLarva; }
+
+	void PlayTransformAnimation();
 };
 

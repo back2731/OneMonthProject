@@ -13,7 +13,9 @@ enum BUILDKIND
 	SPIRE,
 	QUEENSNEST,
 	ULTRALISKCAVERN,
-
+	DEFILERMOUND,
+	LAIR,
+	HIVE
 
 };
 
@@ -92,6 +94,7 @@ public:
 	virtual int GetMaxLarva();
 	virtual int GetCurrentLarva();
 	virtual void SetCurrentLarva(int _currentLarva);
+	virtual void PlayTransformAnimation();
 
 	void PlayAnimation();
 

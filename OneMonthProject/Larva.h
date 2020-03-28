@@ -53,6 +53,8 @@ public:
 
 	void PlayAnimation();
 
+	bool CheckTrans();
+
 
 };
 

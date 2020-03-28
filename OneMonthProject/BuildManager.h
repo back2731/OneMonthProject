@@ -35,6 +35,18 @@ private:
 	vector<BuildBase*> tempVector;
 	BuildBase* tempBuildBase;
 
+	bool haveHatchery;
+	bool haveLair;
+	bool haveHive;
+	bool haveSpawningpool;
+	bool haveHydraliskden;
+	bool haveEvolutionchamber;
+	bool haveCreepcolony;
+	bool haveSpire;
+	bool haveQueensnest;
+	bool haveUltraliskcavern;
+	bool haveDefilerMound;
+
 public:
 	BuildManager();
 	~BuildManager();
@@ -55,10 +67,33 @@ public:
 	QueensNest* CreateQueensNest(int playerNumber, POINT XY);
 	UltraliskCavern* CreateUltraliskCavern(int playerNumber, POINT XY);
 	DefilerMound* CreateDefilerMound(int playerNumber, POINT XY);
-
-
+	
 	vector<BuildBase*> GetTempVector() { return tempVector; }
 	void SetBuildingVector(BuildBase* buildClass) { tempVector.push_back(buildClass); }
 	BuildBase* ReturnBuildingVector();
+
+	bool GetHaveHatchery() { return haveHatchery; }
+	bool GetHaveLair() { return haveLair; }
+	bool GetHaveHive() { return haveHive; }
+	bool GetHaveSpawningpool() { return haveSpawningpool; }
+	bool GetHaveHydraliskden() { return haveHydraliskden; }
+	bool GetHaveEvolutionchamber() { return haveEvolutionchamber; }
+	bool GetHaveCreepcolony() { return haveCreepcolony; }
+	bool GetHaveSpire() { return haveSpire; }
+	bool GetHaveQueensnest() { return haveQueensnest; }
+	bool GetHaveUltraliskcavern() { return haveUltraliskcavern; }
+	bool GetHaveDefilerMound() { return haveDefilerMound; }
+
+	void SetHaveHatchery(bool isHaving) { haveHatchery = isHaving; }
+	void SetHaveLair(bool isHaving) { haveLair = isHaving; }
+	void SetHaveHive(bool isHaving) { haveHive = isHaving; }
+	void SetHaveSpawningpool(bool isHaving) { haveSpawningpool = isHaving; }
+	void SetHaveHydraliskden(bool isHaving) { haveHydraliskden = isHaving; }
+	void SetHaveEvolutionchamber(bool isHaving) { haveEvolutionchamber = isHaving; }
+	void SetHaveCreepcolony(bool isHaving) { haveCreepcolony = isHaving; }
+	void SetHaveSpire(bool isHaving) { haveSpire = isHaving; }
+	void SetHaveQueensnest(bool isHaving) { haveQueensnest = isHaving; }
+	void SetHaveUltraliskcavern(bool isHaving) { haveUltraliskcavern = isHaving; }
+	void SetHaveDefilerMound(bool isHaving) { haveDefilerMound = isHaving; }
 };
 

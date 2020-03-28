@@ -15,7 +15,7 @@ DefilerMound::DefilerMound(int _playerNumber, POINT buildXY)
 {
 	progressBar = new ProgressBar;
 
-	buildStatus.buidKind = ULTRALISKCAVERN;
+	buildStatus.buidKind = DEFILERMOUND;
 
 	buildStatus.playerNumber = _playerNumber;
 

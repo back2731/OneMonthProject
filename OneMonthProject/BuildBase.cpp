@@ -44,6 +44,10 @@ void BuildBase::SetCurrentLarva(int _currentLarva)
 {
 }
 
+void BuildBase::PlayTransformAnimation()
+{
+}
+
 void BuildBase::PlayAnimation()
 {
 	buildStatus.frameIndexY = 0;
