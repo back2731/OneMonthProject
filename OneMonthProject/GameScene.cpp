@@ -23,7 +23,8 @@ HRESULT GameScene::Init()
 
 	// 檬扁 秦贸府 积己
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
-	//buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
 	for (int i = 0; i < TILESIZE; i++)
@@ -432,34 +433,41 @@ void GameScene::Update()
 	}
 	
 	// 傍拜 窍妨带 如利
-	//for (int i = 0; i < unitVector.size(); i++)
-	//{
-	//	for (int j = 0; j < unitVector.size(); j++)
-	//	{
-	//		if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
-	//		{
-	//			if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
-	//			{
-	//				unitVector[i]->SetIsSearch(true);
-	//			}
-	//			else
-	//			{
-	//				unitVector[i]->SetIsSearch(false);
-	//			}
-	//		}
-	//	}
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		for (int j = 0; j < unitVector.size(); j++)
+		{
+			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
+			{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
+				{
+					if (count % 20 == 0)
+					{
+						unitVector[j]->SetUnitHp(unitVector[j]->GetUnitHp() - unitVector[i]->GetUnitATK());
+					}
+					unitVector[i]->SetIsSearch(true);
+				}
+				else
+				{
+					unitVector[i]->SetIsSearch(false);
+				}
+			}
+		}
 
-	//	for (int k = 0; k < buildingVector.size(); k++)
-	//	{
-	//		if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
-	//		{
-	//			if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
-	//			{
-
-	//			}
-	//		}
-	//	}
-	//}
+		for (int k = 0; k < buildingVector.size(); k++)
+		{
+			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
+			{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
+				{
+					if (count % 10 == 0)
+					{
+						buildingVector[k]->SetBuildingHP(buildingVector[k]->GetBuildingHP() - unitVector[i]->GetUnitATK());
+					}
+				}
+			}
+		}
+	}
 }
 
 void GameScene::Render()

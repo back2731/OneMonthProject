@@ -44,6 +44,7 @@ struct BuildStatus
 
 	RECT		buildRect;					// 건물 렉트
 	RECT		buildCollisionRect;
+
 	float		buildRectX;					// 건물 렉트 X
 	float		buildRectY;					// 건물 렉트 Y
 
@@ -117,6 +118,9 @@ public:
 	void SetCommandRect();
 
 	BUILDKIND GetBuildKind() { return buildStatus.buidKind; }
+
+	int GetBuildingHP() { return buildStatus.buildingCurrentHp; }
+	void SetBuildingHP(int num) { buildStatus.buildingCurrentHp = num; }
 
 };
 

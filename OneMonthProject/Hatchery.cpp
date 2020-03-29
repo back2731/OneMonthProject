@@ -220,8 +220,15 @@ void Hatchery::Render(HDC hdc)
 		progressBar->Render
 		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom + 10);
 	}
+	else if (isClick && buildStatus.playerNumber == PLAYER2)
+	{
+		buildStatus.buildingSelectImage->Render
+		(hdc, buildStatus.buildRectX - buildStatus.buildingSelectImageWidth, buildStatus.buildRectY - buildStatus.buildingSelectImageHeight + 15);
+		progressBar->Render
+		(hdc, buildStatus.buildRectX - buildStatus.buildingProgressWidth, buildStatus.buildRect.bottom + 10);
+	}
 
-	if (isTransLair)
+	if (isTransLair) 
 	{
 		buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left - 46, buildStatus.buildRect.top -72, buildStatus.frameIndexX, buildStatus.frameIndexY);
 	}
@@ -234,10 +241,10 @@ void Hatchery::Render(HDC hdc)
 		buildStatus.buildImage->FrameRender(hdc, buildStatus.buildRect.left - 64, buildStatus.buildRect.top - 64, buildStatus.frameIndexX, buildStatus.frameIndexY);
 	}
 
-	//if (buildStatus.playerNumber == PLAYER2 && buildStatus.buidKind == HATCHERY)
-	//{
-	//	buildStatus.enemyBuildImage1->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
-	//}
+	if (buildStatus.playerNumber == PLAYER2 && buildStatus.buidKind == HATCHERY)
+	{
+		buildStatus.enemyBuildImage1->FrameRender(hdc, buildStatus.buildRect.left, buildStatus.buildRect.top, buildStatus.frameIndexX, buildStatus.frameIndexY);
+	}
 	
 }
 

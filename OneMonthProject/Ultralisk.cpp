@@ -37,7 +37,7 @@ Ultralisk::Ultralisk(int _playerNumber, POINT birthXY)
 	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth() * 0.25, unitStatus.unitImage->GetFrameHeight() * 0.25);
 	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) * 0.5;;
 	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) * 0.5;;
-	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, WINSIZEX / 2, WINSIZEY / 2);
+	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
 
 	unitStatus.unitImageWidthHalf = unitStatus.unitImage->GetFrameWidth() * 0.5;
 	unitStatus.unitImageHeightHalf = unitStatus.unitImage->GetFrameHeight() * 0.5;
@@ -122,11 +122,11 @@ void Ultralisk::Update()
 
 	}
 
-	if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
-	{
-		PLAYERMANAGER->SetChangeState(IDLE);
-		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
-	}
+	//if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
+	//{
+	//	PLAYERMANAGER->SetChangeState(IDLE);
+	//	unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+	//}
 
 
 	// 애니메이션의 프레임을 돌린다.
@@ -134,9 +134,14 @@ void Ultralisk::Update()
 
 	if (isSearch)
 	{
-		saveRoad.clear();
+		PLAYERMANAGER->SetChangeState(ATTACK);
+		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
-
+	else if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
+	{
+		PLAYERMANAGER->SetChangeState(IDLE);
+		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+	}
 	// A*실행
 	UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
 
@@ -148,14 +153,14 @@ void Ultralisk::Update()
 
 	// 유닛 렉트를 재설정해준다.
 	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthHalf, unitStatus.unitImageHeightHalf);
-	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, WINSIZEX / 2, WINSIZEY / 2);
+	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
 }
 
 void Ultralisk::Render(HDC hdc)
 {
 	if (KEYMANAGER->IsToggleKey(VK_TAB))
 	{
-		//Rectangle(hdc, unitStatus.unitSearchingRect.left, unitStatus.unitSearchingRect.top, unitStatus.unitSearchingRect.right, unitStatus.unitSearchingRect.bottom);
+		Rectangle(hdc, unitStatus.unitSearchingRect.left, unitStatus.unitSearchingRect.top, unitStatus.unitSearchingRect.right, unitStatus.unitSearchingRect.bottom);
 	}
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)

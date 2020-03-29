@@ -91,7 +91,8 @@ struct UnitStatus
 	Image*		unitBackProgressImage;	// 유닛 체력바 (후면)
 
 	RECT		unitRect;				// 유닛 렉트
-	RECT		unitSearchingRect;		// 유닛 어택 렉트
+	RECT		unitSearchingRect;		// 유닛 서치 렉트
+	RECT		unitAtkRect;			// 유닛 어택 렉트
 	float		unitRectX;				// 유닛 렉트 X
 	float		unitRectY;				// 유닛 렉트 Y
 	float		unitImageWidthHalf;		// 유닛 이미지 WidthHalf
@@ -252,8 +253,13 @@ public:
 
 	void SetTileBlock(int num, bool test) { _tileMap[num].block = test; }
 
-	// 공격 접근용 
+	// 공격용 
 
 	void SetEndTileATK(int num);
+
+	int GetUnitATK() { return unitStatus.unitAtk; }
+
+	int GetUnitHp() { return unitStatus.unitCurrentHp; }
+	void SetUnitHp(int num) { unitStatus.unitCurrentHp = num; }
 };
 
