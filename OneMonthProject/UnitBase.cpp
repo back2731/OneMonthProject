@@ -505,3 +505,69 @@ void UnitBase::SetEndTileATK(int num)
 	endY = endTile / TILEX;
 }
 
+void UnitBase::FindTrace(float x, float y, RECT rc)
+{
+	float distance = GetDistance(unitStatus.unitRectX, unitStatus.unitRectY, x, y);
+	float angle = GetAngle(unitStatus.unitRectX, unitStatus.unitRectY, x, y);
+
+	float vx;
+	float vy;
+
+	if (distance)
+	{
+		// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+		vx = (x - unitStatus.unitRectX) / distance;
+		vy = (y - unitStatus.unitRectY) / distance;
+		PLAYERMANAGER->SetChangeState(MOVE);
+		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+	}
+	else
+	{
+		vx = 0;
+		vy = 0;
+	}
+
+	unitStatus.unitRectX += vx;
+	unitStatus.unitRectY += vy;
+
+	if (IntersectRect(&tempRect, &unitStatus.unitRect, &rc))
+	{
+		distance = 0;
+		PLAYERMANAGER->SetChangeState(ATTACK);
+		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+	}
+
+	if (angle >= -1.9625 && angle <= -1.1755)
+	{
+		unitStatus.frameIndexY = DIRECTION_DOWN;
+	}
+	if (angle >= 1.1775 && angle <= 1.9625)
+	{
+		unitStatus.frameIndexY = DIRECTION_UP;
+	}
+	if ((angle >= 2.7475 && angle <= 3.14) || (angle >= -3.14 && angle <= -2.7475))
+	{
+		unitStatus.frameIndexY = DIRECTION_RIGHT;
+	}
+	if (angle >= -0.3925 && angle <= 0.3925)
+	{
+		unitStatus.frameIndexY = DIRECTION_LEFT;
+	}
+	if (angle >= -1.1775 && angle <= -0.3925)
+	{
+		unitStatus.frameIndexY = DIRECTION_RIGHTDOWN;
+	}
+	if (angle >= 0.3925 && angle <= 1.1775)
+	{
+		unitStatus.frameIndexY = DIRECTION_LEFTUP;
+	}
+	if (angle >= -2.7475 && angle <= -1.9625)
+	{
+		unitStatus.frameIndexY = DIRECTION_LEFTDOWN;
+	}
+	if (angle >= 1.9625 && angle <= 2.7475)
+	{
+		unitStatus.frameIndexY = DIRECTION_RIGHTUP;
+	}
+}
+

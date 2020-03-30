@@ -135,24 +135,30 @@ void Zergling::Update()
 		PLAYERMANAGER->SetChangeState(ATTACK);
 		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
-	else if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
+	else
+	{
+		// A*실행
+		UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
+
+		// 변하는 각도에 따라 프레임을 바꿔준다.
+		unitStatus.frameIndexY = ChangeImageFrame();
+
+		// 길찾기를 통해 유닛을 이동한다.
+		MoveUnit();
+	}
+
+
+	if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
 	{
 		PLAYERMANAGER->SetChangeState(IDLE);
 		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
 
-	// A*실행
-	UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
 
-	// 변하는 각도에 따라 프레임을 바꿔준다.
-	unitStatus.frameIndexY = ChangeImageFrame();
-
-	// 길찾기를 통해 유닛을 이동한다.
-	MoveUnit();
 
 	// 유닛 렉트를 재설정해준다.
 	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthQuarter, unitStatus.unitImageHeightQuarter);
-	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
+	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, WINSIZEX / 2, WINSIZEY / 2);
 }
 
 void Zergling::Render(HDC hdc)

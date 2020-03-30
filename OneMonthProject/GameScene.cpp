@@ -446,15 +446,19 @@ void GameScene::Update()
 	{
 		currentPopulation = 0;
 	}
+
+
 	// 공격 하려던 흔적
+	// 어택 땅 시에만 작동하게끔 만들어보자
 	for (int i = 0; i < unitVector.size(); i++)
 	{
 		for (int j = 0; j < unitVector.size(); j++)
 		{
-			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && unitVector[j]->GetUnitPlayerNumber() != PLAYER1)
+			if (unitVector[i]->GetUnitPlayerNumber() != unitVector[j]->GetUnitPlayerNumber())
 			{
 				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
 				{
+					unitVector[i]->FindTrace(unitVector[j]->GetUnitRectX(), unitVector[j]->GetUnitRectY(), unitVector[j]->GetUnitRect());
 					if (count % 20 == 0)
 					{
 						unitVector[j]->SetUnitHp(unitVector[j]->GetUnitHp() - unitVector[i]->GetUnitATK());
@@ -470,11 +474,12 @@ void GameScene::Update()
 
 		for (int k = 0; k < buildingVector.size(); k++)
 		{
-			if (unitVector[i]->GetUnitPlayerNumber() == PLAYER1 && buildingVector[k]->GetBuildingPlayerNumber() != PLAYER1)
+			if (unitVector[i]->GetUnitPlayerNumber() != buildingVector[k]->GetBuildingPlayerNumber())
 			{
 				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
 				{
-					if (count % 10 == 0)
+					unitVector[i]->FindTrace(buildingVector[k]->GetBuildingRectX(), buildingVector[k]->GetBuildingRectY() -15, buildingVector[k]->GetBuildingRect());
+					if (count % 20 == 0)
 					{
 						buildingVector[k]->SetBuildingHP(buildingVector[k]->GetBuildingHP() - unitVector[i]->GetUnitATK());
 					}

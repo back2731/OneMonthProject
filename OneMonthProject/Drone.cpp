@@ -1377,7 +1377,7 @@ void Drone::Update()
 		UpdateAstar(unitStatus.unitRectX, unitStatus.unitRectY);
 
 		// 변하는 각도에 따라 프레임을 바꿔준다.
-		unitStatus.frameIndexY = ChangeImageFrame();
+		//unitStatus.frameIndexY = ChangeImageFrame();
 
 		// 길찾기를 통해 유닛을 이동한다.
 		MoveUnit();

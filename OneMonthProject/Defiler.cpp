@@ -135,7 +135,6 @@ void Defiler::Update()
 
 	if (isSearch)
 	{
-		saveRoad.clear();
 	}
 
 	// A*½ÇÇà

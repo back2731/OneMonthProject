@@ -263,5 +263,7 @@ public:
 
 	int GetUnitHp() { return unitStatus.unitCurrentHp; }
 	void SetUnitHp(int num) { unitStatus.unitCurrentHp = num; }
+
+	void FindTrace(float x, float y, RECT rc);
 };
 
