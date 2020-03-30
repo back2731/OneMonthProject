@@ -87,8 +87,10 @@ struct UnitStatus
 	Image*		enemyUnitImage1;		// 유닛 이미지
 	Animation*	unitAnimation;			// 유닛 애니메이션
 	Image*		unitSelectImage;		// 유닛 선택 테두리 이미지
+	Image*		enemyUnitSelectImage;	// 유닛 선택 테두리 이미지
 	Image*		unitFrontProgressImage;	// 유닛 체력바 (전면)
 	Image*		unitBackProgressImage;	// 유닛 체력바 (후면)
+	Image*		unitWireFrame;			// 유닛 와이어프레임
 
 	RECT		unitRect;				// 유닛 렉트
 	RECT		unitSearchingRect;		// 유닛 서치 렉트

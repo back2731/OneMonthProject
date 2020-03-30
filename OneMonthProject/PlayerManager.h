@@ -16,6 +16,10 @@ private:
 	vector<int>	gasTile;
 	int gasTileNum;
 
+	int		maxPopulation;
+	int		currentPopulation;
+	int		mineral;
+	int		vespeneGas;
 
 public:
 	PlayerManager();
@@ -47,5 +51,16 @@ public:
 	void SetGasTile(int num) { gasTile.push_back(num); }
 	int ReturnGasTile(int i);
 
+	void SetmaxPopulation(int num) { maxPopulation = num; }
+	int GetmaxPopulation() { return maxPopulation; }
+
+	void SetCurrentPopulation(int num) { currentPopulation = num; }
+	int GetCurrentPopulation() { return currentPopulation; }
+
+	void SetMineral(int num) { mineral = num; }
+	int GetMineral() { return mineral; }
+
+	void SetVespeneGas(int num) { vespeneGas = num; }
+	int GetVespeneGas() { return vespeneGas; }
 };
 

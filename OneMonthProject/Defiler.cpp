@@ -30,6 +30,7 @@ Defiler::Defiler(int _playerNumber, POINT birthXY)
 	unitStatus.unitState = IDLE;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("defiler");
+	unitStatus.unitWireFrame = IMAGEMANAGER->FindImage("defilerWirefram");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
@@ -176,7 +177,7 @@ void Defiler::RenderUI(HDC hdc)
 	SetCommandRect();
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
-		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+		unitStatus.unitWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
 		if (KEYMANAGER->IsToggleKey(VK_TAB))
 		{
@@ -185,6 +186,16 @@ void Defiler::RenderUI(HDC hdc)
 				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
 			}
 		}
+
+		SetTextColor(hdc, RGB(0, 222, 0));
+		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 240, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		sprintf_s(str, "/   %d", unitStatus.unitMaxHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 200, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+
+		SetTextColor(hdc, RGB(255, 255, 255));
+		sprintf_s(str, "Zerg Defiler");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
 	}
 }
 

@@ -20,7 +20,7 @@ CreepColony::CreepColony(int _playerNumber, POINT buildXY)
 	buildStatus.playerNumber = _playerNumber;
 
 	buildStatus.buildingMaxHp = 400;
-	buildStatus.buildingCurrentHp = 250;
+	buildStatus.buildingCurrentHp = 400;
 	buildStatus.buildingAtk = 0;
 	buildStatus.buildingDef = 0;
 	buildStatus.buildTime = 40;
@@ -31,7 +31,7 @@ CreepColony::CreepColony(int _playerNumber, POINT buildXY)
 	buildStatus.buildImage = IMAGEMANAGER->FindImage("CreepColony");
 	//buildStatus.enemyBuildImage1 = IMAGEMANAGER->FindImage("EnemyHatchery");
 	buildStatus.buildingSelectImage = IMAGEMANAGER->FindImage("2X2Building");
-	//buildStatus.buildingWireFrame = IMAGEMANAGER->FindImage("SpawningPoolWirefram");
+	buildStatus.buildingWireFrame = IMAGEMANAGER->FindImage("CreepColonyWirefram");
 	buildStatus.buildingFrontProgressImage = IMAGEMANAGER->FindImage("ZergProgressFront");
 	buildStatus.buildingBackProgressImage = IMAGEMANAGER->FindImage("ZergProgressBack");
 
@@ -75,6 +75,8 @@ CreepColony::CreepColony(int _playerNumber, POINT buildXY)
 	//commandImage[SLOT2] = IMAGEMANAGER->FindImage("SetRallyPoint");
 	//commandImage[SLOT3] = IMAGEMANAGER->FindImage("EvolveBurrow");
 	//commandImage[SLOT7] = IMAGEMANAGER->FindImage("LairRequires");
+
+	PLAYERMANAGER->SetCurrentPopulation(PLAYERMANAGER->GetCurrentPopulation() - 1);
 }
 
 HRESULT CreepColony::Init()
@@ -132,7 +134,7 @@ void CreepColony::RenderUI(HDC hdc)
 {
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
-		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+		buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
 		//if (KEYMANAGER->IsToggleKey(VK_TAB))
 		//{
@@ -145,5 +147,16 @@ void CreepColony::RenderUI(HDC hdc)
 		//commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
 		//commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
 		//commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+
+		SetTextColor(hdc, RGB(0, 222, 0));
+		sprintf_s(str, "%d", buildStatus.buildingCurrentHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 250, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		sprintf_s(str, "/  %d", buildStatus.buildingMaxHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 200, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+
+		SetTextColor(hdc, RGB(255, 255, 255));
+		sprintf_s(str, "Zerg CreepColony");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
+
 	}
 }

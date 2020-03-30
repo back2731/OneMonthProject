@@ -30,6 +30,7 @@ Ultralisk::Ultralisk(int _playerNumber, POINT birthXY)
 	unitStatus.unitState = IDLE;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("Ultralisk");
+	unitStatus.unitWireFrame = IMAGEMANAGER->FindImage("UltraliskWirefram");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
@@ -64,13 +65,15 @@ Ultralisk::Ultralisk(int _playerNumber, POINT birthXY)
 	SetCommandSlot(SLOT1, new MoveCommand);
 	SetCommandSlot(SLOT2, new StopCommand);
 	SetCommandSlot(SLOT3, new AttackCommand);
-	SetCommandSlot(SLOT9, new Burrow);
+	SetCommandSlot(SLOT4, new PatrolCommand);
+	SetCommandSlot(SLOT5, new HoldCommand);
 
 	// 명령 이미지 설정
 	commandImage[SLOT1] = IMAGEMANAGER->FindImage("Move");
 	commandImage[SLOT2] = IMAGEMANAGER->FindImage("Stop");
 	commandImage[SLOT3] = IMAGEMANAGER->FindImage("Attack");
-	commandImage[SLOT9] = IMAGEMANAGER->FindImage("EvolveBurrow");
+	commandImage[SLOT4] = IMAGEMANAGER->FindImage("Patrol");
+	commandImage[SLOT5] = IMAGEMANAGER->FindImage("Hold");
 
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
@@ -182,7 +185,7 @@ void Ultralisk::RenderUI(HDC hdc)
 	SetCommandRect();
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
-		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+		unitStatus.unitWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
 		if (KEYMANAGER->IsToggleKey(VK_TAB))
 		{
@@ -191,6 +194,22 @@ void Ultralisk::RenderUI(HDC hdc)
 				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
 			}
 		}
+
+		commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
+		commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
+		commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+		commandImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
+		commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+
+		SetTextColor(hdc, RGB(0, 222, 0));
+		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 240, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		sprintf_s(str, "/   %d", unitStatus.unitMaxHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 200, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+
+		SetTextColor(hdc, RGB(255, 255, 255));
+		sprintf_s(str, "Zerg Ultralisk");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
 	}
 }
 

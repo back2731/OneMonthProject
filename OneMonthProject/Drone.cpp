@@ -19,7 +19,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.playerNumber = _playerNumber;
 
 	unitStatus.unitMaxHp = 40;
-	unitStatus.unitCurrentHp = 20;
+	unitStatus.unitCurrentHp = 40;
 	unitStatus.unitAtk = 5;
 	unitStatus.unitDef = 0;
 	unitStatus.unitTime = 0;
@@ -29,6 +29,7 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("drone");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("2X2");
+	unitStatus.unitWireFrame = IMAGEMANAGER->FindImage("droneWirefram");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
 
@@ -1463,7 +1464,7 @@ void Drone::RenderUI(HDC hdc)
 	SetCommandRect();
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
-		//buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+		unitStatus.unitWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
 
 		if (KEYMANAGER->IsToggleKey(VK_TAB))
 		{
@@ -1501,7 +1502,17 @@ void Drone::RenderUI(HDC hdc)
 			highBuildingImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
 			highBuildingImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
 			highBuildingImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
-		}						
+		}				
+
+		SetTextColor(hdc, RGB(0, 222, 0));
+		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 240, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		sprintf_s(str, "/   %d", unitStatus.unitMaxHp);
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 200, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+
+		SetTextColor(hdc, RGB(255, 255, 255));
+		sprintf_s(str, "Zerg Drone");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
 	}
 
 

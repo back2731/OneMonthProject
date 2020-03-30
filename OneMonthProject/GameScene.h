@@ -29,11 +29,20 @@ private:
 	float				rightPoint;
 	float				bottomPoint;
 
-	const char*		fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
+	const char*			fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
 
-	HANDLE			file;
-	DWORD			write;
-	DWORD			read;
+	HANDLE				file;
+	DWORD				write;
+	DWORD				read;
+
+	Image*				mineralImage;
+	Image*				vespeneGasImage;
+	Image*				populationImage;
+	int					mineral;
+	int					vespeneGas;
+	int					currentPopulation;
+	int					maxPopulation;
+
 
 public:
 	GameScene();

@@ -18,6 +18,7 @@ HRESULT GameScene::Init()
 	unitVector.reserve(1000);
 	airUnitVector.reserve(1000);
 	selectVector.reserve(50);
+	
 
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
 
@@ -59,6 +60,12 @@ HRESULT GameScene::Init()
 			}
 		}
 	}
+
+	mineralImage = IMAGEMANAGER->FindImage("mineral");
+	vespeneGasImage = IMAGEMANAGER->FindImage("gas");
+	populationImage = IMAGEMANAGER->FindImage("population");
+	
+	maxPopulation = 9;
 	return S_OK;
 }
 
@@ -171,6 +178,10 @@ void GameScene::Update()
 					{
 						unitVector[k]->SetIsClick(false);
 					}
+					for (int k = 0; k < airUnitVector.size(); k++)
+					{
+						airUnitVector[k]->SetIsClick(false);
+					}
 				}
 			}
 		}
@@ -200,11 +211,6 @@ void GameScene::Update()
 						airUnitVector[k]->SetIsClick(false);
 					}
 				}
-				// 선택된 유닛을 셀렉트 벡터에 담는다
-				if (unitVector[i]->GetIsClick())
-				{
-					//selectVector.push_back(unitVector[i]);
-				}
 			}
 		}
 	}
@@ -233,11 +239,6 @@ void GameScene::Update()
 						unitVector[k]->SetIsClick(false);
 					}
 				}
-				// 선택된 유닛을 셀렉트 벡터에 담는다
-				if (airUnitVector[i]->GetIsClick())
-				{
-					//selectVector.push_back(unitVector[i]);
-				}
 			}
 		}
 	}
@@ -255,7 +256,6 @@ void GameScene::Update()
 			if (unitVector[i]->GetHatcheryX() == UNITMANAGER->GetSaveX() && unitVector[i]->GetHatcheryY() == UNITMANAGER->GetSaveY())
 			{
 				unitVector[i]->SetIsClick(true);
-				//selectVector.push_back(unitVector[i]);
 			}
 		}
 		UNITMANAGER->SetSelectLarva(false);
@@ -346,7 +346,7 @@ void GameScene::Update()
 			{
 				if (count % 200 == 0)
 				{
-					unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
+					unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() - 70 + (70 * RND->GetInt(2)), buildingVector[i]->GetBuildingRect().bottom + 25 + RND->GetInt(3) }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
 					buildingVector[i]->SetCurrentLarva(+1);
 					count = 0;
 				}
@@ -432,6 +432,20 @@ void GameScene::Update()
 		}
 	}
 	
+	maxPopulation = PLAYERMANAGER->GetmaxPopulation();
+	if (maxPopulation >= 200)
+	{
+		maxPopulation = 200;
+	}
+	currentPopulation = PLAYERMANAGER->GetCurrentPopulation();
+	if (currentPopulation >= 200)
+	{
+		currentPopulation = 200;
+	}
+	if (currentPopulation < 0)
+	{
+		currentPopulation = 0;
+	}
 	// 공격 하려던 흔적
 	for (int i = 0; i < unitVector.size(); i++)
 	{
@@ -464,6 +478,11 @@ void GameScene::Update()
 					{
 						buildingVector[k]->SetBuildingHP(buildingVector[k]->GetBuildingHP() - unitVector[i]->GetUnitATK());
 					}
+					unitVector[i]->SetIsSearch(true);
+				}
+				else
+				{
+					unitVector[i]->SetIsSearch(false);
 				}
 			}
 		}
@@ -595,9 +614,25 @@ void GameScene::Render()
 
 	}
 
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	{
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (IntersectRect(&tempRect, &cameraRect2, &_tileMap[i].rect))
+			{
+				SetTextColor(GetMemDC(), RGB(255, 222, 222));
+				sprintf_s(str, "(%d)", i);
+				TextOut(GetMemDC(), _tileMap[i].left + CELL_WIDTH / 2 - 20, _tileMap[i].top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+			}
+		}
+	}
+
 	// 유닛보다는 위에 있고 유닛 UI보다는 아래에 있는 콘솔 렌더링
 	consoleImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
 	//Rectangle(GetMemDC(), commandRect.left, commandRect.top, commandRect.right, commandRect.bottom);
+	
+	HFONT myFont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "나눔고딕체");
+	HFONT oldFont = (HFONT)SelectObject(GetMemDC(), myFont);
 
 	// 콘솔 위에 띄워질 UI렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -620,11 +655,29 @@ void GameScene::Render()
 	{
 		if (airUnitVector[i]->GetIsClick())
 		{
+			consoleImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+
 			airUnitVector[i]->RenderUI(GetMemDC());
 			break;
 		}
 	}
+	
+	SetTextColor(GetMemDC(), RGB(0, 222, 0));
+	
+	mineralImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+	sprintf_s(str, "%d", mineral);
+	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
+	
+	vespeneGasImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+	sprintf_s(str, "%d", vespeneGas);
+	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
+	
+	populationImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + WINSIZEX * 0.1, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
+	sprintf_s(str, "%d/%d", currentPopulation, maxPopulation);
+	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + WINSIZEX * 0.1 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
 
+	SelectObject(GetMemDC(), oldFont);
+	DeleteObject(myFont);
 }
 
 void GameScene::LoadMap(int loadCount)

@@ -38,6 +38,7 @@ struct BuildStatus
 	Image*		enemyBuildImage1;			// 적 건물 이미지
 	Animation*	buildAnimation;				// 건물 애니메이션
 	Image*		buildingSelectImage;		// 건물 선택 테두리 이미지
+	Image*		enemybuildingSelectImage;	// 건물 선택 테두리 이미지
 	Image*		buildingFrontProgressImage;	// 건물 체력바 (전면)
 	Image*		buildingBackProgressImage;	// 건물 체력바 (후면)
 	Image*		buildingWireFrame;			// 건물 와이어프레임
@@ -78,6 +79,7 @@ protected:
 	Image*			commandImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
+	char			str[128];
 
 	int currentLarva;
 
