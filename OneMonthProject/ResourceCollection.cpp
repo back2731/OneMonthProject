@@ -123,6 +123,7 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("zergling", "images/Unit/zergling.bmp", 1536 * 3 / IMAGESIZECONTROL, 1152 * 3 / IMAGESIZECONTROL, 12, 9, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddFrameImage("zerglingBirth", "images/Unit/zerglingBirth.bmp", 2976 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, 31, 1, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("zerglingWirefram", "images/Unit/zerglingWirefram.bmp", 64 * IMAGESIZECONTROL, 64 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("enemyZergling", "images/Unit/enemyZergling.bmp", 1536 * 3 / IMAGESIZECONTROL, 1152 * 3 / IMAGESIZECONTROL, 12, 9, true, RGB(0, 222, 0));
 
 	// 오버로드 이미지
 	IMAGEMANAGER->AddFrameImage("overlord", "images/Unit/overlord.bmp", 1008 * IMAGESIZECONTROL, 672 * IMAGESIZECONTROL, 12, 8, true, RGB(0, 222, 0));

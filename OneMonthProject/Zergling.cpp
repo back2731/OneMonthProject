@@ -23,19 +23,22 @@ Zergling::Zergling(int _playerNumber, POINT birthXY)
 	unitStatus.unitAtk = 5;
 	unitStatus.unitDef = 0;
 	unitStatus.unitTime = 0;
-
+	unitStatus.unitSpeed = 5;
 	unitStatus.unitMineralPrice = 50;
 	unitStatus.unitGasPrice = 0;
 	
 	unitStatus.unitState = IDLE;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("zergling");
+	unitStatus.enemyUnitImage1 = IMAGEMANAGER->FindImage("enemyZergling");
 	unitStatus.unitWireFrame = IMAGEMANAGER->FindImage("zerglingWirefram");
 	unitStatus.unitSelectImage = IMAGEMANAGER->FindImage("1X1");
+	unitStatus.enemyUnitSelectImage = IMAGEMANAGER->FindImage("enemy1X1");
 	unitStatus.unitFrontProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressFront");
 	unitStatus.unitBackProgressImage = IMAGEMANAGER->FindImage("ZergUnitProgressBack");
 
 	unitStatus.unitRect = RectMakeCenter(birthXY.x, birthXY.y, unitStatus.unitImage->GetFrameWidth() * 0.25, unitStatus.unitImage->GetFrameHeight() * 0.25);
+	unitStatus.unitAtkRect = RectMakeCenter(birthXY.x, birthXY.y, 3, 3);
 	unitStatus.unitRectX = unitStatus.unitRect.left + (unitStatus.unitRect.right - unitStatus.unitRect.left) * 0.5;;
 	unitStatus.unitRectY = unitStatus.unitRect.top + (unitStatus.unitRect.bottom - unitStatus.unitRect.top) * 0.5;;
 	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
@@ -132,8 +135,8 @@ void Zergling::Update()
 
 	if (isSearch)
 	{
-		PLAYERMANAGER->SetChangeState(ATTACK);
-		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+		//PLAYERMANAGER->SetChangeState(ATTACK);
+		//unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
 	else
 	{
@@ -144,9 +147,8 @@ void Zergling::Update()
 		unitStatus.frameIndexY = ChangeImageFrame();
 
 		// 길찾기를 통해 유닛을 이동한다.
-		MoveUnit();
+		MoveUnit(unitStatus.unitSpeed);
 	}
-
 
 	if (IntersectRect(&tempRect, &_tileMap[PLAYERMANAGER->GetSaveUnitPosition()].rect, &unitStatus.unitRect))
 	{
@@ -154,20 +156,56 @@ void Zergling::Update()
 		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
 
-
-
 	// 유닛 렉트를 재설정해준다.
 	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthQuarter, unitStatus.unitImageHeightQuarter);
 	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, WINSIZEX / 2, WINSIZEY / 2);
+	unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 1, 1);
+
+	if (unitStatus.unitState == ATTACK)
+	{
+		conutTest++;
+		if (conutTest % 50 == 0)
+		{
+			if (unitStatus.frameIndexY == DIRECTION_UP)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY - 30, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_RIGHT)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX - 30, unitStatus.unitRectY, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_LEFT)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX + 30, unitStatus.unitRectY, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_DOWN)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY + 30, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_LEFTUP)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX + 30, unitStatus.unitRectY - 30, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_RIGHTDOWN)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX + 30, unitStatus.unitRectY + 30, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_LEFTDOWN)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX - 30, unitStatus.unitRectY + 30, 15, 15);
+			}
+			if (unitStatus.frameIndexY == DIRECTION_RIGHTUP)
+			{
+				unitStatus.unitAtkRect = RectMakeCenter(unitStatus.unitRectX - 30, unitStatus.unitRectY - 30, 15, 15);
+			}
+		}		
+	}
+
 }
 
 void Zergling::Render(HDC hdc)
 {
-	if (KEYMANAGER->IsToggleKey(VK_TAB))
-	{
-		Rectangle(hdc, unitStatus.unitSearchingRect.left, unitStatus.unitSearchingRect.top, unitStatus.unitSearchingRect.right, unitStatus.unitSearchingRect.bottom);
-	}
-
+	
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitSelectImage->Render
@@ -175,9 +213,30 @@ void Zergling::Render(HDC hdc)
 		progressBar->Render
 		(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 20);
 	}
+	if (isClick && unitStatus.playerNumber == PLAYER2)
+	{
+		unitStatus.unitSelectImage->Render
+		(hdc, unitStatus.unitRectX - unitStatus.unitSelectImageWidth, unitStatus.unitRectY - unitStatus.unitSelectImageHeight);
+		progressBar->Render
+		(hdc, unitStatus.unitRectX - unitStatus.unitProgressWidth, unitStatus.unitRectY + 20);
+	}
 
-	unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
-		unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	if (unitStatus.playerNumber == PLAYER1)
+	{
+		unitStatus.unitImage->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
+			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+	else if (unitStatus.playerNumber == PLAYER2)
+	{
+		unitStatus.enemyUnitImage1->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
+			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
+	}
+
+	if (KEYMANAGER->IsToggleKey(VK_MBUTTON))
+	{
+		Rectangle(hdc, unitStatus.unitAtkRect.left, unitStatus.unitAtkRect.top, unitStatus.unitAtkRect.right, unitStatus.unitAtkRect.bottom);
+	}
+
 }
 
 void Zergling::RenderUI(HDC hdc)

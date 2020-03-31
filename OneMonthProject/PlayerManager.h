@@ -16,6 +16,8 @@ private:
 	vector<int>	gasTile;
 	int gasTileNum;
 
+	vector<int> searchEnemy;
+
 	int		maxPopulation;
 	int		currentPopulation;
 	int		mineral;
@@ -62,5 +64,11 @@ public:
 
 	void SetVespeneGas(int num) { vespeneGas = num; }
 	int GetVespeneGas() { return vespeneGas; }
+
+	void SetSearchEnemy(int num) { searchEnemy.push_back(num); }
+	vector<int> GetSearchEnemy() { return searchEnemy; }
+	int ReturnSearchedEnemyNumber() { return searchEnemy[0]; }
+	void EraseSearchVector() { searchEnemy.clear(); }
+
 };
 

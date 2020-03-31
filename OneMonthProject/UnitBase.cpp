@@ -216,7 +216,7 @@ void UnitBase::SetStartTile(int num)
 	openList.push_back(currentTile);
 }
 
-void UnitBase::MoveUnit()
+void UnitBase::MoveUnit(float speed)
 {
 	if (!saveRoad.empty())
 	{
@@ -224,54 +224,54 @@ void UnitBase::MoveUnit()
 
 		if (startTile + 1 == saveRoad.back())
 		{
-			unitStatus.unitRectY += SPEED;
+			unitStatus.unitRectY += speed;
 			//saveNumber = DIRECTION_DOWN;
 			//return DIRECTION_DOWN;
 		}
 		if (startTile - 1 == saveRoad.back())
 		{
-			unitStatus.unitRectY -= SPEED;
+			unitStatus.unitRectY -= speed;
 			//saveNumber = DIRECTION_UP;
 			//return DIRECTION_UP;
 		}
 		if (startTile + 64 == saveRoad.back())
 		{
-			unitStatus.unitRectX += SPEED;
+			unitStatus.unitRectX += speed;
 			//saveNumber = DIRECTION_LEFT;
 			//return DIRECTION_LEFT;
 		}
 		if (startTile - 64 == saveRoad.back())
 		{
-			unitStatus.unitRectX -= SPEED;
+			unitStatus.unitRectX -= speed;
 			//saveNumber = DIRECTION_RIGHT;
 			//return DIRECTION_RIGHT;
 		}
 
 		if (startTile + 65 == saveRoad.back())
 		{
-			unitStatus.unitRectY += SPEED2;
-			unitStatus.unitRectX += SPEED2;
+			unitStatus.unitRectY += speed;
+			unitStatus.unitRectX += speed;
 		//	saveNumber = DIRECTION_RIGHTDOWN;
 		//	return DIRECTION_RIGHTDOWN;
 		}
 		if (startTile - 65 == saveRoad.back())
 		{
-			unitStatus.unitRectY -= SPEED2;
-			unitStatus.unitRectX -= SPEED2;
+			unitStatus.unitRectY -= speed;
+			unitStatus.unitRectX -= speed;
 			//saveNumber = DIRECTION_RIGHTUP;
 			//return DIRECTION_RIGHTUP;
 		}
 		if (startTile - 63 == saveRoad.back())
 		{
-			unitStatus.unitRectY += SPEED2;
-			unitStatus.unitRectX -= SPEED2;
+			unitStatus.unitRectY += speed;
+			unitStatus.unitRectX -= speed;
 			//saveNumber = DIRECTION_LEFTDOWN;
 			//return DIRECTION_LEFTDOWN;
 		}
 		if (startTile + 63 == saveRoad.back())
 		{
-			unitStatus.unitRectY -= SPEED2;
-			unitStatus.unitRectX += SPEED2;
+			unitStatus.unitRectY -= speed;
+			unitStatus.unitRectX += speed;
 			//saveNumber = DIRECTION_LEFTUP;
 			//return DIRECTION_LEFTUP;
 		}
@@ -516,25 +516,35 @@ void UnitBase::FindTrace(float x, float y, RECT rc)
 	if (distance)
 	{
 		// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-		vx = (x - unitStatus.unitRectX) / distance;
-		vy = (y - unitStatus.unitRectY) / distance;
+		vx = (x - unitStatus.unitRectX) / distance * unitStatus.unitSpeed;
+		vy = (y - unitStatus.unitRectY) / distance * unitStatus.unitSpeed;
 		PLAYERMANAGER->SetChangeState(MOVE);
 		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
 	}
 	else
 	{
+		PLAYERMANAGER->SetChangeState(IDLE);
+		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+
 		vx = 0;
 		vy = 0;
 	}
 
-	unitStatus.unitRectX += vx;
-	unitStatus.unitRectY += vy;
 
 	if (IntersectRect(&tempRect, &unitStatus.unitRect, &rc))
 	{
 		distance = 0;
 		PLAYERMANAGER->SetChangeState(ATTACK);
 		unitStatus.unitState = PLAYERMANAGER->GetChangeState();
+	}
+	else if (distance)
+	{
+		unitStatus.unitRectX += vx;
+		unitStatus.unitRectY += vy;
+	}
+	else if (distance < 200)
+	{
+
 	}
 
 	if (angle >= -1.9625 && angle <= -1.1755)

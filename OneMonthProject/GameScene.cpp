@@ -25,7 +25,12 @@ HRESULT GameScene::Init()
 	// 초기 해처리 생성
 	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
 	
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 7, 64 * 2 }));
+	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 12, 64 * 2 }));
+	
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
 	for (int i = 0; i < TILESIZE; i++)
@@ -50,14 +55,6 @@ HRESULT GameScene::Init()
 
 				buildingVector[i]->SetCurrentLarva(LARVAMAX);
 			}
-			else if (buildingVector[i]->GetBuildingPlayerNumber() == PLAYER2)
-			{
-				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() - 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 1));
-				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 2));
-				unitVector.push_back(UNITMANAGER->CreateLarva(PLAYER2, { buildingVector[i]->GetBuildingRectX() + 70, buildingVector[i]->GetBuildingRect().bottom + 20 }, buildingVector[i]->GetBuildingRectX(), buildingVector[i]->GetBuildingRectY(), 3));
-
-				buildingVector[i]->SetCurrentLarva(LARVAMAX);
-			}
 		}
 	}
 
@@ -75,6 +72,27 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+	if (KEYMANAGER->IsToggleKey(VK_RETURN))
+	{
+		if (KEYMANAGER->IsToggleKey('S'))
+		{
+			if (KEYMANAGER->IsToggleKey('H'))
+			{
+				if (KEYMANAGER->IsToggleKey('O'))
+				{
+					if (KEYMANAGER->IsToggleKey('W'))
+					{
+						if (mineral <= 10000)
+						{
+							mineral += 100;
+							vespeneGas += 100;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	BUILDMANAGER->SetHaveHatchery(false);
 	BUILDMANAGER->SetHaveLair(false);
 	BUILDMANAGER->SetHaveHive(false);
@@ -159,6 +177,16 @@ void GameScene::Update()
 		airUnitVector[i]->Update();
 	}
 
+	for (int i = 0; i < enemyBuildingVector.size(); i++)
+	{
+		enemyBuildingVector[i]->Update();
+	}
+
+	for (int i = 0; i < enemyUnitVector.size(); i++)
+	{
+		enemyUnitVector[i]->Update();
+	}
+
 	// 해당 건물을 클릭 했을 때 상태를 변경해주는 부분
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
@@ -181,6 +209,38 @@ void GameScene::Update()
 					for (int k = 0; k < airUnitVector.size(); k++)
 					{
 						airUnitVector[k]->SetIsClick(false);
+					}
+				}
+			}
+		}
+	}
+
+	// 해당 건물을 클릭 했을 때 상태를 변경해주는 부분
+	for (int i = 0; i < enemyBuildingVector.size(); i++)
+	{
+		if (PtInRect(&enemyBuildingVector[i]->GetBuildingRect(), m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				dragRect.left = m_ptMouse.x;
+				dragRect.top = m_ptMouse.y;
+
+				for (int j = 0; j < enemyBuildingVector.size(); j++)
+				{
+					enemyBuildingVector[j]->SetIsClick(false);
+					enemyBuildingVector[i]->SetIsClick(true);
+
+					for (int k = 0; k < unitVector.size(); k++)
+					{
+						unitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < airUnitVector.size(); k++)
+					{
+						airUnitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < buildingVector.size(); k++)
+					{
+						buildingVector[k]->SetIsClick(false);
 					}
 				}
 			}
@@ -355,9 +415,9 @@ void GameScene::Update()
 	}
 
 	// 유닛간의 충돌처리 함수
-	COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK * 0.2);
-	COLLISIONMANAGER->CollisionSameVector(airUnitVector, KNOCKBACK * 2);
+	COLLISIONMANAGER->CollisionSameVector(airUnitVector, KNOCKBACK * 2, true);
 	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, buildingVector);
+	COLLISIONMANAGER->CollisionUnitToBuilding(enemyUnitVector, buildingVector);
 
 	// 명령이 종료되면 false로 세팅하는 함수
 	UNITMANAGER->SetInputCommandTransDrone(false);
@@ -447,50 +507,121 @@ void GameScene::Update()
 		currentPopulation = 0;
 	}
 
+	COLLISIONMANAGER->CollisionUnitToUnit(unitVector, enemyUnitVector);
+	COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK * 0.2, true);
+	COLLISIONMANAGER->CollisionSameVector(enemyUnitVector, KNOCKBACK * 0.2, true);
+	
+	//if (PLAYERMANAGER->GetSearchEnemy().empty())
+	//{
+	//	for (int i = 0; i < unitVector.size(); i++)
+	//	{
+	//		for (int j = 0; j < enemyUnitVector.size(); j++)
+	//		{
+	//			if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyUnitVector[j]->GetUnitRect()))
+	//			{				
+	//				PLAYERMANAGER->SetSearchEnemy(j);
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	if (!enemyUnitVector.empty())
+	//	{
+	//		for (int i = 0; i < unitVector.size(); i++)
+	//		{
+	//			if (unitVector[i]->GetUnitKind() == ZERGLING)
+	//			{
+	//				unitVector[i]->FindTrace(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectX(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectY(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect());
 
-	// 공격 하려던 흔적
-	// 어택 땅 시에만 작동하게끔 만들어보자
-	for (int i = 0; i < unitVector.size(); i++)
+	//				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect()))
+	//				{
+	//					enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->SetUnitHp(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() - unitVector[i]->GetUnitATK());
+	//				}
+	//				unitVector[i]->SetIsSearch(true);
+	//				if (enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() <= 0)
+	//				{
+	//					enemyUnitVector.erase(enemyUnitVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
+	//					PLAYERMANAGER->EraseSearchVector();
+	//					for (int i = 0; i < unitVector.size(); i++)
+	//					{
+	//						unitVector[i]->SetIsSearch(false);
+	//						unitVector[i]->SetUnitState(IDLE);
+	//					}
+	//					break;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}	
+
+
+	if (PLAYERMANAGER->GetSearchEnemy().empty())
 	{
-		for (int j = 0; j < unitVector.size(); j++)
+		for (int i = 0; i < unitVector.size(); i++)
 		{
-			if (unitVector[i]->GetUnitPlayerNumber() != unitVector[j]->GetUnitPlayerNumber())
+			for (int j = 0; j < enemyBuildingVector.size(); j++)
 			{
-				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &unitVector[j]->GetUnitRect()))
+				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyBuildingVector[j]->GetBuildingRect()) && searching)
 				{
-					unitVector[i]->FindTrace(unitVector[j]->GetUnitRectX(), unitVector[j]->GetUnitRectY(), unitVector[j]->GetUnitRect());
-					if (count % 20 == 0)
-					{
-						unitVector[j]->SetUnitHp(unitVector[j]->GetUnitHp() - unitVector[i]->GetUnitATK());
-					}
-					unitVector[i]->SetIsSearch(true);
-				}
-				else
-				{
-					unitVector[i]->SetIsSearch(false);
+					PLAYERMANAGER->SetSearchEnemy(j);
+					break;
 				}
 			}
 		}
+	}
+	else
+	{
+		if (!enemyBuildingVector.empty())
+		{
+			for (int i = 0; i < unitVector.size(); i++)
+			{
+				if (unitVector[i]->GetUnitKind() == ZERGLING)
+				{
+					unitVector[i]->FindTrace(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRectX(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRectY(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRect());
 
-		for (int k = 0; k < buildingVector.size(); k++)
-		{
-			if (unitVector[i]->GetUnitPlayerNumber() != buildingVector[k]->GetBuildingPlayerNumber())
-			{
-				if (IntersectRect(&tempRect, &unitVector[i]->GetunitSearchingRect(), &buildingVector[k]->GetBuildingRect()))
-				{
-					unitVector[i]->FindTrace(buildingVector[k]->GetBuildingRectX(), buildingVector[k]->GetBuildingRectY() -15, buildingVector[k]->GetBuildingRect());
-					if (count % 20 == 0)
+					if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRect()))
 					{
-						buildingVector[k]->SetBuildingHP(buildingVector[k]->GetBuildingHP() - unitVector[i]->GetUnitATK());
+						enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->SetBuildingHP(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingHP() - unitVector[i]->GetUnitATK());
 					}
 					unitVector[i]->SetIsSearch(true);
-				}
-				else
-				{
-					unitVector[i]->SetIsSearch(false);
+					if (enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingHP() <= 0)
+					{
+						enemyBuildingVector.erase(enemyBuildingVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
+						PLAYERMANAGER->EraseSearchVector();
+						for (int i = 0; i < unitVector.size(); i++)
+						{
+							unitVector[i]->SetIsSearch(false);
+							unitVector[i]->SetUnitState(IDLE);
+						}
+						break;
+					}
 				}
 			}
 		}
+	}
+
+	if (KEYMANAGER->IsOnceKeyDown('S'))
+	{
+		searching = false;
+		PLAYERMANAGER->EraseSearchVector();
+		/*for (int i = 0; i < enemyBuildingVector.size(); i++)
+		{
+			if (PtInRect(&enemyBuildingVector[i]->GetBuildingRect(), m_ptMouse))
+			{
+				PLAYERMANAGER->SetSearchEnemy(i);
+			}
+		}*/
+		for (int i = 0; i < unitVector.size(); i++)
+		{
+			unitVector[i]->SetIsSearch(false);
+			unitVector[i]->SetUnitState(IDLE);
+		}
+	}
+	if (KEYMANAGER->IsOnceKeyDown('A'))
+	{
+		searching = true;
 	}
 }
 
@@ -525,6 +656,14 @@ void GameScene::Render()
 			unitVector[i]->Render(GetMemDC());
 		}
 	}
+	
+	for (int i = 0; i < enemyUnitVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &enemyUnitVector[i]->GetUnitRect()))
+		{
+			enemyUnitVector[i]->Render(GetMemDC());
+		}
+	}
 
 	// 모든 건물 렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
@@ -532,6 +671,14 @@ void GameScene::Render()
 		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
 		{
 			buildingVector[i]->Render(GetMemDC());
+		}
+	}
+
+	for (int i = 0; i < enemyBuildingVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &enemyBuildingVector[i]->GetBuildingRect()))
+		{
+			enemyBuildingVector[i]->Render(GetMemDC());
 		}
 	}
 
@@ -645,6 +792,14 @@ void GameScene::Render()
 		if (buildingVector[i]->GetIsClick())
 		{
 			buildingVector[i]->RenderUI(GetMemDC());
+			break;
+		}
+	}	
+	for (int i = 0; i < enemyBuildingVector.size(); i++)
+	{
+		if (enemyBuildingVector[i]->GetIsClick())
+		{
+			enemyBuildingVector[i]->RenderUI(GetMemDC());
 			break;
 		}
 	}

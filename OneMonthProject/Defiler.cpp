@@ -23,7 +23,7 @@ Defiler::Defiler(int _playerNumber, POINT birthXY)
 	unitStatus.unitAtk = 5;
 	unitStatus.unitDef = 0;
 	unitStatus.unitTime = 0;
-
+	unitStatus.unitSpeed = 3;
 	unitStatus.unitMineralPrice = 50;
 	unitStatus.unitGasPrice = 0;
 
@@ -144,7 +144,7 @@ void Defiler::Update()
 	unitStatus.frameIndexY = ChangeImageFrame();
 
 	// 길찾기를 통해 유닛을 이동한다.
-	MoveUnit();
+	MoveUnit(unitStatus.unitSpeed);
 
 	// 유닛 렉트를 재설정해준다.
 	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthQuarter, unitStatus.unitImageHeightQuarter);

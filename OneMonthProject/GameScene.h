@@ -9,6 +9,9 @@ private:
 	vector<UnitBase*>	airUnitVector;
 	vector<UnitBase*>	selectVector;
 	
+	vector<BuildBase*>	enemyBuildingVector;
+	vector<UnitBase*>	enemyUnitVector;
+
 	TAGTILE				_tileMap[TILE_COUNT_X*TILE_COUNT_Y];
 	
 	Image*				consoleImage;
@@ -42,7 +45,8 @@ private:
 	int					vespeneGas;
 	int					currentPopulation;
 	int					maxPopulation;
-
+	
+	bool				searching;
 
 public:
 	GameScene();

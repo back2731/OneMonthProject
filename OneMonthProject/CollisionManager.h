@@ -17,7 +17,8 @@ public:
 	HRESULT Init();
 
 	// 같은 벡터의 에너미 충돌
-	void CollisionSameVector(vector<UnitBase*>& unitVector, int knockBack);
+	void CollisionSameVector(vector<UnitBase*>& unitVector, int knockBack, bool isCheck);
 	void CollisionUnitToBuilding(vector<UnitBase*>& unitVector, vector<BuildBase*>& buildingVector);
+	void CollisionUnitToUnit(vector<UnitBase*>& unitVector, vector<UnitBase*>& _unitVector);
 
 };

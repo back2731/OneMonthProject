@@ -3,6 +3,8 @@
 
 class Zergling : public UnitBase
 {
+private:
+	int conutTest;
 public:
 	Zergling();
 	~Zergling();

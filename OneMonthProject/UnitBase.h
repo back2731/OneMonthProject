@@ -76,6 +76,7 @@ struct UnitStatus
 	int			unitAtk;				// À¯´Ö °ø°Ý·Â
 	int			unitDef;				// À¯´Ö ¹æ¾î·Â
 	int			unitTime;				// À¯´Ö »ý»ê ½Ã°£
+	float		unitSpeed;				// À¯´Ö ¼Óµµ
 
 	int			unitMineralPrice;		// À¯´Ö ¹Ì³×¶ö °¡°Ý
 	int			unitGasPrice;			// À¯´Ö °¡½º °¡°Ý
@@ -206,7 +207,8 @@ public:
 	void SetIsSearch(int _isSearch) { isSearch = _isSearch; }
 
 	RECT GetUnitRect() { return unitStatus.unitRect; }
-	RECT GetunitSearchingRect() { return unitStatus.unitSearchingRect; }
+	RECT GetUnitSearchingRect() { return unitStatus.unitSearchingRect; }
+	RECT GetUnitATKRect() { return unitStatus.unitAtkRect; }
 	
 	float GetUnitRectX() { return unitStatus.unitRectX; }
 	float GetUnitRectY() { return unitStatus.unitRectY; }
@@ -246,7 +248,7 @@ public:
 	void SetAstarVector();
 	void SetStartTile();
 	void SetStartTile(int num);
-	void MoveUnit();
+	void MoveUnit(float speed);
 	int ChangeImageFrame();
 
 	void PlayAstar();
@@ -265,5 +267,7 @@ public:
 	void SetUnitHp(int num) { unitStatus.unitCurrentHp = num; }
 
 	void FindTrace(float x, float y, RECT rc);
+
+	void SetUnitState(int num) { unitStatus.unitState = num; }
 };
 
