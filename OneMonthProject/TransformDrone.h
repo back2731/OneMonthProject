@@ -15,5 +15,7 @@ public:
 	void Update();
 
 	void GetBirthXY(int X, int Y);
+
+	void PayCost();
 };
 

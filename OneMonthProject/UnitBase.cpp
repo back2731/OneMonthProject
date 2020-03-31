@@ -542,7 +542,7 @@ void UnitBase::FindTrace(float x, float y, RECT rc)
 		unitStatus.unitRectX += vx;
 		unitStatus.unitRectY += vy;
 	}
-	else if (distance < 200)
+	else if (distance < 300)
 	{
 
 	}

@@ -31,3 +31,7 @@ void CommandBase::Render(HDC hdc)
 void CommandBase::GetBirthXY(int X, int Y)
 {
 }
+
+void CommandBase::PayCost()
+{
+}

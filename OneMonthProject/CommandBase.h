@@ -27,6 +27,7 @@ public:
 	virtual void Render(HDC hdc);
 
 	virtual	void GetBirthXY(int X, int Y);
+	virtual void PayCost();
 
 
 };

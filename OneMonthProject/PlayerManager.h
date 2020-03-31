@@ -17,11 +17,15 @@ private:
 	int gasTileNum;
 
 	vector<int> searchEnemy;
+	vector<int> searchEnemyBuilding;
 
-	int		maxPopulation;
-	int		currentPopulation;
-	int		mineral;
-	int		vespeneGas;
+	vector<int> searchPlayer;
+	vector<int> searchPlayerBuilding;
+
+	float		maxPopulation;
+	float		currentPopulation;
+	float		mineral;
+	float		vespeneGas;
 
 public:
 	PlayerManager();
@@ -54,21 +58,35 @@ public:
 	int ReturnGasTile(int i);
 
 	void SetmaxPopulation(int num) { maxPopulation = num; }
-	int GetmaxPopulation() { return maxPopulation; }
+	float GetmaxPopulation() { return maxPopulation; }
 
 	void SetCurrentPopulation(int num) { currentPopulation = num; }
-	int GetCurrentPopulation() { return currentPopulation; }
+	float GetCurrentPopulation() { return currentPopulation; }
 
 	void SetMineral(int num) { mineral = num; }
-	int GetMineral() { return mineral; }
+	float GetMineral() { return mineral; }
 
 	void SetVespeneGas(int num) { vespeneGas = num; }
-	int GetVespeneGas() { return vespeneGas; }
+	float GetVespeneGas() { return vespeneGas; }
 
 	void SetSearchEnemy(int num) { searchEnemy.push_back(num); }
 	vector<int> GetSearchEnemy() { return searchEnemy; }
 	int ReturnSearchedEnemyNumber() { return searchEnemy[0]; }
 	void EraseSearchVector() { searchEnemy.clear(); }
 
+	void SetSearchEnemyBuilding(int num) { searchEnemyBuilding.push_back(num); }
+	vector<int> GetSearchEnemyBuilding() { return searchEnemyBuilding; }
+	int ReturnSearchedEnemyBuildingNumber() { return searchEnemyBuilding[0]; }
+	void EraseSearchBuildingVector() { searchEnemyBuilding.clear(); }
+
+	void SetSearchPlayer(int num) { searchPlayer.push_back(num); }
+	vector<int> GetSearchPlayer() { return searchPlayer; }
+	int ReturnSearchedPlayerNumber() { return searchPlayer[0]; }
+	void EraseSearchPlayerVector() { searchPlayer.clear(); }
+
+	void SetSearchPlayerBuilding(int num) { searchPlayerBuilding.push_back(num); }
+	vector<int> GetSearchPlayerBuilding() { return searchPlayerBuilding; }
+	int ReturnSearchedPlayerBuildingNumber() { return searchPlayerBuilding[0]; }
+	void EraseSearchPlayerBuildingVector() { searchPlayerBuilding.clear(); }
 };
 

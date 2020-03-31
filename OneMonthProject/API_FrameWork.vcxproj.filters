@@ -36,9 +36,6 @@
     <Filter Include="MainGame\Scene\MapTool">
       <UniqueIdentifier>{499d06ee-8d2a-4df0-b32f-14082a429a5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\aStar">
-      <UniqueIdentifier>{e19979f3-bf76-4ad3-b540-54313c97a1af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\텍스트데이터">
       <UniqueIdentifier>{00ade87a-93a8-46f2-b42b-4e1b20260dd6}</UniqueIdentifier>
     </Filter>

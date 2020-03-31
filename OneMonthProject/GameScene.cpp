@@ -30,6 +30,35 @@ HRESULT GameScene::Init()
 	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 12, 64 * 2 }));
 	
 	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));	
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));	
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
+	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
 
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
@@ -61,7 +90,9 @@ HRESULT GameScene::Init()
 	mineralImage = IMAGEMANAGER->FindImage("mineral");
 	vespeneGasImage = IMAGEMANAGER->FindImage("gas");
 	populationImage = IMAGEMANAGER->FindImage("population");
-	
+	/*PLAYERMANAGER->SetMineral(10000);
+	PLAYERMANAGER->SetVespeneGas(10000);*/
+
 	maxPopulation = 9;
 	return S_OK;
 }
@@ -72,25 +103,10 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
-	if (KEYMANAGER->IsToggleKey(VK_RETURN))
+	if (KEYMANAGER->IsStayKeyDown('P'))
 	{
-		if (KEYMANAGER->IsToggleKey('S'))
-		{
-			if (KEYMANAGER->IsToggleKey('H'))
-			{
-				if (KEYMANAGER->IsToggleKey('O'))
-				{
-					if (KEYMANAGER->IsToggleKey('W'))
-					{
-						if (mineral <= 10000)
-						{
-							mineral += 100;
-							vespeneGas += 100;
-						}
-					}
-				}
-			}
-		}
+		PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() + 200);
+		PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() + 200);
 	}
 
 	BUILDMANAGER->SetHaveHatchery(false);
@@ -210,12 +226,20 @@ void GameScene::Update()
 					{
 						airUnitVector[k]->SetIsClick(false);
 					}
+					for (int k = 0; k < enemyUnitVector.size(); k++)
+					{
+						enemyUnitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyBuildingVector.size(); k++)
+					{
+						enemyBuildingVector[k]->SetIsClick(false);
+					}
 				}
 			}
 		}
 	}
 
-	// 해당 건물을 클릭 했을 때 상태를 변경해주는 부분
+	// 해당 적 건물을 클릭 했을 때 상태를 변경해주는 부분
 	for (int i = 0; i < enemyBuildingVector.size(); i++)
 	{
 		if (PtInRect(&enemyBuildingVector[i]->GetBuildingRect(), m_ptMouse))
@@ -241,6 +265,10 @@ void GameScene::Update()
 					for (int k = 0; k < buildingVector.size(); k++)
 					{
 						buildingVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyUnitVector.size(); k++)
+					{
+						enemyUnitVector[k]->SetIsClick(false);
 					}
 				}
 			}
@@ -270,6 +298,14 @@ void GameScene::Update()
 					{
 						airUnitVector[k]->SetIsClick(false);
 					}
+					for (int k = 0; k < enemyUnitVector.size(); k++)
+					{
+						enemyUnitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyBuildingVector.size(); k++)
+					{
+						enemyBuildingVector[k]->SetIsClick(false);
+					}
 				}
 			}
 		}
@@ -297,6 +333,50 @@ void GameScene::Update()
 					for (int k = 0; k < unitVector.size(); k++)
 					{
 						unitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyUnitVector.size(); k++)
+					{
+						enemyUnitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyBuildingVector.size(); k++)
+					{
+						enemyBuildingVector[k]->SetIsClick(false);
+					}
+				}
+			}
+		}
+	}
+
+	// 해당 적 유닛을 클릭 했을 때 상태를 변경해주는 부분
+	for (int i = 0; i < enemyUnitVector.size(); i++)
+	{
+		if (PtInRect(&enemyUnitVector[i]->GetUnitRect(), m_ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				dragRect.left = m_ptMouse.x;
+				dragRect.top = m_ptMouse.y;
+
+				for (int j = 0; j < enemyUnitVector.size(); j++)
+				{
+					enemyUnitVector[j]->SetIsClick(false);
+					enemyUnitVector[i]->SetIsClick(true);
+
+					for (int k = 0; k < buildingVector.size(); k++)
+					{
+						buildingVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < unitVector.size(); k++)
+					{
+						unitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < airUnitVector.size(); k++)
+					{
+						airUnitVector[k]->SetIsClick(false);
+					}
+					for (int k = 0; k < enemyBuildingVector.size(); k++)
+					{
+						enemyBuildingVector[k]->SetIsClick(false);
 					}
 				}
 			}
@@ -417,7 +497,11 @@ void GameScene::Update()
 	// 유닛간의 충돌처리 함수
 	COLLISIONMANAGER->CollisionSameVector(airUnitVector, KNOCKBACK * 2, true);
 	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, buildingVector);
+	COLLISIONMANAGER->CollisionUnitToBuilding(unitVector, enemyBuildingVector);
 	COLLISIONMANAGER->CollisionUnitToBuilding(enemyUnitVector, buildingVector);
+	COLLISIONMANAGER->CollisionUnitToUnit(unitVector, enemyUnitVector);
+	COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK, true);
+	COLLISIONMANAGER->CollisionSameVector(enemyUnitVector, KNOCKBACK, true);
 
 	// 명령이 종료되면 false로 세팅하는 함수
 	UNITMANAGER->SetInputCommandTransDrone(false);
@@ -492,79 +576,89 @@ void GameScene::Update()
 		}
 	}
 	
+	mineral = PLAYERMANAGER->GetMineral();
+	vespeneGas = PLAYERMANAGER->GetVespeneGas();
 	maxPopulation = PLAYERMANAGER->GetmaxPopulation();
-	if (maxPopulation >= 200)
+	if (maxPopulation >= 200.f)
 	{
-		maxPopulation = 200;
+		maxPopulation = 200.f;
 	}
 	currentPopulation = PLAYERMANAGER->GetCurrentPopulation();
-	if (currentPopulation >= 200)
+	if (currentPopulation >= 200.f)
 	{
-		currentPopulation = 200;
+		currentPopulation = 200.f;
 	}
-	if (currentPopulation < 0)
+	if (currentPopulation < 0.f)
 	{
-		currentPopulation = 0;
+		currentPopulation = 0.f;
 	}
 
-	COLLISIONMANAGER->CollisionUnitToUnit(unitVector, enemyUnitVector);
-	COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK * 0.2, true);
-	COLLISIONMANAGER->CollisionSameVector(enemyUnitVector, KNOCKBACK * 0.2, true);
-	
-	//if (PLAYERMANAGER->GetSearchEnemy().empty())
-	//{
-	//	for (int i = 0; i < unitVector.size(); i++)
-	//	{
-	//		for (int j = 0; j < enemyUnitVector.size(); j++)
-	//		{
-	//			if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyUnitVector[j]->GetUnitRect()))
-	//			{				
-	//				PLAYERMANAGER->SetSearchEnemy(j);
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	if (!enemyUnitVector.empty())
-	//	{
-	//		for (int i = 0; i < unitVector.size(); i++)
-	//		{
-	//			if (unitVector[i]->GetUnitKind() == ZERGLING)
-	//			{
-	//				unitVector[i]->FindTrace(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectX(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectY(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect());
+	if (PLAYERMANAGER->GetSearchPlayer().empty())
+	{
+		for (int i = 0; i < enemyUnitVector.size(); i++)
+		{
+			for (int j = 0; j < unitVector.size(); j++)
+			{
+				if (unitVector[j]->GetUnitKind() == ZERGLING)
+				{
+					if (IntersectRect(&tempRect, &enemyUnitVector[i]->GetUnitSearchingRect(), &unitVector[j]->GetUnitRect()))
+					{
+						PLAYERMANAGER->SetSearchPlayer(j);
+						break;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		if (!unitVector.empty())
+		{
+			for (int i = 0; i < enemyUnitVector.size(); i++)
+			{
+				if (enemyUnitVector[i]->GetUnitKind() == ZERGLING)
+				{
+					enemyUnitVector[i]->FindTrace(unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRectX(), unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRectY(), unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRect());
 
-	//				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect()))
-	//				{
-	//					enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->SetUnitHp(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() - unitVector[i]->GetUnitATK());
-	//				}
-	//				unitVector[i]->SetIsSearch(true);
-	//				if (enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() <= 0)
-	//				{
-	//					enemyUnitVector.erase(enemyUnitVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
-	//					PLAYERMANAGER->EraseSearchVector();
-	//					for (int i = 0; i < unitVector.size(); i++)
-	//					{
-	//						unitVector[i]->SetIsSearch(false);
-	//						unitVector[i]->SetUnitState(IDLE);
-	//					}
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	}
-	//}	
+					if (IntersectRect(&tempRect, &enemyUnitVector[i]->GetUnitATKRect(), &unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRect()))
+					{
+						unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->SetUnitHp(unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitHp() - enemyUnitVector[i]->GetUnitATK());
+					
+						COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK, false);
+						COLLISIONMANAGER->CollisionSameVector(enemyUnitVector, KNOCKBACK, false);
+					
+					}
+					enemyUnitVector[i]->SetIsSearch(true);
+					if (unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitHp() <= 0)
+					{
+						if(unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitKind() == ZERGLING)
+						{
+							PLAYERMANAGER->SetCurrentPopulation(PLAYERMANAGER->GetCurrentPopulation() - 0.5f);
+						}
+						unitVector.erase(unitVector.begin() + PLAYERMANAGER->ReturnSearchedPlayerNumber());
+						PLAYERMANAGER->EraseSearchPlayerVector();
+						for (int i = 0; i < enemyUnitVector.size(); i++)
+						{
+							enemyUnitVector[i]->SetIsSearch(false);
+							enemyUnitVector[i]->SetUnitState(IDLE);
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
 
 
 	if (PLAYERMANAGER->GetSearchEnemy().empty())
 	{
 		for (int i = 0; i < unitVector.size(); i++)
 		{
-			for (int j = 0; j < enemyBuildingVector.size(); j++)
+			for (int j = 0; j < enemyUnitVector.size(); j++)
 			{
-				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyBuildingVector[j]->GetBuildingRect()) && searching)
-				{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyUnitVector[j]->GetUnitRect()))
+				{				
 					PLAYERMANAGER->SetSearchEnemy(j);
 					break;
 				}
@@ -573,23 +667,71 @@ void GameScene::Update()
 	}
 	else
 	{
+		if (!enemyUnitVector.empty())
+		{
+			for (int i = 0; i < unitVector.size(); i++)
+			{
+				if (unitVector[i]->GetUnitKind() == ZERGLING)
+				{
+					unitVector[i]->FindTrace(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectX(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectY(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect());
+
+					if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRect()))
+					{
+						enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->SetUnitHp(enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() - unitVector[i]->GetUnitATK());
+					
+						COLLISIONMANAGER->CollisionSameVector(unitVector, KNOCKBACK, false);
+						COLLISIONMANAGER->CollisionSameVector(enemyUnitVector, KNOCKBACK, false);
+					}
+					unitVector[i]->SetIsSearch(true);
+					if (enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() <= 0)
+					{
+						enemyUnitVector.erase(enemyUnitVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
+						PLAYERMANAGER->EraseSearchVector();
+						for (int i = 0; i < unitVector.size(); i++)
+						{
+							unitVector[i]->SetIsSearch(false);
+							unitVector[i]->SetUnitState(IDLE);
+						}
+						break;
+					}
+				}
+			}
+		}
+	}	
+	
+	if (PLAYERMANAGER->GetSearchEnemy().empty() && PLAYERMANAGER->GetSearchEnemyBuilding().empty())
+	{
+		for (int i = 0; i < unitVector.size(); i++)
+		{
+			for (int j = 0; j < enemyBuildingVector.size(); j++)
+			{
+				if (IntersectRect(&tempRect, &unitVector[i]->GetUnitSearchingRect(), &enemyBuildingVector[j]->GetBuildingRect()) && searching)
+				{
+					PLAYERMANAGER->SetSearchEnemyBuilding(j);
+					break;
+				}
+			}
+		}
+	}
+	else if(PLAYERMANAGER->GetSearchEnemy().empty() && !PLAYERMANAGER->GetSearchEnemyBuilding().empty())
+	{
 		if (!enemyBuildingVector.empty())
 		{
 			for (int i = 0; i < unitVector.size(); i++)
 			{
 				if (unitVector[i]->GetUnitKind() == ZERGLING)
 				{
-					unitVector[i]->FindTrace(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRectX(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRectY(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRect());
+					unitVector[i]->FindTrace(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectX(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectY(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRect());
 
-					if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingRect()))
+					if (IntersectRect(&tempRect, &unitVector[i]->GetUnitATKRect(), &enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRect()))
 					{
-						enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->SetBuildingHP(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingHP() - unitVector[i]->GetUnitATK());
+						enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->SetBuildingHP(enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingHP() - unitVector[i]->GetUnitATK());
 					}
 					unitVector[i]->SetIsSearch(true);
-					if (enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetBuildingHP() <= 0)
+					if (enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingHP() <= 0)
 					{
-						enemyBuildingVector.erase(enemyBuildingVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
-						PLAYERMANAGER->EraseSearchVector();
+						enemyBuildingVector.erase(enemyBuildingVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber());
+						PLAYERMANAGER->EraseSearchBuildingVector();
 						for (int i = 0; i < unitVector.size(); i++)
 						{
 							unitVector[i]->SetIsSearch(false);
@@ -602,26 +744,39 @@ void GameScene::Update()
 		}
 	}
 
+	// 추적 정지 후 상태 변경
 	if (KEYMANAGER->IsOnceKeyDown('S'))
 	{
 		searching = false;
 		PLAYERMANAGER->EraseSearchVector();
-		/*for (int i = 0; i < enemyBuildingVector.size(); i++)
-		{
-			if (PtInRect(&enemyBuildingVector[i]->GetBuildingRect(), m_ptMouse))
-			{
-				PLAYERMANAGER->SetSearchEnemy(i);
-			}
-		}*/
+		PLAYERMANAGER->EraseSearchBuildingVector();
 		for (int i = 0; i < unitVector.size(); i++)
 		{
 			unitVector[i]->SetIsSearch(false);
 			unitVector[i]->SetUnitState(IDLE);
 		}
 	}
-	if (KEYMANAGER->IsOnceKeyDown('A'))
+	if (KEYMANAGER->IsOnceKeyDown('A'))	
 	{
 		searching = true;
+		PLAYERMANAGER->EraseSearchVector();
+		PLAYERMANAGER->EraseSearchBuildingVector();
+		for (int i = 0; i < enemyUnitVector.size(); i++)
+		{
+			if (PtInRect(&enemyUnitVector[i]->GetUnitRect(), m_ptMouse))
+			{
+				PLAYERMANAGER->SetSearchEnemy(i);
+				break;
+			}
+		}
+		for (int i = 0; i < enemyBuildingVector.size(); i++)
+		{
+			if (PtInRect(&enemyBuildingVector[i]->GetBuildingRect(), m_ptMouse))
+			{
+				PLAYERMANAGER->SetSearchEnemyBuilding(i);
+				break;
+			}
+		}
 	}
 }
 
@@ -825,15 +980,15 @@ void GameScene::Render()
 	SetTextColor(GetMemDC(), RGB(0, 222, 0));
 	
 	mineralImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
-	sprintf_s(str, "%d", mineral);
+	sprintf_s(str, "%.0f", mineral);
 	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
 	
 	vespeneGasImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
-	sprintf_s(str, "%d", vespeneGas);
+	sprintf_s(str, "%.0f", vespeneGas);
 	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
 	
 	populationImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + WINSIZEX * 0.1, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);
-	sprintf_s(str, "%d/%d", currentPopulation, maxPopulation);
+	sprintf_s(str, "%.0f/%.0f", currentPopulation, maxPopulation);
 	TextOut(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2 + WINSIZEX * 0.1 + WINSIZEX * 0.1 + 35, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2 + 5, str, strlen(str));
 
 	SelectObject(GetMemDC(), oldFont);

@@ -28,7 +28,7 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	unitStatus.unitDef = 10;
 	unitStatus.unitTime = 0;
 
-	unitStatus.unitMineralPrice = 0;
+	unitStatus.unitMineralPrice = 50;
 	unitStatus.unitGasPrice = 0;
 
 	unitStatus.unitImage = IMAGEMANAGER->FindImage("larva");
@@ -115,86 +115,92 @@ void Larva::Update()
 	{
 		commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
 		
-		if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation())
+		// 드론 생산
+		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 		{
-			// 드론 생산
-			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 			{
-				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-				{
-					commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
-				}
-				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
-				{
+				commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
+			}
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
+				{	
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransDrone(true);
 					commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
 				}
-				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-				{
-					commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
-				}
 			}
-			if (KEYMANAGER->IsStayKeyDown('D'))
+			if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 			{
-				commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
+				commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
 			}
-			if (KEYMANAGER->IsOnceKeyDown('D'))
+		}
+		if (KEYMANAGER->IsStayKeyDown('D'))
+		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("ClickDrone");
+		}
+		if (KEYMANAGER->IsOnceKeyDown('D'))
+		{
+			if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
 			{
 				// 눌렸다는 명령을 true 해주는 것을 만든다.
 				UNITMANAGER->SetInputCommandTransDrone(true);
 			}
-			if (KEYMANAGER->IsOnceKeyUp('D'))
-			{
-				commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
-			}
-			if (UNITMANAGER->GetInputCommandTransDrone())
-			{
-				isClick = false;
+		}
+		if (KEYMANAGER->IsOnceKeyUp('D'))
+		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("TransformDrone");
+		}
+		if (UNITMANAGER->GetInputCommandTransDrone())
+		{
+			isClick = false;
 
-				isTransDrone = true;
+			isTransDrone = true;
 
-				unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
-			}
+			unitStatus.unitImage = IMAGEMANAGER->FindImage("droneBirth");
 		}
 
 		// 저글링 생산
 		if (BUILDMANAGER->GetHaveSpawningpool())
 		{
 			commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
-			if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation())
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
+				}
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
 					{
 						// 눌렸다는 명령을 true 해주는 것을 만든다.
 						UNITMANAGER->SetInputCommandTransZergling(true);
 						commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
 					}
 				}
-				if (KEYMANAGER->IsStayKeyDown('Z'))
-				{
-					commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
-				}
-				if (KEYMANAGER->IsOnceKeyUp('Z'))
+			}
+			if (KEYMANAGER->IsStayKeyDown('Z'))
+			{
+				commandImage[SLOT2] = IMAGEMANAGER->FindImage("ClickZergling");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('Z'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransZergling(true);
 					commandImage[SLOT2] = IMAGEMANAGER->FindImage("TransformZergling");
 				}
-				if (UNITMANAGER->GetInputCommandTransZergling())
-				{
-					isClick = false;
+			}
+			if (UNITMANAGER->GetInputCommandTransZergling())
+			{
+				isClick = false;
 
-					isTransZergling = true;
+				isTransZergling = true;
 
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
-				}
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("zerglingBirth");
 			}
 		}
 		else
@@ -211,8 +217,11 @@ void Larva::Update()
 			}
 			if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 			{
-				// 눌렸다는 명령을 true 해주는 것을 만든다.
-				UNITMANAGER->SetInputCommandTransOverlord(true);
+				if (PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
+				{
+					// 눌렸다는 명령을 true 해주는 것을 만든다.
+					UNITMANAGER->SetInputCommandTransOverlord(true);
+				}
 				commandImage[SLOT3] = IMAGEMANAGER->FindImage("TransformOverlord");
 			}
 
@@ -223,8 +232,11 @@ void Larva::Update()
 		}
 		if (KEYMANAGER->IsOnceKeyUp('O'))
 		{
-			// 눌렸다는 명령을 true 해주는 것을 만든다.
-			UNITMANAGER->SetInputCommandTransOverlord(true);
+			if (PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice)
+			{
+				// 눌렸다는 명령을 true 해주는 것을 만든다.
+				UNITMANAGER->SetInputCommandTransOverlord(true);
+			}
 			commandImage[SLOT3] = IMAGEMANAGER->FindImage("TransformOverlord");
 		}
 		if (UNITMANAGER->GetInputCommandTransOverlord())
@@ -241,40 +253,43 @@ void Larva::Update()
 		{
 			commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
 
-			if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation())
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT4], m_ptMouse))
-				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickHydralisk");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						// 눌렸다는 명령을 true 해주는 것을 만든다.
-						UNITMANAGER->SetInputCommandTransHydralisk(true);
-						commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
-					}
-
-				}
-				if (KEYMANAGER->IsStayKeyDown('H'))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
 					commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickHydralisk");
 				}
-				if (KEYMANAGER->IsOnceKeyUp('H'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
+					{
+						// 눌렸다는 명령을 true 해주는 것을 만든다.
+						UNITMANAGER->SetInputCommandTransHydralisk(true);
+					}
+					commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
+				}
+
+			}
+			if (KEYMANAGER->IsStayKeyDown('H'))
+			{
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickHydralisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('H'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransHydralisk(true);
-					commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
 				}
-				if (UNITMANAGER->GetInputCommandTransHydralisk())
-				{
-					isClick = false;
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("TransformHydralisk");
+			}
+			if (UNITMANAGER->GetInputCommandTransHydralisk())
+			{
+				isClick = false;
 
-					isTransHydralisk = true;
+				isTransHydralisk = true;
 
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("hydraBirth");
-				}
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("hydraBirth");
 			}
 		}
 		else
@@ -288,82 +303,89 @@ void Larva::Update()
 			commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
 			commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
 			
-			if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation())
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT5], m_ptMouse))
-				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickMutalisk");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						// 눌렸다는 명령을 true 해주는 것을 만든다.
-						UNITMANAGER->SetInputCommandTransMutalisk(true);
-						commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
-					}
-
-				}
-				if (KEYMANAGER->IsStayKeyDown('M'))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
 					commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickMutalisk");
 				}
-				if (KEYMANAGER->IsOnceKeyUp('M'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
+					{
+						// 눌렸다는 명령을 true 해주는 것을 만든다.
+						UNITMANAGER->SetInputCommandTransMutalisk(true);
+					}
+					commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
+				}
+
+			}
+			if (KEYMANAGER->IsStayKeyDown('M'))
+			{
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickMutalisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('M'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransMutalisk(true);
-					commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
 				}
-				if (UNITMANAGER->GetInputCommandTransMutalisk())
-				{
-					isClick = false;
-
-					isTransMutalisk = true;
-
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("mutaliskBirth");
-				}
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("TransformMutalisk");
 			}
-			if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation())
+			if (UNITMANAGER->GetInputCommandTransMutalisk())
 			{
-				// 스커지 생산
-				if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+				isClick = false;
+
+				isTransMutalisk = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("mutaliskBirth");
+			}
+			
+			// 스커지 생산
+			if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+			{
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
-					}
-					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
+				}
+				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 					{
 						// 눌렸다는 명령을 true 해주는 것을 만든다.
 						UNITMANAGER->SetInputCommandTransScourge(true);
 					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
-					}
-
 				}
-				if (KEYMANAGER->IsStayKeyDown('S'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 				{
-					commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
 				}
-				if (KEYMANAGER->IsOnceKeyDown('S'))
+
+			}
+			if (KEYMANAGER->IsStayKeyDown('S'))
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickScourge");
+			}
+			if (KEYMANAGER->IsOnceKeyDown('S'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 1 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransScourge(true);
 				}
-				if (KEYMANAGER->IsOnceKeyUp('S'))
-				{
-					commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
-				}
-				if (UNITMANAGER->GetInputCommandTransScourge())
-				{
-					isClick = false;
+			}
+			if (KEYMANAGER->IsOnceKeyUp('S'))
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("TransformScourge");
+			}
+			if (UNITMANAGER->GetInputCommandTransScourge())
+			{
+				isClick = false;
 
-					isTransScourge = true;
+				isTransScourge = true;
 
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("scourgeBirth");
-				}
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("scourgeBirth");
 			}
 		}
 		else
@@ -376,39 +398,42 @@ void Larva::Update()
 		if (BUILDMANAGER->GetHaveQueensnest())
 		{
 			commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
-			if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation())
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT7], m_ptMouse))
-				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT7] = IMAGEMANAGER->FindImage("ClickQueen");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						// 눌렸다는 명령을 true 해주는 것을 만든다.
-						UNITMANAGER->SetInputCommandTransQueen(true);
-						commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
-					}
-				}
-				if (KEYMANAGER->IsStayKeyDown('Q'))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
 					commandImage[SLOT7] = IMAGEMANAGER->FindImage("ClickQueen");
 				}
-				if (KEYMANAGER->IsOnceKeyUp('Q'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
+					{
+						// 눌렸다는 명령을 true 해주는 것을 만든다.
+						UNITMANAGER->SetInputCommandTransQueen(true);
+					}
+					commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('Q'))
+			{
+				commandImage[SLOT7] = IMAGEMANAGER->FindImage("ClickQueen");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('Q'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransQueen(true);
-					commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
 				}
-				if (UNITMANAGER->GetInputCommandTransQueen())
-				{
-					isClick = false;
+				commandImage[SLOT7] = IMAGEMANAGER->FindImage("TransformQueen");
+			}
+			if (UNITMANAGER->GetInputCommandTransQueen())
+			{
+				isClick = false;
 
-					isTransQueen = true;
+				isTransQueen = true;
 
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("queenBirth");
-				}
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("queenBirth");
 			}
 		}
 		else
@@ -421,43 +446,46 @@ void Larva::Update()
 		if (BUILDMANAGER->GetHaveUltraliskcavern())
 		{
 			commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
-			if (PLAYERMANAGER->GetCurrentPopulation() + 4 <= PLAYERMANAGER->GetmaxPopulation())
+		
+			if (PtInRect(&commandRect[SLOT8], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT8], m_ptMouse))
-				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT8] = IMAGEMANAGER->FindImage("ClickUltralisk");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						if (PLAYERMANAGER->GetCurrentPopulation() + 4 > PLAYERMANAGER->GetmaxPopulation())
-						{
-							// 눌렸다는 명령을 true 해주는 것을 만든다.
-							UNITMANAGER->SetInputCommandTransUltralisk(true);
-						}
-						commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
-					}
-				}
-				if (KEYMANAGER->IsStayKeyDown('U'))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
 					commandImage[SLOT8] = IMAGEMANAGER->FindImage("ClickUltralisk");
 				}
-				if (KEYMANAGER->IsOnceKeyUp('U'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{						
+					if (PLAYERMANAGER->GetCurrentPopulation() + 4 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
+					{
+						// 눌렸다는 명령을 true 해주는 것을 만든다.
+						UNITMANAGER->SetInputCommandTransUltralisk(true);
+					}
+
+					commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('U'))
+			{
+				commandImage[SLOT8] = IMAGEMANAGER->FindImage("ClickUltralisk");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('U'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 4 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransUltralisk(true);
-					commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
 				}
-				if (UNITMANAGER->GetInputCommandTransUltralisk())
-				{
-					isClick = false;
-
-					isTransUltralisk = true;
-
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("ultraBirth");
-				}
+				commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
 			}
+			if (UNITMANAGER->GetInputCommandTransUltralisk())
+			{
+				isClick = false;
+
+				isTransUltralisk = true;
+
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("ultraBirth");
+			}
+			
 		}
 		else
 		{
@@ -468,39 +496,42 @@ void Larva::Update()
 		if (BUILDMANAGER->GetHaveDefilerMound())
 		{
 			commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
-			if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation())
+			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
 			{
-				if (PtInRect(&commandRect[SLOT9], m_ptMouse))
-				{
-					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
-					{
-						commandImage[SLOT9] = IMAGEMANAGER->FindImage("ClickDefiler");
-					}
-					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-					{
-						// 눌렸다는 명령을 true 해주는 것을 만든다.
-						UNITMANAGER->SetInputCommandTransDefiler(true);
-						commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
-					}
-				}
-				if (KEYMANAGER->IsStayKeyDown('F'))
+				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
 					commandImage[SLOT9] = IMAGEMANAGER->FindImage("ClickDefiler");
 				}
-				if (KEYMANAGER->IsOnceKeyUp('F'))
+				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+				{
+					if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
+					{
+						// 눌렸다는 명령을 true 해주는 것을 만든다.
+						UNITMANAGER->SetInputCommandTransDefiler(true);
+					}
+					commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('F'))
+			{
+				commandImage[SLOT9] = IMAGEMANAGER->FindImage("ClickDefiler");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('F'))
+			{
+				if (PLAYERMANAGER->GetCurrentPopulation() + 2 <= PLAYERMANAGER->GetmaxPopulation() && PLAYERMANAGER->GetMineral() >= unitStatus.unitMineralPrice && PLAYERMANAGER->GetVespeneGas() >= unitStatus.unitGasPrice)
 				{
 					// 눌렸다는 명령을 true 해주는 것을 만든다.
 					UNITMANAGER->SetInputCommandTransDefiler(true);
-					commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
 				}
-				if (UNITMANAGER->GetInputCommandTransDefiler())
-				{
-					isClick = false;
+				commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
+			}
+			if (UNITMANAGER->GetInputCommandTransDefiler())
+			{
+				isClick = false;
 
-					isTransDefiler = true;
+				isTransDefiler = true;
 
-					unitStatus.unitImage = IMAGEMANAGER->FindImage("defilerBirth");
-				}
+				unitStatus.unitImage = IMAGEMANAGER->FindImage("defilerBirth");
 			}
 		}
 		else

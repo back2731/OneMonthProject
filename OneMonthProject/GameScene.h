@@ -41,10 +41,10 @@ private:
 	Image*				mineralImage;
 	Image*				vespeneGasImage;
 	Image*				populationImage;
-	int					mineral;
-	int					vespeneGas;
-	int					currentPopulation;
-	int					maxPopulation;
+	float				mineral;
+	float				vespeneGas;
+	float				currentPopulation;
+	float				maxPopulation;
 	
 	bool				searching;
 

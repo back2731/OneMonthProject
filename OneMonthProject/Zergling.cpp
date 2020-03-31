@@ -164,7 +164,7 @@ void Zergling::Update()
 	if (unitStatus.unitState == ATTACK)
 	{
 		conutTest++;
-		if (conutTest % 50 == 0)
+		if (conutTest % 30 == 0)
 		{
 			if (unitStatus.frameIndexY == DIRECTION_UP)
 			{
