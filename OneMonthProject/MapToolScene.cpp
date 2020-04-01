@@ -143,7 +143,7 @@ void MapToolScene::DrawTileMap()
 					{
 
 					case TILEKIND_BASETERRAIN:
-						IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(),
+						IMAGEMANAGER->FrameRender("BaseMapCreep", GetMemDC(),
 							_tileMap[i*TILE_COUNT_X + j].left, _tileMap[i*TILE_COUNT_X + j].top, _tileMap[i*TILE_COUNT_X + j].tilePos.x, _tileMap[i*TILE_COUNT_X + j].tilePos.y);
 						break;
 					case TILEKIND_TERRAIN:

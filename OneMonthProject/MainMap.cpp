@@ -68,7 +68,7 @@ void MainMap::DrawTileMap(HDC hdc)
 				switch (_tileMap[i].tileKind)
 				{
 				case TILEKIND_BASETERRAIN:
-					IMAGEMANAGER->FrameRender("BaseMap", hdc, _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					IMAGEMANAGER->FrameRender("BaseMapCreep", hdc, _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
 						break;
 				case TILEKIND_TERRAIN:
 					IMAGEMANAGER->FrameRender("MapTile1", hdc, _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);

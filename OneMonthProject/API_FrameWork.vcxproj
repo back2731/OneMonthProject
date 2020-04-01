@@ -191,7 +191,6 @@
     <ClInclude Include="Guardian.h" />
     <ClInclude Include="Hatchery.h" />
     <ClInclude Include="HighBuilding.h" />
-    <ClInclude Include="Hive.h" />
     <ClInclude Include="HoldCommand.h" />
     <ClInclude Include="Hydralisk.h" />
     <ClInclude Include="HydraliskDen.h" />
@@ -200,7 +199,6 @@
     <ClInclude Include="InfestedCommand.h" />
     <ClInclude Include="InfestedTerran.h" />
     <ClInclude Include="KeyManager.h" />
-    <ClInclude Include="Lair.h" />
     <ClInclude Include="LairRequires.h" />
     <ClInclude Include="Larva.h" />
     <ClInclude Include="Lurker.h" />
@@ -304,7 +302,6 @@
     <ClCompile Include="Guardian.cpp" />
     <ClCompile Include="Hatchery.cpp" />
     <ClCompile Include="HighBuilding.cpp" />
-    <ClCompile Include="Hive.cpp" />
     <ClCompile Include="HoldCommand.cpp" />
     <ClCompile Include="Hydralisk.cpp" />
     <ClCompile Include="HydraliskDen.cpp" />
@@ -313,7 +310,6 @@
     <ClCompile Include="InfestedCommand.cpp" />
     <ClCompile Include="InfestedTerran.cpp" />
     <ClCompile Include="KeyManager.cpp" />
-    <ClCompile Include="Lair.cpp" />
     <ClCompile Include="LairRequires.cpp" />
     <ClCompile Include="Larva.cpp" />
     <ClCompile Include="Lurker.cpp" />

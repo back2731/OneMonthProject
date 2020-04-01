@@ -14,7 +14,7 @@ ResourceCollection::~ResourceCollection()
 HRESULT ResourceCollection::Init()
 {
 	// 맵툴용 이미지들
-	IMAGEMANAGER->AddFrameImage("BaseMap", "images/MapTile/BaseMap.bmp",
+	IMAGEMANAGER->AddFrameImage("BaseMapCreep", "images/MapTile/BaseMapCreep.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("MapTile1", "images/MapTile/MapTile1.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
@@ -33,6 +33,14 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("mapToolOverlay", "images/UI/menu/mapToolOverlay.bmp", 4080 * IMAGESIZECONTROL, 132 * IMAGESIZECONTROL, 20, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("exit", "images/UI/menu/exit.bmp", 9200 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 50, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("exitOverlay", "images/UI/menu/exitOverlay.bmp", 6480 * IMAGESIZECONTROL, 136 * IMAGESIZECONTROL, 30, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("multiPlay", "images/UI/menu/multiPlay.bmp", 13000 * IMAGESIZECONTROL, 176 * IMAGESIZECONTROL, 50, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("multiPlayOverlay", "images/UI/menu/multiPlayOverlay.bmp", 5280 * IMAGESIZECONTROL, 148 * IMAGESIZECONTROL, 20, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("multiPlayTail", "images/UI/menu/multiPlayTail.bmp", 90 * IMAGESIZECONTROL, 116 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("singlePlayText", "images/UI/menu/singlePlayText.bmp", 229, 53, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("exitText", "images/UI/menu/exitText.bmp", 86, 34, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mapToolText", "images/UI/menu/mapToolText.bmp", 180, 40, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("multiPlayText", "images/UI/menu/multiPlayText.bmp", 187, 41, true, RGB(255, 0, 255));
 
 	// UI 이미지
 	IMAGEMANAGER->AddImage("ZergConsole", "images/UI/ZergConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));

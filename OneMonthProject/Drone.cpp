@@ -205,6 +205,27 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 				{
+					if (PLAYERMANAGER->GetMineral() >= 300)
+					{
+						mutateHatchery = true;
+
+						mutateEvolutionChamber = false;
+						mutateHydraliskDen = false;
+						mutateSpawningPool = false;
+						mutateCreepColony = false;
+						mutateExtractor = false;
+						baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
+					}
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('H'))
+			{
+				baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickHatchery");
+			}
+			if (KEYMANAGER->IsOnceKeyUp('H'))
+			{
+				if (PLAYERMANAGER->GetMineral() >= 300)
+				{
 					mutateHatchery = true;
 
 					mutateEvolutionChamber = false;
@@ -214,21 +235,6 @@ void Drone::Update()
 					mutateExtractor = false;
 					baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
 				}
-			}
-			if (KEYMANAGER->IsStayKeyDown('H'))
-			{
-				baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("ClickHatchery");
-			}
-			if (KEYMANAGER->IsOnceKeyUp('H'))
-			{
-				mutateHatchery = true;
-
-				mutateEvolutionChamber = false;
-				mutateHydraliskDen = false;
-				mutateSpawningPool = false;
-				mutateCreepColony = false;
-				mutateExtractor = false;
-				baseBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("HatcheryUI");
 			}
 
 			// 크립 콜로니
@@ -240,14 +246,17 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 				{
-					mutateCreepColony = true;
+					if (PLAYERMANAGER->GetMineral() >= 75)
+					{
+						mutateCreepColony = true;
 
-					mutateHatchery = false;
-					mutateSpawningPool = false;
-					mutateHydraliskDen = false;
-					mutateEvolutionChamber = false;
-					mutateExtractor = false;			
-					baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+						mutateHatchery = false;
+						mutateSpawningPool = false;
+						mutateHydraliskDen = false;
+						mutateEvolutionChamber = false;
+						mutateExtractor = false;
+						baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+					}
 				}
 			}				
 			if (KEYMANAGER->IsStayKeyDown('C'))
@@ -256,14 +265,17 @@ void Drone::Update()
 			}
 			if (KEYMANAGER->IsOnceKeyDown('C'))
 			{
-				mutateCreepColony = true;
+				if (PLAYERMANAGER->GetMineral() >= 75)
+				{
+					mutateCreepColony = true;
 
-				mutateHatchery = false;
-				mutateSpawningPool = false;
-				mutateHydraliskDen = false;
-				mutateEvolutionChamber = false;
-				mutateExtractor = false;
-				baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+					mutateHatchery = false;
+					mutateSpawningPool = false;
+					mutateHydraliskDen = false;
+					mutateEvolutionChamber = false;
+					mutateExtractor = false;
+					baseBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("CreepColonyUI");
+				}
 			}
 
 			// 익스트렉터
@@ -275,6 +287,27 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 				{
+					if (PLAYERMANAGER->GetMineral() >= 50)
+					{
+						mutateExtractor = true;
+
+						mutateHatchery = false;
+						mutateSpawningPool = false;
+						mutateHydraliskDen = false;
+						mutateEvolutionChamber = false;
+						mutateCreepColony = false;
+						baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
+					}
+				}
+			}
+			if (KEYMANAGER->IsStayKeyDown('E'))
+			{
+				baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ClickExtractor");
+			}
+			if (KEYMANAGER->IsOnceKeyDown('E'))
+			{
+				if (PLAYERMANAGER->GetMineral() >= 50)
+				{
 					mutateExtractor = true;
 
 					mutateHatchery = false;
@@ -284,21 +317,6 @@ void Drone::Update()
 					mutateCreepColony = false;
 					baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
 				}
-			}
-			if (KEYMANAGER->IsStayKeyDown('E'))
-			{
-				baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ClickExtractor");
-			}
-			if (KEYMANAGER->IsOnceKeyDown('E'))
-			{
-				mutateExtractor = true;
-
-				mutateHatchery = false;
-				mutateSpawningPool = false;
-				mutateHydraliskDen = false;
-				mutateEvolutionChamber = false;
-				mutateCreepColony = false;
-				baseBuildingImage[SLOT3] = IMAGEMANAGER->FindImage("ExtractorUI");
 			}
 			
 			// 스포닝풀
@@ -314,6 +332,27 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
+						if (PLAYERMANAGER->GetMineral() >= 200)
+						{
+							mutateSpawningPool = true;
+
+							mutateHatchery = false;
+							mutateEvolutionChamber = false;
+							mutateHydraliskDen = false;
+							mutateCreepColony = false;
+							mutateExtractor = false;
+							baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('S'))
+				{
+					baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickSpawningPool");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('S'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 200)
+					{
 						mutateSpawningPool = true;
 
 						mutateHatchery = false;
@@ -323,21 +362,6 @@ void Drone::Update()
 						mutateExtractor = false;
 						baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
 					}
-				}
-				if (KEYMANAGER->IsStayKeyDown('S'))
-				{
-					baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("ClickSpawningPool");
-				}
-				if (KEYMANAGER->IsOnceKeyUp('S'))
-				{
-					mutateSpawningPool = true;
-
-					mutateHatchery = false;
-					mutateEvolutionChamber = false;
-					mutateHydraliskDen = false;
-					mutateCreepColony = false;
-					mutateExtractor = false;
-					baseBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("SpawningPoolUI");
 				}
 			}
 			else
@@ -358,6 +382,27 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
+						if (PLAYERMANAGER->GetMineral() >= 75)
+						{
+							mutateEvolutionChamber = true;
+
+							mutateHatchery = false;
+							mutateSpawningPool = false;
+							mutateHydraliskDen = false;
+							mutateCreepColony = false;
+							mutateExtractor = false;
+							baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('V'))
+				{
+					baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolutionChamber");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('V'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 75)
+					{
 						mutateEvolutionChamber = true;
 
 						mutateHatchery = false;
@@ -367,21 +412,6 @@ void Drone::Update()
 						mutateExtractor = false;
 						baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
 					}
-				}
-				if (KEYMANAGER->IsStayKeyDown('V'))
-				{
-					baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolutionChamber");
-				}
-				if (KEYMANAGER->IsOnceKeyUp('V'))
-				{
-					mutateEvolutionChamber = true;
-
-					mutateHatchery = false;
-					mutateSpawningPool = false;
-					mutateHydraliskDen = false;
-					mutateCreepColony = false;
-					mutateExtractor = false;
-					baseBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("EvolutionChamberUI");
 				}
 			}
 			else
@@ -402,13 +432,16 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 					{
-						mutateHydraliskDen = true;
+						if (PLAYERMANAGER->GetMineral() >= 100 && PLAYERMANAGER->GetVespeneGas() >= 50)
+						{
+							mutateHydraliskDen = true;
 
-						mutateHatchery = false;
-						mutateSpawningPool = false;
-						mutateEvolutionChamber = false;
-						mutateCreepColony = false;
-						mutateExtractor = false;				
+							mutateHatchery = false;
+							mutateSpawningPool = false;
+							mutateEvolutionChamber = false;
+							mutateCreepColony = false;
+							mutateExtractor = false;
+						}
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
@@ -421,13 +454,16 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown('D'))
 				{
-					mutateHydraliskDen = true;
+					if (PLAYERMANAGER->GetMineral() >= 100 && PLAYERMANAGER->GetVespeneGas() >= 50)
+					{
+						mutateHydraliskDen = true;
 
-					mutateHatchery = false;
-					mutateSpawningPool = false;
-					mutateEvolutionChamber = false;
-					mutateCreepColony = false;
-					mutateExtractor = false;
+						mutateHatchery = false;
+						mutateSpawningPool = false;
+						mutateEvolutionChamber = false;
+						mutateCreepColony = false;
+						mutateExtractor = false;
+					}
 				}					
 				if (KEYMANAGER->IsOnceKeyUp('D'))
 				{
@@ -484,12 +520,15 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
-						mutateSpire = true;
+						if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 150)
+						{
+							mutateSpire = true;
 
-						mutateQueensNest = false;
-						mutateUltraliskCavern = false;
-						mutateDefilerMound = false;
-						highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+							mutateQueensNest = false;
+							mutateUltraliskCavern = false;
+							mutateDefilerMound = false;
+							highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+						}
 					}
 				}
 				if (KEYMANAGER->IsStayKeyDown('S'))
@@ -498,12 +537,15 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown('S'))
 				{
-					mutateSpire = true;
+					if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 150)
+					{
+						mutateSpire = true;
 
-					mutateQueensNest = false;
-					mutateUltraliskCavern = false;
-					mutateDefilerMound = false;
-					highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+						mutateQueensNest = false;
+						mutateUltraliskCavern = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT1] = IMAGEMANAGER->FindImage("SpireUI");
+					}
 				}					
 
 				// 퀸즈네스트
@@ -515,12 +557,15 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
-						mutateQueensNest = true;
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 100)
+						{
+							mutateQueensNest = true;
 
-						mutateSpire = false;
-						mutateUltraliskCavern = false;
-						mutateDefilerMound = false;
-						highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+							mutateSpire = false;
+							mutateUltraliskCavern = false;
+							mutateDefilerMound = false;
+							highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+						}
 
 					}
 				}
@@ -530,12 +575,15 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown('Q'))
 				{
-					mutateQueensNest = true;
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 100)
+					{
+						mutateQueensNest = true;
 
-					mutateSpire = false;
-					mutateUltraliskCavern = false;
-					mutateDefilerMound = false;
-					highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+						mutateSpire = false;
+						mutateUltraliskCavern = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT2] = IMAGEMANAGER->FindImage("QueensNestUI");
+					}
 				}
 			}
 			else
@@ -559,12 +607,15 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
-						mutateUltraliskCavern = true;
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 200)
+						{
+							mutateUltraliskCavern = true;
 
-						mutateSpire = false;
-						mutateQueensNest = false;
-						mutateDefilerMound = false;
-						highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+							mutateSpire = false;
+							mutateQueensNest = false;
+							mutateDefilerMound = false;
+							highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+						}
 					}
 				}					
 				if (KEYMANAGER->IsStayKeyDown('U'))
@@ -573,12 +624,15 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown('U'))
 				{
-					mutateUltraliskCavern = true;
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 200)
+					{
+						mutateUltraliskCavern = true;
 
-					mutateSpire = false;
-					mutateQueensNest = false;
-					mutateDefilerMound = false;
-					highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+						mutateSpire = false;
+						mutateQueensNest = false;
+						mutateDefilerMound = false;
+						highBuildingImage[SLOT4] = IMAGEMANAGER->FindImage("UltraliskCavernUI");
+					}
 				}
 
 				// 디파일러 마운드
@@ -590,11 +644,14 @@ void Drone::Update()
 					}
 					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 					{
-						mutateDefilerMound = true;
+						if (PLAYERMANAGER->GetMineral() >= 100 && PLAYERMANAGER->GetVespeneGas() >= 100)
+						{
+							mutateDefilerMound = true;
 
-						mutateSpire = false;
-						mutateQueensNest = false;
-						mutateUltraliskCavern = false;
+							mutateSpire = false;
+							mutateQueensNest = false;
+							mutateUltraliskCavern = false;
+						}
 					}
 					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 					{
@@ -607,12 +664,15 @@ void Drone::Update()
 				}
 				if (KEYMANAGER->IsOnceKeyDown('D'))
 				{
-					mutateDefilerMound = true;
+					if (PLAYERMANAGER->GetMineral() >= 100 && PLAYERMANAGER->GetVespeneGas() >= 100)
+					{
+						mutateDefilerMound = true;
 
-					mutateSpire = false;
-					mutateQueensNest = false;
-					mutateUltraliskCavern = false;
-					highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+						mutateSpire = false;
+						mutateQueensNest = false;
+						mutateUltraliskCavern = false;
+						highBuildingImage[SLOT5] = IMAGEMANAGER->FindImage("DefilerMoundUI");
+					}
 				}
 				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 				{

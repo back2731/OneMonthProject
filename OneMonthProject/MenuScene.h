@@ -5,6 +5,7 @@ class MenuScene : public GameNode
 private:
 	Image*	backGroundImage;
 	
+	Image*	singlePlayText;
 	Image*	singlePlay;
 	Image*	singlePlayOverlay;
 	RECT	singlePlayRect;
@@ -18,7 +19,7 @@ private:
 	int		singlePlayOverlayframeIndexX;
 	int		singlePlayOverlayframeIndexY;
 
-
+	Image*	mapToolText;
 	Image*	mapTool;
 	Image*	mapToolOverlay;
 	RECT	mapToolRect;
@@ -32,6 +33,7 @@ private:
 	int		mapToolOverlayframeIndexX;
 	int		mapToolOverlayframeIndexY;
 
+	Image*	exitText;
 	Image*	exit;
 	Image*	exitOverlay;
 	RECT	exitRect;
@@ -44,6 +46,23 @@ private:
 	int		exitOverlayframeCount;
 	int		exitOverlayframeIndexX;
 	int		exitOverlayframeIndexY;
+
+	Image*	multiPlayText;
+	Image*	multiPlay;
+	Image*	multiPlayTail;
+	Image*	multiPlayOverlay;
+	RECT	multiPlayRect;
+	RECT	multiPlayOverlayRect;
+
+	int		multiPlayframeCount;
+	int		multiPlayframeIndexX;
+	int		multiPlayframeIndexY;
+
+	int		multiPlayOverlayframeCount;
+	int		multiPlayOverlayframeIndexX;
+	int		multiPlayOverlayframeIndexY;
+
+	char	str[128];
 
 public:
 	MenuScene();

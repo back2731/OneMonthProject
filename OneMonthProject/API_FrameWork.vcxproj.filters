@@ -132,17 +132,11 @@
     <Filter Include="MainGame\Build\Zerg\Hatchery">
       <UniqueIdentifier>{2f8fcc8d-9fd6-43e9-8443-b909931a15be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Build\Zerg\Hive">
-      <UniqueIdentifier>{ef7bf292-e4f3-4805-9bb7-a656d35d2579}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Build\Zerg\HydraliskDen">
       <UniqueIdentifier>{548feebd-898e-4951-a0c6-c7549243de61}</UniqueIdentifier>
     </Filter>
     <Filter Include="MainGame\Build\Zerg\InfestedCommand">
       <UniqueIdentifier>{496d60c9-0706-4f46-8e72-7e3dcbb3bf09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Build\Zerg\Lair">
-      <UniqueIdentifier>{fa54eccf-34f5-416e-aa43-1e9112a4b824}</UniqueIdentifier>
     </Filter>
     <Filter Include="MainGame\Build\Zerg\NydusCanal">
       <UniqueIdentifier>{e1d587ff-375a-4194-a10d-4e69eacf4fb0}</UniqueIdentifier>
@@ -510,17 +504,11 @@
     <ClInclude Include="Hatchery.h">
       <Filter>MainGame\Build\Zerg\Hatchery</Filter>
     </ClInclude>
-    <ClInclude Include="Hive.h">
-      <Filter>MainGame\Build\Zerg\Hive</Filter>
-    </ClInclude>
     <ClInclude Include="HydraliskDen.h">
       <Filter>MainGame\Build\Zerg\HydraliskDen</Filter>
     </ClInclude>
     <ClInclude Include="InfestedCommand.h">
       <Filter>MainGame\Build\Zerg\InfestedCommand</Filter>
-    </ClInclude>
-    <ClInclude Include="Lair.h">
-      <Filter>MainGame\Build\Zerg\Lair</Filter>
     </ClInclude>
     <ClInclude Include="NydusCanal.h">
       <Filter>MainGame\Build\Zerg\NydusCanal</Filter>
@@ -833,17 +821,11 @@
     <ClCompile Include="Hatchery.cpp">
       <Filter>MainGame\Build\Zerg\Hatchery</Filter>
     </ClCompile>
-    <ClCompile Include="Hive.cpp">
-      <Filter>MainGame\Build\Zerg\Hive</Filter>
-    </ClCompile>
     <ClCompile Include="HydraliskDen.cpp">
       <Filter>MainGame\Build\Zerg\HydraliskDen</Filter>
     </ClCompile>
     <ClCompile Include="InfestedCommand.cpp">
       <Filter>MainGame\Build\Zerg\InfestedCommand</Filter>
-    </ClCompile>
-    <ClCompile Include="Lair.cpp">
-      <Filter>MainGame\Build\Zerg\Lair</Filter>
     </ClCompile>
     <ClCompile Include="NydusCanal.cpp">
       <Filter>MainGame\Build\Zerg\NydusCanal</Filter>

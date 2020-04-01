@@ -30,38 +30,9 @@ HRESULT GameScene::Init()
 	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 12, 64 * 2 }));
 	
 	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));	
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));	
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 500 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 600 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 700 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
-	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 800 }));
-
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
+
 	for (int i = 0; i < TILESIZE; i++)
 	{
 		if (IntersectRect(&tempRect, &_tileMap[i].rect, &gas))
@@ -105,7 +76,7 @@ void GameScene::Update()
 {
 	CAMERAMANAGER->MoveCamera();
 
-	if (KEYMANAGER->IsStayKeyDown('P'))
+	if (KEYMANAGER->IsOnceKeyDown('P'))
 	{
 		PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() + 200);
 		PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() + 200);
@@ -540,6 +511,14 @@ void GameScene::Update()
 			{
 				airUnitVector[i]->SetIsClick(false);
 			}
+			for (int i = 0; i < enemyUnitVector.size(); i++)
+			{
+				enemyUnitVector[i]->SetIsClick(false);
+			}
+			for (int i = 0; i < enemyBuildingVector.size(); i++)
+			{
+				enemyBuildingVector[i]->SetIsClick(false);
+			}
 		}
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
@@ -836,20 +815,20 @@ void GameScene::Render()
 		}
 	}
 
+	for (int i = 0; i < enemyBuildingVector.size(); i++)
+	{
+		if (IntersectRect(&tempRect, &cameraRect2, &enemyBuildingVector[i]->GetBuildingRect()))
+		{
+			enemyBuildingVector[i]->Render(GetMemDC());
+		}
+	}
+
 	// 모든 건물 렌더링
 	for (int i = 0; i < buildingVector.size(); i++)
 	{
 		if (IntersectRect(&tempRect, &cameraRect2, &buildingVector[i]->GetBuildingRect()))
 		{
 			buildingVector[i]->Render(GetMemDC());
-		}
-	}
-
-	for (int i = 0; i < enemyBuildingVector.size(); i++)
-	{
-		if (IntersectRect(&tempRect, &cameraRect2, &enemyBuildingVector[i]->GetBuildingRect()))
-		{
-			enemyBuildingVector[i]->Render(GetMemDC());
 		}
 	}
 
@@ -1031,7 +1010,7 @@ void GameScene::DrawTileMap()
 				switch (_tileMap[i].tileKind)
 				{
 				case TILEKIND_BASETERRAIN:
-					IMAGEMANAGER->FrameRender("BaseMap", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
+					IMAGEMANAGER->FrameRender("BaseMapCreep", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);
 					break;
 				case TILEKIND_TERRAIN:
 					IMAGEMANAGER->FrameRender("MapTile1", GetMemDC(), _tileMap[i].left, _tileMap[i].top, _tileMap[i].tilePos.x, _tileMap[i].tilePos.y);

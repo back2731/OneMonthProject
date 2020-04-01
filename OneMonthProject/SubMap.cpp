@@ -32,6 +32,7 @@ void SubMap::Release()
 
 void SubMap::Update()
 {
+	ShowCursor(true);
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case CTRL_NUM1:
@@ -78,7 +79,7 @@ void SubMap::Render(HDC hdc)
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case CTRL_NUM1:
-		IMAGEMANAGER->FindImage("BaseMap")->Render(hdc, 0, 200, CELL_WIDTH * 8, CELL_HEIGHT * 8);
+		IMAGEMANAGER->FindImage("BaseMapCreep")->Render(hdc, 0, 200, CELL_WIDTH * 8, CELL_HEIGHT * 8);
 		break;
 	case CTRL_NUM2:
 		for (int i = 0; i < TILE_SIZE_X; i++)
