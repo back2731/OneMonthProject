@@ -103,6 +103,8 @@ void GameScene::Release()
 
 void GameScene::Update()
 {
+	CAMERAMANAGER->MoveCamera();
+
 	if (KEYMANAGER->IsStayKeyDown('P'))
 	{
 		PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() + 200);
@@ -635,6 +637,7 @@ void GameScene::Update()
 						{
 							PLAYERMANAGER->SetCurrentPopulation(PLAYERMANAGER->GetCurrentPopulation() - 0.5f);
 						}
+						EFFECTMANAGER->Play("zerglingBlood", unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRectX(), unitVector[PLAYERMANAGER->ReturnSearchedPlayerNumber()]->GetUnitRectY());
 						unitVector.erase(unitVector.begin() + PLAYERMANAGER->ReturnSearchedPlayerNumber());
 						PLAYERMANAGER->EraseSearchPlayerVector();
 						for (int i = 0; i < enemyUnitVector.size(); i++)
@@ -685,6 +688,8 @@ void GameScene::Update()
 					unitVector[i]->SetIsSearch(true);
 					if (enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitHp() <= 0)
 					{
+						EFFECTMANAGER->Play("zerglingBlood", enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectX(), enemyUnitVector[PLAYERMANAGER->ReturnSearchedEnemyNumber()]->GetUnitRectY());
+
 						enemyUnitVector.erase(enemyUnitVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyNumber());
 						PLAYERMANAGER->EraseSearchVector();
 						for (int i = 0; i < unitVector.size(); i++)
@@ -730,6 +735,9 @@ void GameScene::Update()
 					unitVector[i]->SetIsSearch(true);
 					if (enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingHP() <= 0)
 					{
+						EFFECTMANAGER->Play("buildingWreck", enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectX(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectY());
+						EFFECTMANAGER->Play("blood", enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectX(), enemyBuildingVector[PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber()]->GetBuildingRectY());
+
 						enemyBuildingVector.erase(enemyBuildingVector.begin() + PLAYERMANAGER->ReturnSearchedEnemyBuildingNumber());
 						PLAYERMANAGER->EraseSearchBuildingVector();
 						for (int i = 0; i < unitVector.size(); i++)
@@ -742,6 +750,11 @@ void GameScene::Update()
 				}
 			}
 		}
+	}
+	if (KEYMANAGER->IsOnceKeyDown('J'))
+	{
+		EFFECTMANAGER->Play("buildingWreck", m_ptMouse.x, m_ptMouse.y);
+		EFFECTMANAGER->Play("blood", m_ptMouse.x, m_ptMouse.y);
 	}
 
 	// 추적 정지 후 상태 변경
@@ -778,11 +791,14 @@ void GameScene::Update()
 			}
 		}
 	}
+	EFFECTMANAGER->Update();
 }
 
 void GameScene::Render()
 {
 	DrawTileMap();
+
+	EFFECTMANAGER->Render();
 
 	// 렉트 테스트용
 	if (KEYMANAGER->IsToggleKey(VK_TAB))

@@ -49,6 +49,8 @@ void MapToolScene::Release()
 
 void MapToolScene::Update()
 {
+	CAMERAMANAGER->MoveCamera();
+
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
 	ShowCursor(false);

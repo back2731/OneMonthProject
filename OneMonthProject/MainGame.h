@@ -3,6 +3,8 @@
 #include "ResourceCollection.h"
 #include "GameScene.h"
 #include "MapToolScene.h"
+#include "TitleScene.h"
+#include "MenuScene.h"
 
 class MainGame :  public GameNode
 {

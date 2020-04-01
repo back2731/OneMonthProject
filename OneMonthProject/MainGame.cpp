@@ -26,11 +26,11 @@ HRESULT MainGame::Init()
 	// 실제 게임 Scene
 	SCENEMANAGER->AddScene("GameScene", new GameScene);
 
-	//// A*테스트
-	//SCENEMANAGER->AddScene("aStar", new aStarScene);
+	SCENEMANAGER->AddScene("TitleScene", new TitleScene);
 
+	SCENEMANAGER->AddScene("MenuScene", new MenuScene);
 
-	SCENEMANAGER->ChangeScene("GameScene");
+	SCENEMANAGER->ChangeScene("TitleScene");
 
 	return S_OK;
 }
@@ -46,7 +46,6 @@ void MainGame::Update()
 {
 	GameNode::Update();
 
-	CAMERAMANAGER->MoveCamera();
 	ANIMATIONMANAGER->Update();
 	SCENEMANAGER->Update();
 

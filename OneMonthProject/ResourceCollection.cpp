@@ -23,13 +23,22 @@ HRESULT ResourceCollection::Init()
 
 	IMAGEMANAGER->AddFrameImage("test1", "images/MapTile/test1.bmp",
 		0, 0, 96 * 1 * 2, 96 * 1 * 2, 1, 1, true, RGB(255, 0, 255));
+	
+	// 타이틀 및 메뉴 UI
+	IMAGEMANAGER->AddImage("title", "images/UI/menu/title.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddImage("background", "images/UI/menu/background.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("singlePlay", "images/UI/menu/singlePlay.bmp", 11200 * IMAGESIZECONTROL, 116 * IMAGESIZECONTROL, 35, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("singlePlayOverlay", "images/UI/menu/singlePlayOverlay.bmp", 15120 * IMAGESIZECONTROL, 116 * IMAGESIZECONTROL, 60, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("mapTool", "images/UI/menu/mapTool.bmp", 13600 * IMAGESIZECONTROL, 140 * IMAGESIZECONTROL, 85, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("mapToolOverlay", "images/UI/menu/mapToolOverlay.bmp", 4080 * IMAGESIZECONTROL, 132 * IMAGESIZECONTROL, 20, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("exit", "images/UI/menu/exit.bmp", 9200 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 50, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("exitOverlay", "images/UI/menu/exitOverlay.bmp", 6480 * IMAGESIZECONTROL, 136 * IMAGESIZECONTROL, 30, 1, true, RGB(255, 0, 255));
 
 	// UI 이미지
 	IMAGEMANAGER->AddImage("ZergConsole", "images/UI/ZergConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("population", "images/UI/population.bmp", 14 * IMAGESIZECONTROL, 14 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("mineral", "images/UI/mineral.bmp", 14 * IMAGESIZECONTROL, 14 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("gas", "images/UI/gas.bmp", 14 * IMAGESIZECONTROL, 14 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
-
 	
 	// 마우스 커서
 	IMAGEMANAGER->AddFrameImage("Cursor", "images/UI/Cursor.bmp", 100 * IMAGESIZECONTROL, 21 * IMAGESIZECONTROL, 5, 1, true, RGB(255, 0, 255));
@@ -293,6 +302,12 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("mutateQueensNest", "images/UI/Icon/Drone/HighBuilding/mutateQueensNest.bmp", 120 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("mutateUltraliskCavern", "images/UI/Icon/Drone/HighBuilding/mutateUltraliskCavern.bmp", 120 * IMAGESIZECONTROL, 104 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("mutateDefilerMound", "images/UI/Icon/Drone/HighBuilding/mutateDefilerMound.bmp", 120 * IMAGESIZECONTROL, 96 * IMAGESIZECONTROL, true, RGB(0, 222, 0));
+
+	// 이펙트 모음
+	EFFECTMANAGER->AddEffect("buildingWreck", "images/Building/buildingWreck.bmp", 512 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 1, 0.01f, 10);
+	EFFECTMANAGER->AddEffect("blood", "images/Building/blood.bmp", 2400 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 5, 0.1f, 10);
+	EFFECTMANAGER->AddEffect("zerglingBlood", "images/Unit/zerglingBlood.bmp", 640 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 1, 0.02f, 50);
+
 
 	return S_OK;
 }
