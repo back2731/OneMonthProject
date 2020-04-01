@@ -3,6 +3,11 @@
 
 class EvolutionChamber : public BuildBase
 {
+private:
+	Image* meleeAttackDescription;
+	Image* missileAttackDescription;
+	Image* carapaceDescription;
+
 public:
 	EvolutionChamber();
 	~EvolutionChamber();

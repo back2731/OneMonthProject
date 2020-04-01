@@ -77,6 +77,7 @@ protected:
 
 	CommandBase*	commandSlot[COMMANDMAX];
 	Image*			commandImage[COMMANDMAX];
+	Image*			descriptionImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
 	char			str[128];

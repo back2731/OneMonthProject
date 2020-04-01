@@ -89,6 +89,16 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	commandImage[SLOT8] = IMAGEMANAGER->FindImage("TransformUltralisk");
 	commandImage[SLOT9] = IMAGEMANAGER->FindImage("TransformDefiler");
 
+	descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("morphToDrone");
+	descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("morphToZerglings");
+	descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("morphToOverlord");
+	descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("morphToHydralisk");
+	descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("morphToMutalisk");
+	descriptionImage[SLOT6] = IMAGEMANAGER->FindImage("morphToScourge");
+	descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("morphToQueen");
+	descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("morphToUltralisk");
+	descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("morphTodefiler");
+
 	SetCommandRect();
 }
 
@@ -631,6 +641,106 @@ void Larva::RenderUI(HDC hdc)
 		commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 		commandImage[SLOT8]->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
 		commandImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+
+		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+		{
+			descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+		}
+		if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveSpawningpool())
+			{
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("morphToZerglings");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			else
+			{
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("zerglingsRequires");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+		}
+		if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+		{
+			descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+		}
+		if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveHydraliskden())
+			{
+				descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("morphToHydralisk");
+				descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("hydraliskRequires");
+				descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+			}
+		}
+		if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveSpire())
+			{
+				descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("morphToMutalisk");
+				descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("mutaliskRequires");
+				descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+			}
+		}
+		if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveSpire())
+			{
+				descriptionImage[SLOT6] = IMAGEMANAGER->FindImage("morphToScourge");
+				descriptionImage[SLOT6]->Render(hdc, commandRect[SLOT6].left - descriptionImage[SLOT6]->GetWidth() + 50, commandRect[SLOT6].top - descriptionImage[SLOT6]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT6] = IMAGEMANAGER->FindImage("scourgeRequires");
+				descriptionImage[SLOT6]->Render(hdc, commandRect[SLOT6].left - descriptionImage[SLOT6]->GetWidth() + 50, commandRect[SLOT6].top - descriptionImage[SLOT6]->GetHeight());
+			}
+		}
+		if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveQueensnest())
+			{
+				descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("morphToQueen");
+				descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("queenRequires");
+				descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+			}
+		}
+		if (PtInRect(&commandRect[SLOT8], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveUltraliskcavern())
+			{
+				descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("morphToUltralisk");
+				descriptionImage[SLOT8]->Render(hdc, commandRect[SLOT8].left - descriptionImage[SLOT8]->GetWidth() / 2, commandRect[SLOT8].top - descriptionImage[SLOT8]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("ultraliskRequires");
+				descriptionImage[SLOT8]->Render(hdc, commandRect[SLOT8].left - descriptionImage[SLOT8]->GetWidth() / 2, commandRect[SLOT8].top - descriptionImage[SLOT8]->GetHeight());
+			}
+		}
+		if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+		{
+			if (BUILDMANAGER->GetHaveDefilerMound())
+			{
+				descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("morphTodefiler");
+				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
+			}
+			else
+			{
+				descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("defilerRequires");
+				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
+			}
+		}
 
 		SetTextColor(hdc, RGB(0, 222, 0));
 		sprintf_s(str, "%d", unitStatus.unitCurrentHp);

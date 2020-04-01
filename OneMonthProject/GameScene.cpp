@@ -18,7 +18,9 @@ HRESULT GameScene::Init()
 	unitVector.reserve(1000);
 	airUnitVector.reserve(1000);
 	selectVector.reserve(50);
-	
+	UPGRADEMANAGER->SetEvolveCarapace(0);
+	UPGRADEMANAGER->SetMeleeAttack(0);
+	UPGRADEMANAGER->SetMissileAttack(0);
 
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
 

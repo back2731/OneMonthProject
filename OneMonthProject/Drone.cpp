@@ -1544,6 +1544,37 @@ void Drone::RenderUI(HDC hdc)
 			commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 			commandImage[SLOT8]->Render(hdc, commandRect[SLOT8].left, commandRect[SLOT8].top);
 			commandImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("MoveUI");
+				descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{				
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("StopUI");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("AttackUI");
+				descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("GatherUI");
+				descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+			}
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			{
+				descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("BasicMutationUI");
+				descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+			}
+			if (PtInRect(&commandRect[SLOT8], m_ptMouse))
+			{
+				descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("advancedMutationUI");
+				descriptionImage[SLOT8]->Render(hdc, commandRect[SLOT8].left - descriptionImage[SLOT8]->GetWidth() / 2, commandRect[SLOT8].top - descriptionImage[SLOT8]->GetHeight());
+			}
 		}
 		if (baseBuildingUIrender)
 		{
@@ -1554,6 +1585,50 @@ void Drone::RenderUI(HDC hdc)
 			baseBuildingImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
 			baseBuildingImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 			baseBuildingImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("mutateIntoHatchery");
+				descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{	
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("mutateIntoCreepColony");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("mutateIntoExtractor");
+				descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("mutateIntoSpawningPool");
+				descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left - 50, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+			}
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("mutateIntoEvolutionChamber");
+				descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+			}
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveSpawningpool())
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("mutateIntoHydraliskDen");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left - 50, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+				else
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("hydraliskDenRequires");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left - 50, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+			{
+				descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("ESCcancelUI");
+				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
+			}
 		}
 		if (highBuildingUIrender)
 		{
@@ -1563,6 +1638,77 @@ void Drone::RenderUI(HDC hdc)
 			highBuildingImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
 			highBuildingImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
 			highBuildingImage[SLOT9]->Render(hdc, commandRect[SLOT9].left, commandRect[SLOT9].top);
+
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveLair())
+				{
+					descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("mutateIntoSpire");
+					descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+				}
+				else
+				{
+					descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("spireRequires");
+					descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+				}
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveLair())
+				{
+					descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("mutateIntoQueensNest");
+					descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+				}
+				else
+				{
+					descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("queensNestRequires");
+					descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+				}
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveHive())
+				{
+					descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("mutateIntoNydusCanal");
+					descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+				}
+				else
+				{
+					descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("nydusCanalRequires");
+					descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+				}
+			}
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveHive())
+				{
+					descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("mutateIntoUltraliskCavern");
+					descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left - 50, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+				}
+				else
+				{
+					descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("ultraliskCavernRequires");
+					descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left - 50, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveHive())
+				{
+					descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("mutateIntoDefilerMound");
+					descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+				}
+				else
+				{
+					descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("defilerMoundRequires");
+					descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+			{
+				descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("ESCcancelUI");
+				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
+			}
 		}				
 
 		SetTextColor(hdc, RGB(0, 222, 0));

@@ -226,6 +226,38 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("DisabledDefiler", "images/UI/Icon/Larva/DisabledDefiler.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("ClickDefiler", "images/UI/Icon/Larva/ClickDefiler.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	
+	// 에볼루션 챔버 아이콘
+	IMAGEMANAGER->AddImage("evolveCarapaceIcon", "images/UI/Icon/ability/evolveCarapaceIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMeleeAttackIcon", "images/UI/Icon/ability/upgradeMeleeAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMissileAttackIcon", "images/UI/Icon/ability/upgradeMissileAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("DisabledEvolveCarapaceIcon", "images/UI/Icon/ability/DisabledEvolveCarapaceIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("DisabledUpgradeMeleeAttackIcon", "images/UI/Icon/ability/DisabledUpgradeMeleeAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("DisabledUpgradeMissileAttackIcon", "images/UI/Icon/ability/DisabledUpgradeMissileAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ClickEvolveCarapaceIcon", "images/UI/Icon/ability/ClickEvolveCarapaceIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ClickUpgradeMeleeAttackIcon", "images/UI/Icon/ability/ClickUpgradeMeleeAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ClickUpgradeMissileAttackIcon", "images/UI/Icon/ability/ClickUpgradeMissileAttackIcon.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("upgradeMeleeAttacks", "images/UI/description/upgradeMeleeAttacks.bmp", 261, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMeleeAttacks2", "images/UI/description/upgradeMeleeAttacks2.bmp", 261, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMeleeAttacks3", "images/UI/description/upgradeMeleeAttacks3.bmp", 260, 107, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("meleeAttacksL2Require", "images/UI/description/meleeAttacksL2Require.bmp", 247, 73, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("meleeAttacksL3Require", "images/UI/description/meleeAttacksL3Require.bmp", 247, 73, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("upgradeMissileAttacks", "images/UI/description/upgradeMissileAttacks.bmp", 266, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMissileAttacks2", "images/UI/description/upgradeMissileAttacks2.bmp", 264, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("upgradeMissileAttacks3", "images/UI/description/upgradeMissileAttacks3.bmp", 266, 107, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("missileAttacksL2Require", "images/UI/description/missileAttacksL2Require.bmp", 247, 73, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("missileAttacksL3Require", "images/UI/description/missileAttacksL3Require.bmp", 247, 73, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("evolveCarapace", "images/UI/description/evolveCarapace.bmp", 196, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("evolveCarapace2", "images/UI/description/evolveCarapace2.bmp", 196, 107, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("evolveCarapace3", "images/UI/description/evolveCarapace3.bmp", 196, 107, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("carapaceL2Requires", "images/UI/description/carapaceL2Requires.bmp", 213, 74, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("carapaceL3Requires", "images/UI/description/carapaceL3Requires.bmp", 213, 74, true, RGB(255, 0, 255));
+
 	// Base (대부분 들어가는 것들)
 	IMAGEMANAGER->AddImage("Attack", "images/UI/Icon/Base/Attack.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("Patrol", "images/UI/Icon/Base/Patrol.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
@@ -293,6 +325,61 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("SpireUI", "images/UI/Icon/Drone/HighBuilding/Spire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("DisabledSpire", "images/UI/Icon/Drone/HighBuilding/DisabledSpire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("ClickSpire", "images/UI/Icon/Drone/HighBuilding/ClickSpire.bmp", 36 * IMAGESIZECONTROL, 36 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+
+	// 마우스를 갖다 댔을때 나오는 UI
+	IMAGEMANAGER->AddImage("morphToDrone", "images/UI/description/morphToDrone.bmp", 194, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToZerglings", "images/UI/description/morphToZerglings.bmp", 221, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToOverlord", "images/UI/description/morphToOverlord.bmp", 218, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToHydralisk", "images/UI/description/morphToHydralisk.bmp", 223, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToMutalisk", "images/UI/description/morphToMutalisk.bmp", 218, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToScourge", "images/UI/description/morphToScourge.bmp", 210, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToQueen", "images/UI/description/morphToQueen.bmp", 210, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphToUltralisk", "images/UI/description/morphToUltralisk.bmp", 214, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("morphTodefiler", "images/UI/description/morphTodefiler.bmp", 198, 84, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("zerglingsRequires", "images/UI/description/zerglingsRequires.bmp", 178, 78, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("hydraliskRequires", "images/UI/description/hydraliskRequires.bmp", 190, 78, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutaliskRequires", "images/UI/description/mutaliskRequires.bmp", 180, 78, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("scourgeRequires", "images/UI/description/scourgeRequires.bmp", 169, 78, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("queenRequires", "images/UI/description/queenRequires.bmp", 162, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ultraliskRequires", "images/UI/description/ultraliskRequires.bmp", 180, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("defilerRequires", "images/UI/description/defilerRequires.bmp", 164, 75, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("MoveUI", "images/UI/description/MoveUI.bmp", 101, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("StopUI", "images/UI/description/StopUI.bmp", 88, 49, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("AttackUI", "images/UI/description/AttackUI.bmp", 107, 49, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("GatherUI", "images/UI/description/GatherUI.bmp", 110, 49, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("BasicMutationUI", "images/UI/description/BasicMutationUI.bmp", 185, 50, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("advancedMutationUI", "images/UI/description/advancedMutationUI.bmp", 223, 49, true, RGB(255, 0, 255));
+	
+	// 베이스 건물 마우스 UI
+	IMAGEMANAGER->AddImage("mutateIntoHatchery", "images/UI/description/mutateIntoHatchery.bmp", 244, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoCreepColony", "images/UI/description/mutateIntoCreepColony.bmp", 277, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoExtractor", "images/UI/description/mutateIntoExtractor.bmp", 243, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoSpawningPool", "images/UI/description/mutateIntoSpawningPool.bmp", 293, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoEvolutionChamber", "images/UI/description/mutateIntoEvolutionChamber.bmp", 331, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoHydraliskDen", "images/UI/description/mutateIntoHydraliskDen.bmp", 287, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("hydraliskDenRequires", "images/UI/description/hydraliskDenRequires.bmp", 230, 79, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->AddImage("ESCcancelUI", "images/UI/description/ESCcancelUI.bmp", 126, 48, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("mutateIntoSpire", "images/UI/description/mutateIntoSpire.bmp", 205, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoQueensNest", "images/UI/description/mutateIntoQueensNest.bmp", 279, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoNydusCanal", "images/UI/description/mutateIntoNydusCanal.bmp", 272, 83, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoUltraliskCavern", "images/UI/description/mutateIntoUltraliskCavern.bmp", 304, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("mutateIntoDefilerMound", "images/UI/description/mutateIntoDefilerMound.bmp", 290, 83, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("spireRequires", "images/UI/description/spireRequires.bmp", 151, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("queensNestRequires", "images/UI/description/queensNestRequires.bmp", 221, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("nydusCanalRequires", "images/UI/description/nydusCanalRequires.bmp", 216, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("ultraliskCavernRequires", "images/UI/description/ultraliskCavernRequires.bmp", 248, 75, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("defilerMoundRequires", "images/UI/description/defilerMoundRequires.bmp", 232, 75, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("mutateIntoLair", "images/UI/description/mutateIntoLair.bmp", 192, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("lairRequires", "images/UI/description/lairRequires.bmp", 167, 79, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("mutateIntoHive", "images/UI/description/mutateIntoHive.bmp", 202, 84, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("hiveRequires", "images/UI/description/hiveRequires.bmp", 149, 75, true, RGB(255, 0, 255));
 
 
 	// 건물 빌드 시 뜨는 이미지들

@@ -145,7 +145,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				SUBWIN->SetFrameIndex(LOWORD(wParam));
 				break;
 			case CTRL_MAIN:
-				SCENEMANAGER->ChangeScene("GameScene");
+				SCENEMANAGER->ChangeScene("MenuScene");
 				DestroyWindow(hWnd);
 				break;
 			}

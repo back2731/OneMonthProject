@@ -40,7 +40,6 @@ HRESULT MenuScene::Init()
 	multiPlayOverlay = IMAGEMANAGER->FindImage("multiPlayOverlay");
 	multiPlayOverlayRect = RectMake(90, 370, multiPlayOverlay->GetFrameWidth(), multiPlayOverlay->GetFrameHeight());
 
-
 	return S_OK;
 }
 
@@ -50,6 +49,8 @@ void MenuScene::Release()
 
 void MenuScene::Update()
 {
+	ShowCursor(false);
+
 	if (PtInRect(&singlePlayRect, m_ptMouse) || PtInRect(&singlePlayOverlayRect, m_ptMouse))
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
@@ -71,7 +72,18 @@ void MenuScene::Update()
 			PostQuitMessage(0);
 		}
 	}
-
+	if (KEYMANAGER->IsOnceKeyDown('S'))
+	{
+		SCENEMANAGER->ChangeScene("GameScene");
+	}
+	if (KEYMANAGER->IsOnceKeyDown('M'))
+	{
+		SCENEMANAGER->ChangeScene("MapTool");
+	}
+	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+	{
+		PostQuitMessage(0);
+	}
 
 	singlePlayframeCount++;
 	singlePlay->SetFrameY(singlePlayframeIndexY);

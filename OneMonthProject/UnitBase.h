@@ -130,6 +130,7 @@ protected:
 
 	CommandBase*	commandSlot[COMMANDMAX];
 	Image*			commandImage[COMMANDMAX];
+	Image*			descriptionImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
 
 	// a스타용 변수들

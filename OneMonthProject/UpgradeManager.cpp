@@ -10,3 +10,4 @@ UpgradeManager::UpgradeManager()
 UpgradeManager::~UpgradeManager()
 {
 }
+

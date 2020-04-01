@@ -139,11 +139,16 @@ void Hatchery::Update()
 
 				if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 				{
-					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 100)
 					{
-						isTransLair = true;
+						if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+						{
+							isTransLair = true;
 
-						buildStatus.buildImage = IMAGEMANAGER->FindImage("transToLair");
+							buildStatus.buildImage = IMAGEMANAGER->FindImage("transToLair");
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
 					}
 				}
 				if (KEYMANAGER->IsOnceKeyDown('L'))
@@ -181,11 +186,17 @@ void Hatchery::Update()
 
 				if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 				{
-					if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+					if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 150)
 					{
-						isTransHive = true;
+						if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+						{
+							isTransHive = true;
 
-						buildStatus.buildImage = IMAGEMANAGER->FindImage("transToHive");
+							buildStatus.buildImage = IMAGEMANAGER->FindImage("transToHive");
+
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 200);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
 					}
 				}
 				if (KEYMANAGER->IsOnceKeyDown('H'))
@@ -291,6 +302,20 @@ void Hatchery::RenderUI(HDC hdc)
 			commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
 			commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 			
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveSpawningpool())
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("mutateIntoLair");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+				else
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("lairRequires");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+			}
+
 			SetTextColor(hdc, RGB(0, 222, 0));
 			sprintf_s(str, "%d", buildStatus.buildingCurrentHp);
 			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 250, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
@@ -309,6 +334,20 @@ void Hatchery::RenderUI(HDC hdc)
 			commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
 			commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
 			commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
+			
+			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
+			{
+				if (BUILDMANAGER->GetHaveQueensnest())
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("mutateIntoHive");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+				else
+				{
+					descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("hiveRequires");
+					descriptionImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top - descriptionImage[SLOT7]->GetHeight());
+				}
+			}
 
 			SetTextColor(hdc, RGB(0, 222, 0));
 			sprintf_s(str, "%d", buildStatus.buildingCurrentHp);
