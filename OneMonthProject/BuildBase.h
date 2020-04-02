@@ -64,6 +64,11 @@ struct BuildStatus
 	int			frameCount;					// 애니메이션용 카운트 변수
 	int			frameIndexX;				// 애니메이션용 인덱스 변수 X
 	int			frameIndexY;				// 애니메이션용 인덱스 변수 Y
+
+	Image*		buildingPortraitsImage;		// 초상화 이미지
+	int			buildingPortraitsCount;		// 초상화 이미지 카운트
+	int			buildingPortraitsFrameX;	// 초상화 이미지 프레임 X
+	int			buildingPortraitsFrameY;	// 초상화 이미지 프레임 Y
 };
 
 class BuildBase
@@ -101,6 +106,7 @@ public:
 	virtual void PlayTransformAnimation();
 
 	void PlayAnimation();
+	void PlayPortraits();
 
 	RECT GetBuildingRect() { return buildStatus.buildRect; }
 	RECT GetBuildingCollisionRect() { return buildStatus.buildCollisionRect; }

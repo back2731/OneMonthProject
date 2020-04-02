@@ -56,6 +56,10 @@ SpawningPool::SpawningPool(int _playerNumber, POINT buildXY)
 
 	buildStatus.buildingProgressWidth = buildStatus.buildingBackProgressImage->GetWidth() / 2;
 	buildStatus.buildingProgressHeight = buildStatus.buildingBackProgressImage->GetHeight() / 2;
+	
+	buildStatus.buildingPortraitsImage = IMAGEMANAGER->FindImage("portraitsOverMind");
+	buildStatus.buildingPortraitsCount = 0;
+	buildStatus.buildingPortraitsFrameY = 0;
 
 	buildStatus.frameCount = 0;
 	buildStatus.frameIndexX = 0;
@@ -93,6 +97,7 @@ void SpawningPool::Update()
 {	
 	// 애니메이션 프레임 업데이트
 	PlayAnimation();
+	PlayPortraits();
 
 	// 해당 객체가 클릭 되었을 때
 	if (isClick && buildStatus.playerNumber == PLAYER1)
@@ -132,6 +137,8 @@ void SpawningPool::Render(HDC hdc)
 
 void SpawningPool::RenderUI(HDC hdc)
 {
+	buildStatus.buildingPortraitsImage->FrameRender(hdc, CAMERAMANAGER->GetCameraCenter().x + 170, CAMERAMANAGER->GetCameraCenter().y + 310, buildStatus.buildingPortraitsFrameX, buildStatus.buildingPortraitsFrameY);
+
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
 		buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);

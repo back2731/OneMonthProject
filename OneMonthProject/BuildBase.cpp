@@ -66,6 +66,22 @@ void BuildBase::PlayAnimation()
 	}
 }
 
+void BuildBase::PlayPortraits()
+{
+	buildStatus.buildingPortraitsCount++;
+	buildStatus.buildingPortraitsImage->SetFrameY(buildStatus.buildingPortraitsFrameY);
+	if (buildStatus.buildingPortraitsCount % 10 == 0)
+	{
+		buildStatus.buildingPortraitsCount = 0;
+		if (buildStatus.buildingPortraitsFrameX >= buildStatus.buildingPortraitsImage->GetMaxFrameX())
+		{
+			buildStatus.buildingPortraitsFrameX = 0;
+		}
+		buildStatus.buildingPortraitsImage->SetFrameX(buildStatus.buildingPortraitsFrameX);
+		buildStatus.buildingPortraitsFrameX++;
+	}
+}
+
 void BuildBase::SetCommandSlot(int rectNumber, CommandBase* commandClass)
 {
 	commandSlot[rectNumber] = commandClass;

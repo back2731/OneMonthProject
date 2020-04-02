@@ -54,6 +54,10 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = 5;
 
+	unitStatus.unitPortraitsImage = IMAGEMANAGER->FindImage("portraitsDrone");
+	unitStatus.unitPortraitsCount = 0;
+	unitStatus.unitPortraitsFrameY = 0;
+
 	isClick = false;
 	progressBar->Init("images/UI/ZergUnitProgressFront.bmp", "images/UI/ZergUnitProgressBack.bmp", unitStatus.unitRect.left, unitStatus.unitRect.bottom, 29 * 2, 9 * 2);
 		
@@ -1434,6 +1438,7 @@ void Drone::Update()
 
 	// 애니메이션의 프레임을 돌린다.
 	PlayAnimation();
+	PlayPortraits();
 
 	// 변태상태가 아닐때 실행하는 부분.
 	if (CheckMutate())
@@ -1531,6 +1536,8 @@ void Drone::RenderUI(HDC hdc)
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 	SetAbilityRect();
+
+	unitStatus.unitPortraitsImage->FrameRender(hdc, CAMERAMANAGER->GetCameraCenter().x + 170,	CAMERAMANAGER->GetCameraCenter().y + 310, unitStatus.unitPortraitsFrameX, unitStatus.unitPortraitsFrameY);
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{

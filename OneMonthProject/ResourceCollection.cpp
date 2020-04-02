@@ -15,7 +15,7 @@ HRESULT ResourceCollection::Init()
 {
 	// 맵툴용 이미지들
 	IMAGEMANAGER->AddFrameImage("BaseMapCreep", "images/MapTile/BaseMapCreep.bmp",
-		0, 0, 32 * 16 * 2, 32 * 17 * 2, 1, 1, true, RGB(255, 0, 255));
+		0, 0, 1536, 1536, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("MapTile1", "images/MapTile/MapTile1.bmp",
 		0, 0, 32 * 16 * 2, 32 * 17 * 2, 16, 17, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddFrameImage("MapTile2", "images/MapTile/MapTile2.bmp",
@@ -446,6 +446,19 @@ HRESULT ResourceCollection::Init()
 	EFFECTMANAGER->AddEffect("blood", "images/Building/blood.bmp", 2400 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 200 * IMAGESIZECONTROL, 5, 0.1f, 10);
 	EFFECTMANAGER->AddEffect("zerglingBlood", "images/Unit/zerglingBlood.bmp", 640 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 128 * IMAGESIZECONTROL, 1, 0.02f, 50);
 
+	// 초상화
+	IMAGEMANAGER->AddImage("zconover", "images/UI/portraits/zconover.bmp", 60 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddFrameImage("portraitsLarva", "images/UI/portraits/portraitsLarva.bmp", 1200 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 20, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsDrone", "images/UI/portraits/portraitsDrone.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsZergling", "images/UI/portraits/portraitsZergling.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsOverlord", "images/UI/portraits/portraitsOverlord.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsHydralisk", "images/UI/portraits/portraitsHydralisk.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsMutalisk", "images/UI/portraits/portraitsMutalisk.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsScourge", "images/UI/portraits/portraitsScourge.bmp", 4200 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 70, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsQueen", "images/UI/portraits/portraitsQueen.bmp", 3300 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 55, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsUltralisk", "images/UI/portraits/portraitsUltralisk.bmp", 3600 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 60, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsDefiler", "images/UI/portraits/portraitsDefiler.bmp", 3600 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 60, 1, true, RGB(0, 222, 0));
+	IMAGEMANAGER->AddFrameImage("portraitsOverMind", "images/UI/portraits/portraitsOverMind.bmp", 4500 * IMAGESIZECONTROL, 56 * IMAGESIZECONTROL, 75, 1, true, RGB(0, 222, 0));
 
 	return S_OK;
 }

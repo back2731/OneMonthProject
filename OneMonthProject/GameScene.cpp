@@ -21,14 +21,15 @@ HRESULT GameScene::Init()
 	UPGRADEMANAGER->Init();
 
 	consoleImage = IMAGEMANAGER->FindImage("ZergConsole");
+	portraitsBorder = IMAGEMANAGER->FindImage("zconover");
 
 	// 檬扁 秦贸府 积己
-	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 4 }));
-	
-	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
-	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 7, 64 * 2 }));
-	enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 12, 64 * 2 }));
-	
+	buildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER1, { 64 * 7, 64 * 14 }));
+	//
+	//enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 2, 64 * 2 }));
+	//enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 7, 64 * 2 }));
+	//enemyBuildingVector.push_back(BUILDMANAGER->CreateHatchery(PLAYER2, { 64 * 12, 64 * 2 }));
+	//
 	enemyUnitVector.push_back(UNITMANAGER->CreateZergling(PLAYER2, { 2200, 400 }));
 
 	gas = RectMake(64 * 10, 64 * 8, 64 * 4, 64 * 2);
@@ -971,7 +972,8 @@ void GameScene::Render()
 			break;
 		}
 	}
-	
+	portraitsBorder->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + 170, CAMERAMANAGER->GetCameraCenter().y + 310);
+
 	SetTextColor(GetMemDC(), RGB(0, 222, 0));
 	
 	mineralImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x + WINSIZEX * 0.2, CAMERAMANAGER->GetCameraCenter().y - WINSIZEY / 2);

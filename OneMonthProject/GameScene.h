@@ -15,6 +15,7 @@ private:
 	TAGTILE				_tileMap[TILE_COUNT_X*TILE_COUNT_Y];
 	
 	Image*				consoleImage;
+	Image*				portraitsBorder;
 
 	RECT				dragRect;
 	RECT				tempRect;

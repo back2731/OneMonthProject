@@ -64,6 +64,11 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	buildStatus.frameCount = 0;
 	buildStatus.frameIndexX = 0;
 	buildStatus.frameIndexY = 0;
+
+	buildStatus.buildingPortraitsImage = IMAGEMANAGER->FindImage("portraitsOverMind");
+	buildStatus.buildingPortraitsCount = 0;
+	buildStatus.buildingPortraitsFrameY = 0;
+
 	isClick = false;
 
 	isTransLair = false;
@@ -466,6 +471,7 @@ void Hatchery::Update()
 		// 애니메이션 프레임 업데이트
 		PlayAnimation();
 	}
+	PlayPortraits();
 }
 
 void Hatchery::Render(HDC hdc)
@@ -508,6 +514,8 @@ void Hatchery::Render(HDC hdc)
 
 void Hatchery::RenderUI(HDC hdc)
 {
+	buildStatus.buildingPortraitsImage->FrameRender(hdc, CAMERAMANAGER->GetCameraCenter().x + 170, CAMERAMANAGER->GetCameraCenter().y + 310, buildStatus.buildingPortraitsFrameX, buildStatus.buildingPortraitsFrameY);
+
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
 		if (hatchery)

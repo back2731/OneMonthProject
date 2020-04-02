@@ -60,6 +60,11 @@ Extractor::Extractor(int _playerNumber, POINT buildXY)
 	buildStatus.frameCount = 0;
 	buildStatus.frameIndexX = 0;
 	buildStatus.frameIndexY = 0;
+	
+	buildStatus.buildingPortraitsImage = IMAGEMANAGER->FindImage("portraitsOverMind");
+	buildStatus.buildingPortraitsCount = 0;
+	buildStatus.buildingPortraitsFrameY = 0;
+
 	isClick = false;
 
 	progressBar->Init("images/UI/ZergProgressFront.bmp", "images/UI/ZergProgressBack.bmp", buildStatus.buildRect.left, buildStatus.buildRect.bottom, 107 * 2, 9 * 2);
@@ -93,6 +98,7 @@ void Extractor::Update()
 {	
 	// 애니메이션 프레임 업데이트
 	PlayAnimation();
+	PlayPortraits();
 
 	// 해당 객체가 클릭 되었을 때
 	if (isClick && buildStatus.playerNumber == PLAYER1)
@@ -110,7 +116,7 @@ void Extractor::Update()
 }
 
 void Extractor::Render(HDC hdc)
-{	
+{
 	//해당 객체가 클릭 되었을 때
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
@@ -132,10 +138,12 @@ void Extractor::Render(HDC hdc)
 
 void Extractor::RenderUI(HDC hdc)
 {
+	buildStatus.buildingPortraitsImage->FrameRender(hdc, CAMERAMANAGER->GetCameraCenter().x + 170, CAMERAMANAGER->GetCameraCenter().y + 310, buildStatus.buildingPortraitsFrameX, buildStatus.buildingPortraitsFrameY);
+
+	buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
+
 	if (isClick && buildStatus.playerNumber == PLAYER1)
 	{
-		buildStatus.buildingWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
-
 		//if (KEYMANAGER->IsToggleKey(VK_TAB))
 		//{
 		//	for (int i = 0; i < COMMANDMAX; i++)

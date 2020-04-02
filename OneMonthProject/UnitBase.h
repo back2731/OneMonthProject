@@ -118,6 +118,13 @@ struct UnitStatus
 	int			frameCount;				// 애니메이션용 카운트 변수
 	int			frameIndexX;			// 애니메이션용 인덱스 변수 X
 	int			frameIndexY;			// 애니메이션용 인덱스 변수 Y
+
+	Image*		unitPortraitsImage;		// 초상화 이미지
+	int			unitPortraitsCount;		// 초상화 이미지 카운트
+	int			unitPortraitsFrameX;	// 초상화 이미지 프레임 X
+	int			unitPortraitsFrameY;	// 초상화 이미지 프레임 Y
+
+
 };
 
 class UnitBase
@@ -213,6 +220,7 @@ public:
 	virtual int GetLarvaNumber();
 
 	void PlayAnimation();
+	void PlayPortraits();
 
 	void SetIsSearch(int _isSearch) { isSearch = _isSearch; }
 

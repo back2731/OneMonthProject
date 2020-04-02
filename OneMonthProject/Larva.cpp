@@ -54,10 +54,13 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 
 	unitStatus.unitProgressWidth = unitStatus.unitBackProgressImage->GetWidth() * 0.5;
 	unitStatus.unitProgressHeight = unitStatus.unitBackProgressImage->GetHeight() * 0.5;
-
-
+	
 	unitStatus.frameCount = 0;
 	unitStatus.frameIndexY = RND->GetInt(16);
+
+	unitStatus.unitPortraitsImage = IMAGEMANAGER->FindImage("portraitsLarva");
+	unitStatus.unitPortraitsCount = 0;
+	unitStatus.unitPortraitsFrameY = 0;
 
 	isClick = false;
 	isTransform = false;
@@ -556,6 +559,7 @@ void Larva::Update()
 	}
 
 	PlayAnimation();
+	PlayPortraits();
 
 	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
 
@@ -629,6 +633,8 @@ void Larva::RenderUI(HDC hdc)
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 	SetAbilityRect();
+
+	unitStatus.unitPortraitsImage->FrameRender(hdc, CAMERAMANAGER->GetCameraCenter().x + 170, CAMERAMANAGER->GetCameraCenter().y + 310, unitStatus.unitPortraitsFrameX, unitStatus.unitPortraitsFrameY);
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{

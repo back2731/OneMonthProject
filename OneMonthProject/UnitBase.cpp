@@ -69,6 +69,23 @@ void UnitBase::PlayAnimation()
 	}
 }
 
+void UnitBase::PlayPortraits()
+{
+	unitStatus.unitPortraitsCount++;
+	unitStatus.unitPortraitsImage->SetFrameY(unitStatus.unitPortraitsFrameY);
+	if (unitStatus.unitPortraitsCount % 10 == 0)
+	{
+		unitStatus.unitPortraitsCount = 0;
+		if (unitStatus.unitPortraitsFrameX >= unitStatus.unitPortraitsImage->GetMaxFrameX())
+		{
+			unitStatus.unitPortraitsFrameX = 0;
+		}
+		unitStatus.unitPortraitsImage->SetFrameX(unitStatus.unitPortraitsFrameX);
+		unitStatus.unitPortraitsFrameX++;
+	}
+
+}
+
 void UnitBase::SetCommandSlot(int rectNumber, CommandBase* commandClass)
 {
 	commandSlot[rectNumber] = commandClass;
