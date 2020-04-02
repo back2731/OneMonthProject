@@ -21,7 +21,9 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	unitStatus.unitMaxHp = 40;
 	unitStatus.unitCurrentHp = 40;
 	unitStatus.unitAtk = 5;
+	unitStatus.unitBaseAtk = 5;
 	unitStatus.unitDef = 0;
+	unitStatus.unitBaseDef = 0;
 	unitStatus.unitTime = 0;
 	unitStatus.unitSpeed = 5;
 
@@ -125,6 +127,8 @@ Drone::Drone(int _playerNumber, POINT birthXY)
 	mutateUltraliskCavernImage = IMAGEMANAGER->FindImage("mutateUltraliskCavern");
 	mutateDefilerMoundImage = IMAGEMANAGER->FindImage("mutateDefilerMound");
 
+	abilityImage[SLOT1] = IMAGEMANAGER->FindImage("carapace");
+	abilityImage[SLOT2] = IMAGEMANAGER->FindImage("spines");
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
 }
@@ -1448,6 +1452,9 @@ void Drone::Update()
 	}
 
 	buildRectRender = RectMake(m_ptMouse.x, m_ptMouse.y, CELL_WIDTH * 4, CELL_HEIGHT * 3);
+
+	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
+
 }
 
 void Drone::Render(HDC hdc)
@@ -1523,6 +1530,8 @@ void Drone::RenderUI(HDC hdc)
 {	
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
+	SetAbilityRect();
+
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
@@ -1574,6 +1583,11 @@ void Drone::RenderUI(HDC hdc)
 			{
 				descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("advancedMutationUI");
 				descriptionImage[SLOT8]->Render(hdc, commandRect[SLOT8].left - descriptionImage[SLOT8]->GetWidth() / 2, commandRect[SLOT8].top - descriptionImage[SLOT8]->GetHeight());
+			}
+			if (PtInRect(&commandRect[SLOT9], m_ptMouse))
+			{
+				descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("burrowUI");
+				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
 			}
 		}
 		if (baseBuildingUIrender)
@@ -1710,6 +1724,10 @@ void Drone::RenderUI(HDC hdc)
 				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
 			}
 		}				
+		
+		// 능력치 이미지 렌더
+		abilityImage[SLOT1]->Render(hdc, abilityRect[SLOT1].left, abilityRect[SLOT1].top);
+		abilityImage[SLOT2]->Render(hdc, abilityRect[SLOT2].left, abilityRect[SLOT2].top);
 
 		SetTextColor(hdc, RGB(0, 222, 0));
 		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
@@ -1720,6 +1738,41 @@ void Drone::RenderUI(HDC hdc)
 		SetTextColor(hdc, RGB(255, 255, 255));
 		sprintf_s(str, "Zerg Drone");
 		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
+
+
+		sprintf_s(str, "kills : 0");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 60, CAMERAMANAGER->GetCameraCenter().y + 340, str, strlen(str));
+
+		// 능력치 업그레이드 단계 렌더
+		sprintf_s(str, "%d", UPGRADEMANAGER->GetEvolveCarapace());
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 60, CAMERAMANAGER->GetCameraCenter().y + 419, str, strlen(str));
+
+		sprintf_s(str, "0");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 10, CAMERAMANAGER->GetCameraCenter().y + 419, str, strlen(str));
+
+		// 업그레이드 반영 렌더
+		HFONT myFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "돋움체");
+		HFONT oldFont = (HFONT)SelectObject(hdc, myFont);
+
+		if (PtInRect(&abilityRect[SLOT1], m_ptMouse))
+		{
+			abilityDescriptionImage[SLOT1] = IMAGEMANAGER->FindImage("zergCarapaceUI");
+			abilityDescriptionImage[SLOT1]->Render(hdc, abilityRect[SLOT1].right, abilityRect[SLOT1].top);
+
+			sprintf_s(str, "%d + %d", unitStatus.unitBaseDef, UPGRADEMANAGER->GetEvolveCarapace());
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 42, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		}
+		if (PtInRect(&abilityRect[SLOT2], m_ptMouse))
+		{
+			abilityDescriptionImage[SLOT2] = IMAGEMANAGER->FindImage("spinesUI");
+			abilityDescriptionImage[SLOT2]->Render(hdc, abilityRect[SLOT2].right, abilityRect[SLOT2].top);
+
+			sprintf_s(str, "%d", unitStatus.unitBaseAtk);
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 129, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		}
+
+		SelectObject(hdc, oldFont);
+		DeleteObject(myFont);
 	}
 
 

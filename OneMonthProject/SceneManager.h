@@ -27,7 +27,5 @@ public:
 	GameNode* AddScene(string sceneName, GameNode* scene);
 
 	HRESULT ChangeScene(string sceneName);
-
-
 };
 

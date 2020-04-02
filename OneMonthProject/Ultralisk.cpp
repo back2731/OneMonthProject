@@ -18,10 +18,12 @@ Ultralisk::Ultralisk(int _playerNumber, POINT birthXY)
 
 	unitStatus.playerNumber = _playerNumber;
 
-	unitStatus.unitMaxHp = 35;
-	unitStatus.unitCurrentHp = 35;
-	unitStatus.unitAtk = 5;
-	unitStatus.unitDef = 0;
+	unitStatus.unitMaxHp = 400;
+	unitStatus.unitCurrentHp = 400;
+	unitStatus.unitAtk = 20;
+	unitStatus.unitDef = 1;
+	unitStatus.unitBaseAtk = 20;
+	unitStatus.unitBaseDef = 1;
 	unitStatus.unitTime = 0;
 	unitStatus.unitSpeed = 4;
 
@@ -76,8 +78,12 @@ Ultralisk::Ultralisk(int _playerNumber, POINT birthXY)
 	commandImage[SLOT4] = IMAGEMANAGER->FindImage("Patrol");
 	commandImage[SLOT5] = IMAGEMANAGER->FindImage("Hold");
 
+	abilityImage[SLOT1] = IMAGEMANAGER->FindImage("carapace");
+	abilityImage[SLOT2] = IMAGEMANAGER->FindImage("kaiserBlades");
+
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
+	SetAbilityRect();
 }
 
 HRESULT Ultralisk::Init()
@@ -158,6 +164,9 @@ void Ultralisk::Update()
 	// 유닛 렉트를 재설정해준다.
 	unitStatus.unitRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImageWidthHalf, unitStatus.unitImageHeightHalf);
 	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, unitStatus.unitImage->GetFrameWidth(), unitStatus.unitImage->GetFrameHeight());
+
+	unitStatus.unitAtk = 20 + UPGRADEMANAGER->GetMeleeAttack() * 3;
+	unitStatus.unitDef = 1 + UPGRADEMANAGER->GetEvolveCarapace();
 }
 
 void Ultralisk::Render(HDC hdc)
@@ -184,6 +193,8 @@ void Ultralisk::RenderUI(HDC hdc)
 {	
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
+	SetAbilityRect();
+
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitWireFrame->Render(hdc, CAMERAMANAGER->GetCameraCenter().x - 260, CAMERAMANAGER->GetCameraCenter().y + 280);
@@ -202,6 +213,37 @@ void Ultralisk::RenderUI(HDC hdc)
 		commandImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
 		commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
 
+		// 명령 슬롯 설명 렌더
+		if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+		{
+			descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("MoveUI");
+			descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+		}
+		if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+		{
+			descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("StopUI");
+			descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+		}
+		if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+		{
+			descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("AttackUI");
+			descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+		}
+		if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+		{
+			descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("PatrolUI");
+			descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+		}
+		if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+		{
+			descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("holdPositionUI");
+			descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+		}
+
+		// 능력치 이미지 렌더
+		abilityImage[SLOT1]->Render(hdc, abilityRect[SLOT1].left, abilityRect[SLOT1].top);
+		abilityImage[SLOT2]->Render(hdc, abilityRect[SLOT2].left, abilityRect[SLOT2].top);
+		
 		SetTextColor(hdc, RGB(0, 222, 0));
 		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
 		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 240, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
@@ -211,6 +253,41 @@ void Ultralisk::RenderUI(HDC hdc)
 		SetTextColor(hdc, RGB(255, 255, 255));
 		sprintf_s(str, "Zerg Ultralisk");
 		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
+
+		sprintf_s(str, "kills : 0");
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 60, CAMERAMANAGER->GetCameraCenter().y + 340, str, strlen(str));
+
+		// 능력치 업그레이드 단계 렌더
+		sprintf_s(str, "%d", UPGRADEMANAGER->GetEvolveCarapace());
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 60, CAMERAMANAGER->GetCameraCenter().y + 419, str, strlen(str));
+
+		sprintf_s(str, "%d", UPGRADEMANAGER->GetMeleeAttack());
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 10, CAMERAMANAGER->GetCameraCenter().y + 419, str, strlen(str));
+
+		// 업그레이드 반영 렌더
+		HFONT myFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "돋움체");
+		HFONT oldFont = (HFONT)SelectObject(hdc, myFont);
+
+		if (PtInRect(&abilityRect[SLOT1], m_ptMouse))
+		{
+			abilityDescriptionImage[SLOT1] = IMAGEMANAGER->FindImage("zergCarapaceUI");
+			abilityDescriptionImage[SLOT1]->Render(hdc, abilityRect[SLOT1].right, abilityRect[SLOT1].top);
+
+			sprintf_s(str, "%d + %d", unitStatus.unitBaseDef, UPGRADEMANAGER->GetEvolveCarapace());
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 42, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		}
+		if (PtInRect(&abilityRect[SLOT2], m_ptMouse))
+		{
+			abilityDescriptionImage[SLOT2] = IMAGEMANAGER->FindImage("kaiserBladesUI");
+			abilityDescriptionImage[SLOT2]->Render(hdc, abilityRect[SLOT2].right, abilityRect[SLOT2].top);
+
+			sprintf_s(str, "%d + %d", unitStatus.unitBaseAtk, UPGRADEMANAGER->GetMeleeAttack() * 3);
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 129, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		}
+
+		SelectObject(hdc, oldFont);
+		DeleteObject(myFont);
+
 	}
 }
 

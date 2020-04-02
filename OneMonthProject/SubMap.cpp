@@ -22,6 +22,7 @@ HRESULT SubMap::Init()
 	int currentTile = 0;
 
 	isDebug = false;
+	//mouseCursor = IMAGEMANAGER->FindImage("Cursor");
 
 	return S_OK;
 }
@@ -32,7 +33,6 @@ void SubMap::Release()
 
 void SubMap::Update()
 {
-	ShowCursor(true);
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case CTRL_NUM1:
@@ -72,6 +72,23 @@ void SubMap::Update()
 	{
 		isDebug = !isDebug;
 	}
+	
+	ShowCursor(true);
+
+	//mouseCursor = IMAGEMANAGER->FindImage("Cursor");
+	//frameCount++;
+	//mouseCursor->SetFrameY(0);
+	//if (frameCount % 10 == 0)
+	//{
+	//	frameCount = 0;
+	//	if (_frameX >= mouseCursor->GetMaxFrameX())
+	//	{
+	//		_frameX = 0;
+	//	}
+	//	mouseCursor->SetFrameX(_frameX);
+	//	_frameX++;
+	//}
+
 }
 
 void SubMap::Render(HDC hdc)
@@ -110,5 +127,6 @@ void SubMap::Render(HDC hdc)
 				RectangleMake(hdc, rc[i][j]);
 			}
 		}
-	}
+	}	
+	//mouseCursor->FrameRender(hdc, SUBWIN->GetPtMouse().x, SUBWIN->GetPtMouse().y, _frameX, _frameY);
 }

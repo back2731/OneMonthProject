@@ -77,11 +77,12 @@ void SubWindow::Update()
 	{
 		currentScene->Update();
 	}
-	ShowCursor(true);
 }
 
 void SubWindow::Render()
 {
+	ShowCursor(true);
+
 	HDC hdc = GetDC(hWnd);
 	PatBlt(m_backBuffer->GetMemDC(), 0, 0, SUBWINSIZEX, SUBWINSIZEY, WHITENESS);
 

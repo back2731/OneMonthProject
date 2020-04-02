@@ -25,7 +25,9 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	unitStatus.unitMaxHp = 25;
 	unitStatus.unitCurrentHp = 25;
 	unitStatus.unitAtk = 0;
+	unitStatus.unitBaseAtk = 0;
 	unitStatus.unitDef = 10;
+	unitStatus.unitBaseDef = 10;
 	unitStatus.unitTime = 0;
 
 	unitStatus.unitMineralPrice = 50;
@@ -98,8 +100,11 @@ Larva::Larva(int _playerNumber, POINT birthXY, int _hatcheryX, int _hatcheryY, i
 	descriptionImage[SLOT7] = IMAGEMANAGER->FindImage("morphToQueen");
 	descriptionImage[SLOT8] = IMAGEMANAGER->FindImage("morphToUltralisk");
 	descriptionImage[SLOT9] = IMAGEMANAGER->FindImage("morphTodefiler");
+	abilityImage[SLOT1] = IMAGEMANAGER->FindImage("carapace");
 
+	// 슬롯 위치 카메라 반영
 	SetCommandRect();
+	SetAbilityRect();
 }
 
 HRESULT Larva::Init()
@@ -551,6 +556,9 @@ void Larva::Update()
 	}
 
 	PlayAnimation();
+
+	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
+
 }
 
 void Larva::Render(HDC hdc)
@@ -620,6 +628,7 @@ void Larva::RenderUI(HDC hdc)
 {	
 	// 슬롯 위치 카메라 반영
 	SetCommandRect();
+	SetAbilityRect();
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
@@ -741,6 +750,9 @@ void Larva::RenderUI(HDC hdc)
 				descriptionImage[SLOT9]->Render(hdc, commandRect[SLOT9].left - descriptionImage[SLOT9]->GetWidth() + 50, commandRect[SLOT9].top - descriptionImage[SLOT9]->GetHeight());
 			}
 		}
+		
+		// 능력치 이미지 렌더
+		abilityImage[SLOT1]->Render(hdc, abilityRect[SLOT1].left, abilityRect[SLOT1].top);
 
 		SetTextColor(hdc, RGB(0, 222, 0));
 		sprintf_s(str, "%d", unitStatus.unitCurrentHp);
@@ -751,6 +763,27 @@ void Larva::RenderUI(HDC hdc)
 		SetTextColor(hdc, RGB(255, 255, 255));
 		sprintf_s(str, "Zerg Larva");
 		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 80, CAMERAMANAGER->GetCameraCenter().y + 290, str, strlen(str));
+
+		// 능력치 업그레이드 단계 렌더
+		sprintf_s(str, "%d", UPGRADEMANAGER->GetEvolveCarapace());
+		TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x - 60, CAMERAMANAGER->GetCameraCenter().y + 419, str, strlen(str));
+
+		// 업그레이드 반영 렌더
+		HFONT myFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "돋움체");
+		HFONT oldFont = (HFONT)SelectObject(hdc, myFont);
+
+		if (PtInRect(&abilityRect[SLOT1], m_ptMouse))
+		{
+			abilityDescriptionImage[SLOT1] = IMAGEMANAGER->FindImage("zergCarapaceUI");
+			abilityDescriptionImage[SLOT1]->Render(hdc, abilityRect[SLOT1].right, abilityRect[SLOT1].top);
+
+			sprintf_s(str, "%d + %d", unitStatus.unitBaseDef, UPGRADEMANAGER->GetEvolveCarapace());
+			TextOut(hdc, CAMERAMANAGER->GetCameraCenter().x + 42, CAMERAMANAGER->GetCameraCenter().y + 410, str, strlen(str));
+		}
+
+		SelectObject(hdc, oldFont);
+		DeleteObject(myFont);
+
 	}
 }
 

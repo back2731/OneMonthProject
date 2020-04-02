@@ -84,6 +84,10 @@ Hatchery::Hatchery(int _playerNumber, POINT buildXY)
 	commandImage[SLOT1] = IMAGEMANAGER->FindImage("SelectLarva");
 	commandImage[SLOT2] = IMAGEMANAGER->FindImage("SetRallyPoint");
 	commandImage[SLOT3] = IMAGEMANAGER->FindImage("EvolveBurrow");
+	commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+	commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+	commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+
 	commandImage[SLOT7] = IMAGEMANAGER->FindImage("LairRequires");
 
 	if (buildStatus.playerNumber == PLAYER1)
@@ -159,7 +163,7 @@ void Hatchery::Update()
 				}
 			}
 		}
-		else if (lair)
+		if (lair)
 		{
 			buildStatus.buidKind = LAIR;
 			commandImage[SLOT7] = IMAGEMANAGER->FindImage("DisabledHiveRequires"); 
@@ -178,7 +182,117 @@ void Hatchery::Update()
 				UNITMANAGER->SetSelectLarva(true);
 				UNITMANAGER->SetXY(buildStatus.buildRectX, buildStatus.buildRectY);
 			}
+			
+			// 오버로드 업그레이드
+			if (!UPGRADEMANAGER->GetEvolveVentralSacs())
+			{
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
 
+				if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickEvolveVentralSacs");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 200)
+						{
+							commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+							UPGRADEMANAGER->SetEvolveVentralSacs(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 200);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 200);
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('V'))
+				{
+					commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickEvolveVentralSacs");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('V'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 200)
+					{
+						commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+						UPGRADEMANAGER->SetEvolveVentralSacs(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 200);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 200);
+					}
+				}
+			}
+			if (!UPGRADEMANAGER->GetEvolveAntennae())
+			{
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+
+				if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolveAntennae");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+						{
+							commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+							UPGRADEMANAGER->SetEvolveAntennae(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('A'))
+				{
+					commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolveAntennae");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('A'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+					{
+						commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+						UPGRADEMANAGER->SetEvolveAntennae(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+					}
+				}
+			}
+			if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+
+				if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickEvolvePneumatizedCarapace");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+						{
+							commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+							UPGRADEMANAGER->SetEvolvePneumatizedCarapace(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
+					}
+				}					
+				if (KEYMANAGER->IsStayKeyDown('P'))
+				{
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickEvolvePneumatizedCarapace");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('P'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+					{
+						commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+						UPGRADEMANAGER->SetEvolvePneumatizedCarapace(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+					}
+				}
+			}
+			
 			// 하이브 변태
 			if (BUILDMANAGER->GetHaveQueensnest())
 			{
@@ -207,7 +321,7 @@ void Hatchery::Update()
 				}
 			}
 		}
-		else if (hive)
+		if (hive)
 		{
 			buildStatus.buidKind = HIVE;
 			// 셀렉트 라바
@@ -223,6 +337,116 @@ void Hatchery::Update()
 			{
 				UNITMANAGER->SetSelectLarva(true);
 				UNITMANAGER->SetXY(buildStatus.buildRectX, buildStatus.buildRectY);
+			}
+
+			// 오버로드 업그레이드
+			if (!UPGRADEMANAGER->GetEvolveVentralSacs())
+			{
+				commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+
+				if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickEvolveVentralSacs");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 200)
+						{
+							commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+							UPGRADEMANAGER->SetEvolveVentralSacs(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 200);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 200);
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('V'))
+				{
+					commandImage[SLOT4] = IMAGEMANAGER->FindImage("ClickEvolveVentralSacs");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('V'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 200 && PLAYERMANAGER->GetVespeneGas() >= 200)
+					{
+						commandImage[SLOT4] = IMAGEMANAGER->FindImage("evolveVentralSacs");
+						UPGRADEMANAGER->SetEvolveVentralSacs(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 200);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 200);
+					}
+				}
+			}
+			if (!UPGRADEMANAGER->GetEvolveAntennae())
+			{
+				commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+
+				if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolveAntennae");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+						{
+							commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+							UPGRADEMANAGER->SetEvolveAntennae(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('A'))
+				{
+					commandImage[SLOT5] = IMAGEMANAGER->FindImage("ClickEvolveAntennae");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('A'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+					{
+						commandImage[SLOT5] = IMAGEMANAGER->FindImage("evolveAntennae");
+						UPGRADEMANAGER->SetEvolveAntennae(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+					}
+				}
+			}
+			if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+			{
+				commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+
+				if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+				{
+					if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+					{
+						commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickEvolvePneumatizedCarapace");
+					}
+					if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+					{
+						if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+						{
+							commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+							UPGRADEMANAGER->SetEvolvePneumatizedCarapace(true);
+							PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+							PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+						}
+					}
+				}
+				if (KEYMANAGER->IsStayKeyDown('P'))
+				{
+					commandImage[SLOT6] = IMAGEMANAGER->FindImage("ClickEvolvePneumatizedCarapace");
+				}
+				if (KEYMANAGER->IsOnceKeyUp('P'))
+				{
+					if (PLAYERMANAGER->GetMineral() >= 150 && PLAYERMANAGER->GetVespeneGas() >= 150)
+					{
+						commandImage[SLOT6] = IMAGEMANAGER->FindImage("evolvePneumatizedCarapace");
+						UPGRADEMANAGER->SetEvolvePneumatizedCarapace(true);
+						PLAYERMANAGER->SetMineral(PLAYERMANAGER->GetMineral() - 150);
+						PLAYERMANAGER->SetVespeneGas(PLAYERMANAGER->GetVespeneGas() - 150);
+					}
+				}
 			}
 		}
 	}
@@ -302,6 +526,21 @@ void Hatchery::RenderUI(HDC hdc)
 			commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
 			commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 			
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("selectLarva");
+				descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("setRallyPoint");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("evolveBurrow");
+				descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+			}
 			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 			{
 				if (BUILDMANAGER->GetHaveSpawningpool())
@@ -333,8 +572,60 @@ void Hatchery::RenderUI(HDC hdc)
 			commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
 			commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
 			commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+			if (!UPGRADEMANAGER->GetEvolveVentralSacs()) 
+			{ 
+				commandImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top); 
+			}
+			if (!UPGRADEMANAGER->GetEvolveAntennae())
+			{
+				commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+			}
+			if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+			{
+				commandImage[SLOT6]->Render(hdc, commandRect[SLOT6].left, commandRect[SLOT6].top);
+			}
 			commandImage[SLOT7]->Render(hdc, commandRect[SLOT7].left, commandRect[SLOT7].top);
 			
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("selectLarva");
+				descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("setRallyPoint");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("evolveBurrow");
+				descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolveVentralSacs())
+				{
+					descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("descriptionEvolveVentralSacs");
+					descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left - 50, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolveAntennae())
+				{
+					descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("descriptionEvolveAntennae");
+					descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+				{
+					descriptionImage[SLOT6] = IMAGEMANAGER->FindImage("descriptionEvolvePneumatizedCarapace");
+					descriptionImage[SLOT6]->Render(hdc, commandRect[SLOT6].left - descriptionImage[SLOT6]->GetWidth() + 50, commandRect[SLOT6].top - descriptionImage[SLOT6]->GetHeight());
+				}
+			}
+
 			if (PtInRect(&commandRect[SLOT7], m_ptMouse))
 			{
 				if (BUILDMANAGER->GetHaveQueensnest())
@@ -373,6 +664,59 @@ void Hatchery::RenderUI(HDC hdc)
 			commandImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].top);
 			commandImage[SLOT2]->Render(hdc, commandRect[SLOT2].left, commandRect[SLOT2].top);
 			commandImage[SLOT3]->Render(hdc, commandRect[SLOT3].left, commandRect[SLOT3].top);
+
+			if (!UPGRADEMANAGER->GetEvolveVentralSacs())
+			{
+				commandImage[SLOT4]->Render(hdc, commandRect[SLOT4].left, commandRect[SLOT4].top);
+			}
+			if (!UPGRADEMANAGER->GetEvolveAntennae())
+			{
+				commandImage[SLOT5]->Render(hdc, commandRect[SLOT5].left, commandRect[SLOT5].top);
+			}
+			if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+			{
+				commandImage[SLOT6]->Render(hdc, commandRect[SLOT6].left, commandRect[SLOT6].top);
+			}
+
+			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
+			{
+				descriptionImage[SLOT1] = IMAGEMANAGER->FindImage("selectLarva");
+				descriptionImage[SLOT1]->Render(hdc, commandRect[SLOT1].left, commandRect[SLOT1].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
+			{
+				descriptionImage[SLOT2] = IMAGEMANAGER->FindImage("setRallyPoint");
+				descriptionImage[SLOT2]->Render(hdc, commandRect[SLOT2].left - descriptionImage[SLOT2]->GetWidth() / 2, commandRect[SLOT2].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
+			{
+				descriptionImage[SLOT3] = IMAGEMANAGER->FindImage("evolveBurrow");
+				descriptionImage[SLOT3]->Render(hdc, commandRect[SLOT3].left - descriptionImage[SLOT3]->GetWidth() + 50, commandRect[SLOT3].bottom);
+			}
+			if (PtInRect(&commandRect[SLOT4], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolveVentralSacs())
+				{
+					descriptionImage[SLOT4] = IMAGEMANAGER->FindImage("descriptionEvolveVentralSacs");
+					descriptionImage[SLOT4]->Render(hdc, commandRect[SLOT4].left - 50, commandRect[SLOT4].top - descriptionImage[SLOT4]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT5], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolveAntennae())
+				{
+					descriptionImage[SLOT5] = IMAGEMANAGER->FindImage("descriptionEvolveAntennae");
+					descriptionImage[SLOT5]->Render(hdc, commandRect[SLOT5].left - descriptionImage[SLOT5]->GetWidth() / 2, commandRect[SLOT5].top - descriptionImage[SLOT5]->GetHeight());
+				}
+			}
+			if (PtInRect(&commandRect[SLOT6], m_ptMouse))
+			{
+				if (!UPGRADEMANAGER->GetEvolvePneumatizedCarapace())
+				{
+					descriptionImage[SLOT6] = IMAGEMANAGER->FindImage("descriptionEvolvePneumatizedCarapace");
+					descriptionImage[SLOT6]->Render(hdc, commandRect[SLOT6].left - descriptionImage[SLOT6]->GetWidth() + 50, commandRect[SLOT6].top - descriptionImage[SLOT6]->GetHeight());
+				}
+			}
 
 			SetTextColor(hdc, RGB(0, 222, 0));
 			sprintf_s(str, "%d", buildStatus.buildingCurrentHp);

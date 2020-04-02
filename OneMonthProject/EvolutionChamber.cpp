@@ -103,6 +103,8 @@ void EvolutionChamber::Update()
 		// 밀리 어택 업그레이드
 		if (UPGRADEMANAGER->GetMeleeAttack() == 0)
 		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("upgradeMeleeAttackIcon");
+
 			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 			{
 				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
@@ -139,6 +141,8 @@ void EvolutionChamber::Update()
 		}
 		else if (UPGRADEMANAGER->GetMeleeAttack() == 1 && BUILDMANAGER->GetHaveLair())
 		{
+			commandImage[SLOT1] = IMAGEMANAGER->FindImage("upgradeMeleeAttackIcon");
+
 			if (PtInRect(&commandRect[SLOT1], m_ptMouse))
 			{
 				commandImage[SLOT1] = IMAGEMANAGER->FindImage("upgradeMeleeAttackIcon");
@@ -221,6 +225,8 @@ void EvolutionChamber::Update()
 		// 미사일 어택 업그레이드
 		if (UPGRADEMANAGER->GetMissileAttack() == 0)
 		{
+			commandImage[SLOT2] = IMAGEMANAGER->FindImage("upgradeMissileAttackIcon");
+
 			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
 				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
@@ -257,6 +263,8 @@ void EvolutionChamber::Update()
 		}
 		else if (UPGRADEMANAGER->GetMissileAttack() == 1 && BUILDMANAGER->GetHaveLair())
 		{
+			commandImage[SLOT2] = IMAGEMANAGER->FindImage("upgradeMissileAttackIcon");
+
 			if (PtInRect(&commandRect[SLOT2], m_ptMouse))
 			{
 				commandImage[SLOT2] = IMAGEMANAGER->FindImage("upgradeMissileAttackIcon");
@@ -339,11 +347,13 @@ void EvolutionChamber::Update()
 		// 표피 업그레이드
 		if (UPGRADEMANAGER->GetEvolveCarapace() == 0)
 		{
+			commandImage[SLOT3] = IMAGEMANAGER->FindImage("evolveCarapaceIcon");
+
 			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
 			{
 				if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 				{
-					commandImage[SLOT3] = IMAGEMANAGER->FindImage("ClickUpgradeMissileAttackIcon");
+					commandImage[SLOT3] = IMAGEMANAGER->FindImage("ClickEvolveCarapaceIcon");
 				}
 				if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 				{
@@ -375,6 +385,8 @@ void EvolutionChamber::Update()
 		}
 		else if (UPGRADEMANAGER->GetEvolveCarapace() == 1 && BUILDMANAGER->GetHaveLair())
 		{
+			commandImage[SLOT3] = IMAGEMANAGER->FindImage("evolveCarapaceIcon");
+
 			if (PtInRect(&commandRect[SLOT3], m_ptMouse))
 			{
 				commandImage[SLOT3] = IMAGEMANAGER->FindImage("evolveCarapaceIcon");

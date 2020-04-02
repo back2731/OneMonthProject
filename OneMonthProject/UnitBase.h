@@ -24,6 +24,9 @@
 #define TILEY 64
 #define TILESIZE TILEX*TILEY
 
+#define ABILITYMAX 3
+
+
 enum STATE
 {
 	STATE_NONE,
@@ -75,6 +78,8 @@ struct UnitStatus
 	int			unitCurrentHp;			// 유닛 현재 체력
 	int			unitAtk;				// 유닛 공격력
 	int			unitDef;				// 유닛 방어력
+	int			unitBaseAtk;			// 유닛 공격력
+	int			unitBaseDef;			// 유닛 방어력
 	int			unitTime;				// 유닛 생산 시간
 	float		unitSpeed;				// 유닛 속도
 
@@ -132,6 +137,10 @@ protected:
 	Image*			commandImage[COMMANDMAX];
 	Image*			descriptionImage[COMMANDMAX];
 	RECT			commandRect[COMMANDMAX];
+
+	Image*			abilityDescriptionImage[ABILITYMAX];
+	Image*			abilityImage[ABILITYMAX];
+	RECT			abilityRect[ABILITYMAX];
 
 	// a스타용 변수들
 	TAGTILE			_tileMap[TILE_COUNT_X * TILE_COUNT_Y];
@@ -236,6 +245,7 @@ public:
 
 	void SetCommandSlot(int rectNumber, CommandBase* commandClass);
 	void SetCommandRect();
+	void SetAbilityRect();
 
 	UNITKIND GetUnitKind() { return unitStatus.unitKind; }
 

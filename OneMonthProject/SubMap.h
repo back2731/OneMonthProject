@@ -13,6 +13,13 @@ private:
 
 	int frameX, frameY;
 
+	//Image* mouseCursor;
+
+	//int _frameX;
+	//int _frameY;
+	//int frameCount;
+	//int frameIndex;
+
 public:
 	SubMap();
 	~SubMap();

@@ -49,16 +49,15 @@ void MapToolScene::Release()
 
 void MapToolScene::Update()
 {
+	ShowCursor(false);
+
 	CAMERAMANAGER->MoveCamera();
 
 	cameraRect = RectMake(CAMERAMANAGER->GetCameraXY().x - WINSIZEX, CAMERAMANAGER->GetCameraXY().y - WINSIZEY, WINSIZEX * 2, WINSIZEY * 2);
 
-	ShowCursor(false);
-
 	// 서브윈도우 업데이트
 #ifdef SUBWINOPEN
 	SUBWIN->Update();
-
 #endif // SUBWINOPEN
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_TAB))
@@ -94,16 +93,16 @@ void MapToolScene::Update()
 			_locationY = locationY;
 		}
 	}	
-
 }
 
 void MapToolScene::Render()
 {
+
 	// 서브윈도우 랜더링
 #ifdef SUBWINOPEN
 	SUBWIN->Render();
 #endif // SUBWINOPEN
-
+	
 	//좌표 출력.
 	sprintf_s(str, "%d", _locationX * TILE_COUNT_X + _locationY);
 	TextOut(GetMemDC(), WINSIZEX - 100, 0, str, strlen(str));

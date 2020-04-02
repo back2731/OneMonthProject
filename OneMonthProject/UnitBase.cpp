@@ -85,6 +85,15 @@ void UnitBase::SetCommandRect()
 	}
 }
 
+void UnitBase::SetAbilityRect()
+{
+	for (int i = 0; i < ABILITYMAX; i++)
+	{
+		abilityRect[i] = RectMake(CAMERAMANAGER->GetCameraCenter().x + i * 70 - 110, CAMERAMANAGER->GetCameraCenter().y + 370, 70, 70);
+	}
+
+}
+
 void UnitBase::InitAstar()
 {
 	LoadMap(0);

@@ -82,4 +82,7 @@ public:
 	MapToolScene* GetMap() { return map; }
 
 	void CreateSubWindow();
+
+	POINT GetPtMouse() { return ptMouse; }
+
 };
