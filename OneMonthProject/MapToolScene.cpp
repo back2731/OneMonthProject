@@ -108,6 +108,19 @@ void MapToolScene::Render()
 	TextOut(GetMemDC(), WINSIZEX - 100, 0, str, strlen(str));
 
 	DrawTileMap();
+
+	if (KEYMANAGER->IsToggleKey(VK_HOME))
+	{
+		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (_tileMap[i].block == true)
+			{
+				FillRect(GetMemDC(), &_tileMap[i].rect, brush);
+			}
+		}
+		DeleteObject(brush);
+	}
 }
 
 void MapToolScene::SetSubWindow()
@@ -360,7 +373,7 @@ TILEKIND MapToolScene::SelectKind(int frameX, int frameY)
 		{
 			return TILEKIND_STAIR;
 		}
-		else if (frameY == 9 && (frameX == 1 || frameX == 4 || frameX == 5 || frameX == 8 || frameX == 9 || frameX == 10 || frameX == 13 || frameX == 14))
+		else if (frameY == 9 && (frameX == 1 || frameX == 4 || frameX == 5 || frameX == 9 || frameX == 10 || frameX == 13 || frameX == 14))
 		{
 			return TILEKIND_STAIR;
 		}

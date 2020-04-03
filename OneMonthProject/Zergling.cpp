@@ -215,7 +215,11 @@ void Zergling::Update()
 
 void Zergling::Render(HDC hdc)
 {
-	
+	if (KEYMANAGER->IsToggleKey(VK_MBUTTON))
+	{
+		Rectangle(hdc, unitStatus.unitSearchingRect.left, unitStatus.unitSearchingRect.top, unitStatus.unitSearchingRect.right, unitStatus.unitSearchingRect.bottom);
+	}
+
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitSelectImage->Render
@@ -241,12 +245,6 @@ void Zergling::Render(HDC hdc)
 		unitStatus.enemyUnitImage1->FrameRender(hdc, unitStatus.unitRectX - unitStatus.unitImageWidthHalf,
 			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}
-
-	if (KEYMANAGER->IsToggleKey(VK_MBUTTON))
-	{
-		Rectangle(hdc, unitStatus.unitAtkRect.left, unitStatus.unitAtkRect.top, unitStatus.unitAtkRect.right, unitStatus.unitAtkRect.bottom);
-	}
-
 }
 
 void Zergling::RenderUI(HDC hdc)

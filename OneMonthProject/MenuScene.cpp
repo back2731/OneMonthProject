@@ -50,6 +50,7 @@ void MenuScene::Release()
 void MenuScene::Update()
 {
 	ShowCursor(false);
+	CAMERAMANAGER->SetCameraCenter({ 600, 450 });
 
 	if (PtInRect(&singlePlayRect, m_ptMouse) || PtInRect(&singlePlayOverlayRect, m_ptMouse))
 	{
@@ -235,9 +236,9 @@ void MenuScene::Render()
 	multiPlayTail->Render(GetMemDC(), 345, 665);
 	multiPlayText->Render(GetMemDC(), 400, 475);
 
-	sprintf_s(str, "x : %d", m_ptMouse.x);
-	TextOut(GetMemDC(), 0, 0, str, strlen(str));
-	sprintf_s(str, "y : %d", m_ptMouse.y);
-	TextOut(GetMemDC(), 70, 0, str, strlen(str));
+	//sprintf_s(str, "x : %d", m_ptMouse.x);
+	//TextOut(GetMemDC(), 0, 0, str, strlen(str));
+	//sprintf_s(str, "y : %d", m_ptMouse.y);
+	//TextOut(GetMemDC(), 70, 0, str, strlen(str));
 
 }

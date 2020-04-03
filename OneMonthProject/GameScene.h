@@ -49,6 +49,18 @@ private:
 	
 	bool				searching;
 
+	bool				isGame;
+	bool				isVictory;
+	bool				isDefeat;
+
+	Image*				blackBG;
+	Image*				victoryImage;
+	Image*				defeatImage;
+
+	Image*				escMenu;
+	RECT				exitGame;
+	RECT				quitMission;
+
 public:
 	GameScene();
 	~GameScene();

@@ -41,6 +41,11 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddImage("exitText", "images/UI/menu/exitText.bmp", 86, 34, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("mapToolText", "images/UI/menu/mapToolText.bmp", 180, 40, true, RGB(255, 0, 255));
 	IMAGEMANAGER->AddImage("multiPlayText", "images/UI/menu/multiPlayText.bmp", 187, 41, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->AddImage("black", "images/UI/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("defeat", "images/UI/defeat.bmp", 666, 288, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("victory", "images/UI/victory.bmp", 666, 288, true, RGB(255, 0, 255));
+	IMAGEMANAGER->AddImage("escMenu", "images/UI/escMenu.bmp", 612, 648, true, RGB(255, 0, 255));
 
 	// UI ÀÌ¹ÌÁö
 	IMAGEMANAGER->AddImage("ZergConsole", "images/UI/ZergConsole.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
