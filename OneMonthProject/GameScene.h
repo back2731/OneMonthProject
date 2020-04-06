@@ -13,7 +13,9 @@ private:
 	vector<UnitBase*>	enemyUnitVector;
 
 	TAGTILE				_tileMap[TILE_COUNT_X*TILE_COUNT_Y];
-	
+	RECT				miniMap[TILESIZE];
+	Image*				miniMapImage;
+
 	Image*				consoleImage;
 	Image*				portraitsBorder;
 

@@ -210,6 +210,7 @@ void Zergling::Update()
 
 	unitStatus.unitAtk = 5 + UPGRADEMANAGER->GetMeleeAttack();
 	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
 
 }
 

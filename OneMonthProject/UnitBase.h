@@ -101,6 +101,7 @@ struct UnitStatus
 	RECT		unitRect;				// 유닛 렉트
 	RECT		unitSearchingRect;		// 유닛 서치 렉트
 	RECT		unitAtkRect;			// 유닛 어택 렉트
+	RECT		unitPositionRect;		// 유닛 포지션 렉트
 	float		unitRectX;				// 유닛 렉트 X
 	float		unitRectY;				// 유닛 렉트 Y
 	float		unitImageWidthHalf;		// 유닛 이미지 WidthHalf
@@ -227,7 +228,8 @@ public:
 	RECT GetUnitRect() { return unitStatus.unitRect; }
 	RECT GetUnitSearchingRect() { return unitStatus.unitSearchingRect; }
 	RECT GetUnitATKRect() { return unitStatus.unitAtkRect; }
-	
+	RECT GetUnitPositionRect() { return unitStatus.unitPositionRect; }
+
 	float GetUnitRectX() { return unitStatus.unitRectX; }
 	float GetUnitRectY() { return unitStatus.unitRectY; }
 

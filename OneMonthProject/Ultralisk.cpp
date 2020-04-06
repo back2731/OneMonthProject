@@ -172,6 +172,8 @@ void Ultralisk::Update()
 
 	unitStatus.unitAtk = 20 + UPGRADEMANAGER->GetMeleeAttack() * 3;
 	unitStatus.unitDef = 1 + UPGRADEMANAGER->GetEvolveCarapace();
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
+
 }
 
 void Ultralisk::Render(HDC hdc)

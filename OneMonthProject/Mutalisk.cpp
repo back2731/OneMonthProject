@@ -168,6 +168,9 @@ void Mutalisk::Update()
 	//unitStatus.unitAtk = 5 + UPGRADEMANAGER->GetMissileAttack();
 	//unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
 
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
+
+
 }
 
 void Mutalisk::Render(HDC hdc)
