@@ -563,6 +563,9 @@ void Larva::Update()
 
 	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
 
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
+
+
 }
 
 void Larva::Render(HDC hdc)

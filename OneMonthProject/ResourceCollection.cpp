@@ -24,6 +24,9 @@ HRESULT ResourceCollection::Init()
 	IMAGEMANAGER->AddFrameImage("test1", "images/MapTile/test1.bmp",
 		0, 0, 96 * 1 * 2, 96 * 1 * 2, 1, 1, true, RGB(255, 0, 255));
 	
+	// 미니맵
+	IMAGEMANAGER->AddImage("miniMap", "images/MapTile/miniMap.bmp", 812, 900, true, RGB(255, 0, 255));
+
 	// 타이틀 및 메뉴 UI
 	IMAGEMANAGER->AddImage("title", "images/UI/menu/title.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));
 	IMAGEMANAGER->AddImage("background", "images/UI/menu/background.bmp", WINSIZEX, WINSIZEY, true, RGB(0, 222, 0));

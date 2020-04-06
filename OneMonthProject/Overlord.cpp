@@ -166,6 +166,7 @@ void Overlord::Update()
 
 	// 스파이어에서 업그레이드를 해야한다
 	//unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
 
 }
 

@@ -109,18 +109,18 @@ void MapToolScene::Render()
 
 	DrawTileMap();
 
-	if (KEYMANAGER->IsToggleKey(VK_HOME))
-	{
-		HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
-		for (int i = 0; i < TILESIZE; i++)
-		{
-			if (_tileMap[i].block == true)
-			{
-				FillRect(GetMemDC(), &_tileMap[i].rect, brush);
-			}
-		}
-		DeleteObject(brush);
-	}
+	//if (KEYMANAGER->IsToggleKey(VK_HOME))
+	//{
+	//	HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+	//	for (int i = 0; i < TILESIZE; i++)
+	//	{
+	//		if (_tileMap[i].block == true)
+	//		{
+	//			FillRect(GetMemDC(), &_tileMap[i].rect, brush);
+	//		}
+	//	}
+	//	DeleteObject(brush);
+	//}
 }
 
 void MapToolScene::SetSubWindow()

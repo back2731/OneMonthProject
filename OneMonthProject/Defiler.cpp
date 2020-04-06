@@ -163,6 +163,8 @@ void Defiler::Update()
 	unitStatus.unitSearchingRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, WINSIZEX / 2, WINSIZEY / 2);
 
 	unitStatus.unitDef = 0 + UPGRADEMANAGER->GetEvolveCarapace();
+	unitStatus.unitPositionRect = RectMakeCenter(unitStatus.unitRectX, unitStatus.unitRectY, 2, 2);
+
 
 }
 

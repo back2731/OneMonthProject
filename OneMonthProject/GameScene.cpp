@@ -83,6 +83,16 @@ HRESULT GameScene::Init()
 	victoryImage = IMAGEMANAGER->FindImage("victory");
 	defeatImage = IMAGEMANAGER->FindImage("defeat");
 	escMenu = IMAGEMANAGER->FindImage("escMenu");
+	miniMapImage = IMAGEMANAGER->FindImage("miniMap");
+
+	for (int i = 0; i < TILEX; i++)
+	{
+		for (int j = 0; j < TILEY; j++)
+		{
+			miniMap[i * TILEX + j] = RectMake(CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2 + 5 + i * 3, CAMERAMANAGER->GetCameraCenter().y + 200 + j * 3, 3, 3);
+		}
+	}
+
 	return S_OK;
 }
 
@@ -921,6 +931,14 @@ void GameScene::Update()
 			}
 		}
 	}
+
+	for (int i = 0; i < TILEX; i++)
+	{
+		for (int j = 0; j < TILEY; j++)
+		{
+			miniMap[i * TILEX + j] = RectMake(CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2 + 5 + i * 3, CAMERAMANAGER->GetCameraCenter().y + 200 + j * 3, 3, 3);
+		}
+	}
 }
 
 void GameScene::Render()
@@ -1167,6 +1185,30 @@ void GameScene::Render()
 			defeatImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - defeatImage->GetWidth() / 2, CAMERAMANAGER->GetCameraCenter().y - defeatImage->GetHeight() / 2 - 30);
 		}
 	}
+	
+
+	miniMapImage->Render(GetMemDC(), CAMERAMANAGER->GetCameraCenter().x - WINSIZEX / 2 + 10, CAMERAMANAGER->GetCameraCenter().y + 200, 238, 239);
+
+	HBRUSH brush = CreateSolidBrush(RGB(0, 222, 0));
+
+	for (int i = 0; i < PLAYERMANAGER->GetBlockTileVector().size(); i++)
+	{		
+		FillRect(GetMemDC(), &miniMap[PLAYERMANAGER->ReturnBlockTile(i)], brush);
+	}
+	for (int i = 0; i < unitVector.size(); i++)
+	{
+		for (int j = 0; j < TILESIZE; j++)
+		{
+			if (IntersectRect(&tempRect, &unitVector[i]->GetUnitPositionRect(), &_tileMap[j].rect))
+			{
+				brush = CreateSolidBrush(RGB(0, 222, 0));
+
+				FillRect(GetMemDC(), &miniMap[j], brush);
+			}
+		}
+	}
+	DeleteObject(brush);
+
 }
 
 void GameScene::LoadMap(int loadCount)
