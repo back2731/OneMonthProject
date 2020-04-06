@@ -1464,6 +1464,30 @@ void Drone::Update()
 
 void Drone::Render(HDC hdc)
 {
+
+	if (KEYMANAGER->IsToggleKey(VK_TAB))
+	{
+		HBRUSH brush = CreateSolidBrush(RGB(0, 222, 0));
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (_tileMap[i].showState == STATE_PATH)
+			{
+				FillRect(hdc, &_tileMap[i].rect, brush);
+			}
+		}
+		DeleteObject(brush);
+
+
+		brush = CreateSolidBrush(RGB(0, 102, 0));
+		for (int i = 0; i < TILESIZE; i++)
+		{
+			if (_tileMap[i].block == true)
+			{
+				FillRect(hdc, &_tileMap[i].rect, brush);
+			}
+		}
+		DeleteObject(brush);
+	}
 	if (isClick && unitStatus.playerNumber == PLAYER1)
 	{
 		unitStatus.unitSelectImage->Render
@@ -1528,6 +1552,8 @@ void Drone::Render(HDC hdc)
 			unitStatus.unitRectY - unitStatus.unitImageHeightHalf, unitStatus.frameIndexX, unitStatus.frameIndexY);
 	}
 
+
+
 	//Rectangle(hdc, buildRectRender.left, buildRectRender.top, buildRectRender.right, buildRectRender.bottom);
 }
 
@@ -1547,7 +1573,7 @@ void Drone::RenderUI(HDC hdc)
 		{
 			for (int i = 0; i < COMMANDMAX; i++)
 			{
-				Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
+				//Rectangle(hdc, commandRect[i].left, commandRect[i].top, commandRect[i].right, commandRect[i].bottom);
 			}
 		}
 

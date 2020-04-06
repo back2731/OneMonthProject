@@ -1017,4 +1017,7 @@
       <Filter>MainGame\Command\CommandList\Base\Burrow</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>

@@ -217,7 +217,21 @@ void Zergling::Render(HDC hdc)
 {
 	if (KEYMANAGER->IsToggleKey(VK_MBUTTON))
 	{
+
+		HBRUSH myBrush, oldBrush;
+		HPEN myPen, oldPen;
+
+		myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		oldBrush = (HBRUSH)SelectObject(hdc, myBrush);
+		myPen = CreatePen(PS_SOLID, 2, RGB(0, 222, 0));
+		oldPen = (HPEN)SelectObject(hdc, myPen);
+
 		Rectangle(hdc, unitStatus.unitSearchingRect.left, unitStatus.unitSearchingRect.top, unitStatus.unitSearchingRect.right, unitStatus.unitSearchingRect.bottom);
+
+		SelectObject(hdc, oldBrush);
+		DeleteObject(myBrush);
+		SelectObject(hdc, oldPen);
+		DeleteObject(myPen);
 	}
 
 	if (isClick && unitStatus.playerNumber == PLAYER1)
